@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import store from "../Redux/Store";
 import { Link } from 'react-router-dom';
-import { qrCodeDeleted } from '../Redux/Actions';
+import { deleteQRCode } from '../Redux/Actions';
 
 export default function Codes() {
  const [state, setState] = useState([]);
@@ -13,8 +13,8 @@ export default function Codes() {
 
  const [refresh, setRefresh] = useState(false);
 
- const deleteQRCode = id => {
-  store.dispatch(qrCodeDeleted(id));
+ const deleteItem = id => {
+  store.dispatch(deleteQRCode(id));
   setRefresh(!refresh);
  }
 
@@ -25,7 +25,7 @@ export default function Codes() {
      <div key={item.id}>
       <QRCode value={item.url}/>
       <h3>{item.url}</h3>
-      <button onClick={() => deleteQRCode(item.id)}>Delete QR Code</button>
+      <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>
       <br/>
       <br/>
      </div>

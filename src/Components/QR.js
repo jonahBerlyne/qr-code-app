@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { qrCodeAdded } from '../Redux/Actions';
+import { addQRCode } from '../Redux/Actions';
 
 export default function QR() {
 
@@ -18,7 +18,7 @@ export default function QR() {
    alert("Please enter a url to generate a QR Code.");
    return;
   }
-  store.dispatch(qrCodeAdded(uniqid(), url));
+  store.dispatch(addQRCode(uniqid(), url));
   setRefresh(!refresh);
   console.log(store.getState());
   setUrl('');

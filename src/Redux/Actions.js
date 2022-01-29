@@ -1,15 +1,15 @@
 import * as actions from "./ActionTypes";
 
-export const qrCodeAdded = (id, url) => ({
- type: actions.QR_CODE_ADDED,
+export const addQRCode = (id, url) => ({
+ type: actions.ADD_QR_CODE,
  payload: {
   id,
   url
  }
 });
 
-export const qrCodeDeleted = id => ({
- type: actions.QR_CODE_DELETED,
+export const deleteQRCode = id => ({
+ type: actions.DELETE_QR_CODE,
  payload: {
   id
  }

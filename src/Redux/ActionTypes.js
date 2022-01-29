@@ -1,2 +1,2 @@
-export const QR_CODE_ADDED = "qrCodeAdded";
-export const QR_CODE_DELETED = "qrCodeDeleted";
+export const ADD_QR_CODE = "addQRCode";
+export const DELETE_QR_CODE = "deleteQRCode";
