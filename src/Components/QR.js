@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
+import uniqid from "uniqid";
 
 export default function QR() {
 
@@ -21,7 +22,7 @@ export default function QR() {
    alert("Please enter a url to generate a QR Code.");
    return;
   }
-  setQrs(qrs => [...qrs, {url: url}]);
+  setQrs(qrs => [...qrs, {id: uniqid(), url: url}]);
   setValue(url);
   setEmpty(false);
   setUrl('');
@@ -42,7 +43,7 @@ export default function QR() {
    <br/>
    {qrs.map(item => {
     return (
-     <div>
+     <div key={item.id}>
       <QRCode value={item.url}/>
       <h3>{item.url}</h3>
       {console.log(qrs)}
