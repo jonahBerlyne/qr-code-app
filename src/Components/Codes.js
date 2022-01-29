@@ -24,7 +24,10 @@ export default function Codes() {
     return (
      <div key={item.id}>
       <QRCode value={item.url}/>
-      <h3>{item.url}</h3>
+      <br/>
+      <a href={item.url} target="_blank">{item.url}</a>
+      <br/>
+      <br/>
       <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>
       <br/>
       <br/>

@@ -18,7 +18,8 @@ export default function QR() {
    alert("Please enter a url to generate a QR Code.");
    return;
   }
-  store.dispatch(addQRCode(uniqid(), url));
+  let fullUrl = `https://${url}/`;
+  store.dispatch(addQRCode(uniqid(), fullUrl));
   setRefresh(!refresh);
   console.log(store.getState());
   setUrl('');
@@ -28,7 +29,9 @@ export default function QR() {
   <div>
    <h4>Enter a website:</h4>
    <form onSubmit={onSubmit}>
-    <input value={url} onChange={handleChange} placeholder='www.website.com'/>
+    <label>https:// </label>
+    <input type="text" pattern="[Ww]{3}\.([A-Za-z0-9]{2,})+\.[Cc][Oo][Mm]" value={url} onChange={handleChange} placeholder='Please enter a website'/>
+    <label> /</label>
     <br/>
     <br/>
     <button type="submit">Generate QR Code</button>
