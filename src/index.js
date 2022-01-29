@@ -12,9 +12,9 @@ const AppWrapper = ({ children }) => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppWrapper>
+    {/* <AppWrapper> */}
       <App />
-    </AppWrapper>
+    {/* </AppWrapper> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
