@@ -1,11 +1,14 @@
-import QR from "./Components/QR";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Components/Home";
+import Codes from "./Components/Codes";
 
 export default function App() {
   return (
-    <div className="App">
-      <h1>QR Code App</h1>
-      <QR/>
-      {/* <QRCode value="http://nbc.com/" /> */}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/codes" element={<Codes/>}/>
+      </Routes>
+    </Router>
   );
 }
