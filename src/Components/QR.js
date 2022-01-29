@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-var QRCode = require('qrcode.react');
+import QRCode from 'qrcode.react';
 
 export default function QR() {
 
  const [url, setUrl] = useState('');
+ const [value, setValue] = useState('');
  const [refresh, setRefresh] = useState(false);
 
  const [qrs, setQrs] = useState([]);
@@ -20,7 +21,8 @@ export default function QR() {
    alert("Please enter a url to generate a QR Code.");
    return;
   }
-  setQrs(qrs => [...qrs, url]);
+  setQrs(qrs => [...qrs, {url: url}]);
+  setValue(url);
   setEmpty(false);
   setUrl('');
  }
@@ -38,8 +40,15 @@ export default function QR() {
    <br/>
    <br/>
    <br/>
-   {!empty && <QRCode value={url} />}
-   {!empty && console.log("Code is: " + <QRCode />)}
+   {qrs.map(item => {
+    return (
+     <div>
+      <QRCode value={item.url}/>
+      <h3>{item.url}</h3>
+      {console.log(qrs)}
+     </div>
+    );
+   })}
   </div>
  );
 }
