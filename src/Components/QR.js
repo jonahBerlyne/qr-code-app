@@ -4,7 +4,6 @@ var QRCode = require('qrcode.react');
 export default function QR() {
 
  const [url, setUrl] = useState('');
- console.log(`url is: ${url}`);
  const [refresh, setRefresh] = useState(false);
 
  const [qrs, setQrs] = useState([]);
@@ -40,6 +39,7 @@ export default function QR() {
    <br/>
    <br/>
    {!empty && <QRCode value={url} />}
+   {!empty && console.log("Code is: " + <QRCode />)}
   </div>
  );
 }

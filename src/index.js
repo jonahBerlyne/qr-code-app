@@ -4,17 +4,17 @@ import App from './App';
 import store from "./Redux/Store";
 import { Provider } from "react-redux";
 
-const AppWrapper = ({ children }) => {
-  return (
-    <Provider store={store}>{children}</Provider>
-  );
-}
+// const AppWrapper = ({ children }) => {
+//   return (
+//     <Provider store={store}>{children}</Provider>
+//   );
+// }
 
 ReactDOM.render(
-  <React.StrictMode>
-    {/* <AppWrapper> */}
+  // <React.StrictMode>
+    <Provider store={store}>
       <App />
-    {/* </AppWrapper> */}
-  </React.StrictMode>,
+    </Provider>,
+  // {/* </React.StrictMode>, */}
   document.getElementById('root')
 );
