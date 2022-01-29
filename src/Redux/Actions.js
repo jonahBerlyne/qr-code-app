@@ -7,3 +7,10 @@ export const qrCodeAdded = (id, url) => ({
   url
  }
 });
+
+export const qrCodeDeleted = id => ({
+ type: actions.QR_CODE_DELETED,
+ payload: {
+  id
+ }
+});

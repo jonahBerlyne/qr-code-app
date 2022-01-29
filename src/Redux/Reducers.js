@@ -6,8 +6,12 @@ export default function reducer(state = [], action) {
 
    const isInCodes = state.find(item => item.url === action.payload.url);
    return isInCodes ? state : [...state, {...action.payload}];
+
+  case actions.QR_CODE_DELETED:
+
+   return state.filter(item => item.id !== action.payload.id);
    
-   default:
-    return state;
+  default:
+   return state;
  }
 }
