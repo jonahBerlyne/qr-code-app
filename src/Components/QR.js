@@ -7,8 +7,15 @@ import UrlForm from './Forms/UrlForm';
 
 export default function QR() {
 
+ const [url, setUrl] = useState(false);
  const [urlInput, setUrlInput] = useState('');
  const [refresh, setRefresh] = useState(false);
+
+ const showUrlForm = () => {
+  setUrl(true);
+  setRefresh(!refresh);
+  console.log("clicked");
+ }
 
  const urlInputChange = e => {
   setUrlInput(e.target.value);
@@ -29,8 +36,8 @@ export default function QR() {
 
  return (
   <div>
-   <SideBar/>
-   <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>
+   <SideBar showUrlForm={showUrlForm}/>
+   {url && <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>}
    <br/>
    <br/>
    <br/>

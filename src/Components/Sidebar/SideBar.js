@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-export default function SideBar() {
+export default function SideBar({showUrlForm}) {
  return (
     <List disablePadding dense>
       <ListItem button>
@@ -15,7 +15,7 @@ export default function SideBar() {
       <ListItem button>
         <ListItemText>Text</ListItemText>
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={showUrlForm}>
         <ListItemText>Website</ListItemText>
       </ListItem>
     </List>
