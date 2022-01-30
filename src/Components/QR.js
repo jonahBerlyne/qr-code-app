@@ -3,6 +3,9 @@ import uniqid from "uniqid";
 import store from '../Redux/Store';
 import { addQRCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
+import EmailForm from './Forms/EmailForm';
+import ImagesForm from './Forms/ImagesForm';
+import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 
 export default function QR() {
@@ -16,21 +19,33 @@ export default function QR() {
  const [refresh, setRefresh] = useState(false);
 
  const showEmailForm = () => {
+  setImages(false);
+  setText(false);
   setUrl(false);
+  setEmail(true);
   setRefresh(!refresh);
  }
 
  const showImagesForm = () => {
+  setEmail(false);
+  setText(false);
   setUrl(false);
+  setImages(true);
   setRefresh(!refresh);
  }
 
  const showTextForm = () => {
+  setEmail(false);
+  setImages(false);
   setUrl(false);
+  setText(true);
   setRefresh(!refresh);
  }
 
  const showUrlForm = () => {
+  setEmail(false);
+  setImages(false);
+  setText(false);
   setUrl(true);
   setRefresh(!refresh);
  }
@@ -55,6 +70,9 @@ export default function QR() {
  return (
   <div>
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
+   {email && <EmailForm onSubmit={onSubmit}/>}
+   {images && <ImagesForm onSubmit={onSubmit}/>}
+   {text && <TextForm onSubmit={onSubmit}/>}
    {url && <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>}
    <br/>
    <br/>
