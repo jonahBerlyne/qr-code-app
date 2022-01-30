@@ -3,10 +3,12 @@ import QRCode from 'qrcode.react';
 
 export default function TextCodes({state, deleteItem}) {
 
+ state = state.filter(item => item.type === "text");
+
  return (
   <div>
-   <h3>Text QR Codes:</h3>
-   {state.filter(item => item.type === "text").map(item => {
+   {state.length !== 0 && <h3>Text QR Codes:</h3>}
+   {state.map(item => {
     return (
      <div key={item.id}>
       <h4>{item.text}</h4>

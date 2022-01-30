@@ -3,10 +3,12 @@ import QRCode from 'qrcode.react';
 
 export default function UrlCodes({state, deleteItem}) {
 
+ state = state.filter(item => item.type === "url");
+
  return (
   <div>
-   <h3>Website QR Codes:</h3>
-   {state.filter(item => item.type === "url").map(item => {
+   {state.length !== 0 && <h3>Website QR Codes:</h3>}
+   {state.map(item => {
     return (
      <div key={item.id}>
       <a href={item.url} target="_blank">{item.url}</a>
