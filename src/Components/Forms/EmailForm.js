@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-export default function EmailForm({onSubmit}) {
+export default function EmailForm() {
  return (
   <div>
-   <form onSubmit={onSubmit}>
     Email Form
-   </form>
   </div>
  );
 }

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-export default function ImagesForm({onSubmit}) {
+export default function ImagesForm() {
  return (
   <div>
-   <form onSubmit={onSubmit}>
     Images Form
-   </form>
   </div>
  );
 }

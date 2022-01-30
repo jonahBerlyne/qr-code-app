@@ -87,10 +87,15 @@ export default function QR() {
  return (
   <div>
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
-   {email && <EmailForm onSubmit={onSubmit}/>}
-   {images && <ImagesForm onSubmit={onSubmit}/>}
-   {text && <TextForm onSubmit={onSubmit} textInput={textInput} textInputChange={textInputChange}/>}
-   {url && <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>}
+   <form onSubmit={onSubmit}>
+    {email && <EmailForm/>}
+    {images && <ImagesForm/>}
+    {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
+    {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}
+    <br/>
+    <br/>
+    <button type="submit">Generate QR Code</button>
+   </form>
    <br/>
    <br/>
    <br/>
