@@ -57,7 +57,6 @@ export default function QR() {
  }
 
  const imgInputChange = e => {
-  console.log(e.target.files[0]);
   setImgInput([...e.target.files]);
  }
 
@@ -83,7 +82,7 @@ export default function QR() {
     alert("Please upload an image to generate a QR Code.");
     return;
    }
-   store.dispatch(addImgCode(uniqid(), imgInput, imgSrc.toString()));
+   store.dispatch(addImgCode(uniqid(), imgSrc.toString()));
    setImgInput([]);
    setImgSrc([]);
   }

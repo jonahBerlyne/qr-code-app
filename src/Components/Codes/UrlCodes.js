@@ -7,7 +7,7 @@ export default function UrlCodes({state, deleteItem}) {
 
  return (
   <div>
-   {state.length !== 0 && <h3>Website QR Codes:</h3>}
+   {state.length !== 0 && <h3>QR Website Codes:</h3>}
    {state.map(item => {
     return (
      <div key={item.id}>

@@ -7,7 +7,7 @@ export default function TextCodes({state, deleteItem}) {
 
  return (
   <div>
-   {state.length !== 0 && <h3>Text QR Codes:</h3>}
+   {state.length !== 0 && <h3>QR Text Codes:</h3>}
    {state.map(item => {
     return (
      <div key={item.id}>
