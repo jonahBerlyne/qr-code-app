@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
 import { addQRCode } from '../Redux/Actions';
+import SideBar from './Sidebar/SideBar';
 
 export default function QR() {
 
@@ -27,11 +28,12 @@ export default function QR() {
 
  return (
   <div>
+   <SideBar/>
    <h4>Enter a website:</h4>
    <form onSubmit={onSubmit}>
-    <label>https:// </label>
-    <input type="text" pattern="[Ww]{3}\.([A-Za-z0-9]{2,})+\.[Cc][Oo][Mm]" value={url} onChange={handleChange} placeholder='Please enter a website'/>
-    <label> /</label>
+     <label>https:// </label>
+      <input type="text" pattern="[Ww]{3}\.([A-Za-z0-9]{2,})+\.[Cc][Oo][Mm]" value={url} onChange={handleChange} placeholder='Please enter a website'/>
+     <label> /</label>
     <br/>
     <br/>
     <button type="submit">Generate QR Code</button>
