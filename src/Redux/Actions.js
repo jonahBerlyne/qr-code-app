@@ -1,7 +1,15 @@
 import * as actions from "./ActionTypes";
 
-export const addQRCode = (id, url) => ({
- type: actions.ADD_QR_CODE,
+export const addTextCode = (id, text) => ({
+ type: actions.ADD_TEXT_CODE,
+ payload: {
+  id,
+  text
+ }
+});
+
+export const addUrlCode = (id, url) => ({
+ type: actions.ADD_URL_CODE,
  payload: {
   id,
   url

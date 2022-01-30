@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import QRCode from 'qrcode.react';
-import store from "../Redux/Store";
+import store from "../../Redux/Store";
 import { Link } from 'react-router-dom';
-import { deleteQRCode } from '../Redux/Actions';
+import { deleteQRCode } from '../../Redux/Actions';
+import UrlCodes from './UrlCodes';
 
 export default function Codes() {
  const [state, setState] = useState([]);
@@ -20,20 +20,7 @@ export default function Codes() {
 
  return (
   <div>
-   {state.map(item => {
-    return (
-     <div key={item.id}>
-      <QRCode value={item.url}/>
-      <br/>
-      <a href={item.url} target="_blank">{item.url}</a>
-      <br/>
-      <br/>
-      <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>
-      <br/>
-      <br/>
-     </div>
-    );
-   })}
+   <UrlCodes state={state} deleteItem={deleteItem}/>
    <br/>
    <Link to="/">Home</Link>
   </div>

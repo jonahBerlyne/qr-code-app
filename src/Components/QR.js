@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addQRCode } from '../Redux/Actions';
+import { addTextCode, addUrlCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
 import EmailForm from './Forms/EmailForm';
 import ImagesForm from './Forms/ImagesForm';
@@ -12,7 +12,10 @@ export default function QR() {
 
  const [email, setEmail] = useState(false);
  const [images, setImages] = useState(false);
+
  const [text, setText] = useState(false);
+ const [textInput, setTextInput] = useState('');
+
  const [url, setUrl] = useState(false);
  const [urlInput, setUrlInput] = useState('');
 
@@ -50,21 +53,35 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
+ const textInputChange = e => {
+  setTextInput(e.target.value);
+ }
+
  const urlInputChange = e => {
   setUrlInput(e.target.value);
  }
 
  const onSubmit = e => {
   e.preventDefault();
-  if (urlInput == '') {
-   alert("Please enter a url to generate a QR Code.");
-   return;
+  if (text) {
+   if (textInput == '') {
+    alert("Please enter a message to generate a QR Code.");
+    return;
+   }
+   store.dispatch(addTextCode(uniqid(), textInput));
+   setTextInput('');
   }
-  let fullUrl = `https://${urlInput}/`;
-  store.dispatch(addQRCode(uniqid(), fullUrl));
+  if (url) {
+   if (urlInput == '') {
+    alert("Please enter a url to generate a QR Code.");
+    return;
+   }
+   let fullUrl = `https://${urlInput}/`;
+   store.dispatch(addUrlCode(uniqid(), fullUrl));
+   setUrlInput('');
+  }
   setRefresh(!refresh);
   console.log(store.getState());
-  setUrlInput('');
  }
 
  return (
@@ -72,7 +89,7 @@ export default function QR() {
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
    {email && <EmailForm onSubmit={onSubmit}/>}
    {images && <ImagesForm onSubmit={onSubmit}/>}
-   {text && <TextForm onSubmit={onSubmit}/>}
+   {text && <TextForm onSubmit={onSubmit} textInput={textInput} textInputChange={textInputChange}/>}
    {url && <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>}
    <br/>
    <br/>
