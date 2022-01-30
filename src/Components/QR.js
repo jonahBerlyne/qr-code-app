@@ -7,30 +7,30 @@ import UrlForm from './Forms/UrlForm';
 
 export default function QR() {
 
- const [url, setUrl] = useState('');
+ const [urlInput, setUrlInput] = useState('');
  const [refresh, setRefresh] = useState(false);
 
- const handleChange = e => {
-  setUrl(e.target.value);
+ const urlInputChange = e => {
+  setUrlInput(e.target.value);
  }
 
  const onSubmit = e => {
   e.preventDefault();
-  if (url == '') {
+  if (urlInput == '') {
    alert("Please enter a url to generate a QR Code.");
    return;
   }
-  let fullUrl = `https://${url}/`;
+  let fullUrl = `https://${urlInput}/`;
   store.dispatch(addQRCode(uniqid(), fullUrl));
   setRefresh(!refresh);
   console.log(store.getState());
-  setUrl('');
+  setUrlInput('');
  }
 
  return (
   <div>
    <SideBar/>
-   <UrlForm onSubmit={onSubmit} url={url} handleChange={handleChange}/>
+   <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>
    <br/>
    <br/>
    <br/>
