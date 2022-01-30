@@ -1,10 +1,11 @@
 import * as actions from "./ActionTypes";
 
-export const addImgCode = (id, img) => ({
+export const addImgCode = (id, img, src) => ({
  type: actions.ADD_IMG_CODE,
  payload: {
   id,
-  img
+  img,
+  src
  }
 });
 

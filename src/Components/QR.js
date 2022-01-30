@@ -83,8 +83,9 @@ export default function QR() {
     alert("Please upload an image to generate a QR Code.");
     return;
    }
-   store.dispatch(addImgCode(uniqid(), imgInput));
+   store.dispatch(addImgCode(uniqid(), imgInput, imgSrc.toString()));
    setImgInput([]);
+   setImgSrc([]);
   }
   if (text) {
    if (textInput == '') {
