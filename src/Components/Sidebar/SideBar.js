@@ -7,13 +7,16 @@ export default function SideBar() {
  return (
     <List disablePadding dense>
       <ListItem button>
-        <ListItemText>Home</ListItemText>
+        <ListItemText>E-mail</ListItemText>
       </ListItem>
       <ListItem button>
-        <ListItemText>Billing</ListItemText>
+        <ListItemText>Images</ListItemText>
       </ListItem>
       <ListItem button>
-        <ListItemText>Settings</ListItemText>
+        <ListItemText>Text</ListItemText>
+      </ListItem>
+      <ListItem button>
+        <ListItemText>Website</ListItemText>
       </ListItem>
     </List>
  );
