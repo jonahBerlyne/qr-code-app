@@ -79,7 +79,7 @@ export default function QR() {
  const onSubmit = e => {
   e.preventDefault();
   if (images) {
-   if (imgInput == []) {
+   if (imgInput.length === 0) {
     alert("Please upload an image to generate a QR Code.");
     return;
    }
