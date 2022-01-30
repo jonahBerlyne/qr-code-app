@@ -1,18 +1,17 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
 
-export default function UrlCodes({state, deleteItem}) {
+export default function TextCodes({state, deleteItem}) {
 
  return (
   <div>
-   <h3>Website QR Codes:</h3>
-   {state.filter(item => item.type === "url").map(item => {
+   <h3>Text QR Codes:</h3>
+   {state.filter(item => item.type === "text").map(item => {
     return (
      <div key={item.id}>
-      <a href={item.url} target="_blank">{item.url}</a>
+      <h4>{item.text}</h4>
       <br/>
-      <br/>
-      <QRCode value={item.url}/>
+      <QRCode value={item.text}/>
       <br/>
       <br/>
       <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>

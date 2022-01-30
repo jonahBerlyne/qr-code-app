@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import store from "../../Redux/Store";
 import { Link } from 'react-router-dom';
 import { deleteQRCode } from '../../Redux/Actions';
+import TextCodes from './TextCodes';
 import UrlCodes from './UrlCodes';
 
 export default function Codes() {
@@ -20,6 +21,8 @@ export default function Codes() {
 
  return (
   <div>
+   <h1>Your QR Codes:</h1>
+   <TextCodes state={state} deleteItem={deleteItem}/>
    <UrlCodes state={state} deleteItem={deleteItem}/>
    <br/>
    <Link to="/">Home</Link>
