@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addTextCode, addUrlCode } from '../Redux/Actions';
+import { addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
 import EmailForm from './Forms/EmailForm';
 import ImagesForm from './Forms/ImagesForm';
@@ -11,7 +11,10 @@ import UrlForm from './Forms/UrlForm';
 export default function QR() {
 
  const [email, setEmail] = useState(false);
+
  const [images, setImages] = useState(false);
+ const [imgInput, setImgInput] = useState([]);
+ const [imgSrc, setImgSrc] = useState([]);
 
  const [text, setText] = useState(false);
  const [textInput, setTextInput] = useState('');
@@ -53,6 +56,18 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
+ const imgInputChange = e => {
+  console.log(e.target.files[0]);
+  setImgInput([...e.target.files]);
+ }
+
+ useEffect(() => {
+  if (imgInput.length < 1) return;
+  const newImgUrl = [];
+  imgInput.forEach(img => newImgUrl.push(URL.createObjectURL(img)));
+  setImgSrc(newImgUrl);
+ }, [imgInput]);
+
  const textInputChange = e => {
   setTextInput(e.target.value);
  }
@@ -63,6 +78,14 @@ export default function QR() {
 
  const onSubmit = e => {
   e.preventDefault();
+  if (images) {
+   if (imgInput == []) {
+    alert("Please upload an image to generate a QR Code.");
+    return;
+   }
+   store.dispatch(addImgCode(uniqid(), imgInput));
+   setImgInput([]);
+  }
   if (text) {
    if (textInput == '') {
     alert("Please enter a message to generate a QR Code.");
@@ -89,7 +112,7 @@ export default function QR() {
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
    <form onSubmit={onSubmit}>
     {email && <EmailForm/>}
-    {images && <ImagesForm/>}
+    {images && <ImagesForm imgSrc={imgSrc} imgInputChange={imgInputChange}/>}
     {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
     {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}
     <br/>
