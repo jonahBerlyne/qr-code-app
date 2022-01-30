@@ -7,14 +7,32 @@ import UrlForm from './Forms/UrlForm';
 
 export default function QR() {
 
+ const [email, setEmail] = useState(false);
+ const [images, setImages] = useState(false);
+ const [text, setText] = useState(false);
  const [url, setUrl] = useState(false);
  const [urlInput, setUrlInput] = useState('');
+
  const [refresh, setRefresh] = useState(false);
+
+ const showEmailForm = () => {
+  setUrl(false);
+  setRefresh(!refresh);
+ }
+
+ const showImagesForm = () => {
+  setUrl(false);
+  setRefresh(!refresh);
+ }
+
+ const showTextForm = () => {
+  setUrl(false);
+  setRefresh(!refresh);
+ }
 
  const showUrlForm = () => {
   setUrl(true);
   setRefresh(!refresh);
-  console.log("clicked");
  }
 
  const urlInputChange = e => {
@@ -36,7 +54,7 @@ export default function QR() {
 
  return (
   <div>
-   <SideBar showUrlForm={showUrlForm}/>
+   <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
    {url && <UrlForm onSubmit={onSubmit} urlInput={urlInput} urlInputChange={urlInputChange}/>}
    <br/>
    <br/>
