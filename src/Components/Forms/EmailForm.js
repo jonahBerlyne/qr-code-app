@@ -1,22 +1,17 @@
 import React from 'react';
 
-export default function EmailForm({onSubmit}) {
+export default function EmailForm({emailAddressChange, emailSubjectChange, emailMsgChange}) {
 
  return (
   <div>
    <h4>Enter your e-mail:</h4>
-    <form action='mailto: info@example.com' onSubmit={onSubmit}>
-     <input type="email" placeholder="Enter your e-mail address" required/>
+     <input type="email" onChange={emailAddressChange} placeholder="Enter your e-mail address" required/>
      <br/>
      <br/>
-     <input type="text" placeholder='Enter e-mail subject'/>
+     <input type="text" onChange={emailSubjectChange} placeholder='Enter e-mail subject'/>
      <br/>
      <br/>
-     <textarea rows="10" cols="40" placeholder='Enter your message here'/>
-     <br/>
-     <br/>
-     <button type="submit">Generate QR Code</button>
-    </form>
+     <textarea onChange={emailMsgChange} rows="10" cols="40" placeholder='Enter your message here'/>
   </div>
  );
 }

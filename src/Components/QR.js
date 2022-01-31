@@ -11,6 +11,9 @@ import UrlForm from './Forms/UrlForm';
 export default function QR() {
 
  const [email, setEmail] = useState(false);
+ const [emailAddress, setEmailAddress] = useState('');
+ const [emailSubject, setEmailSubject] = useState('');
+ const [emailMsg, setEmailMsg] = useState('');
 
  const [images, setImages] = useState(false);
  const [imgInput, setImgInput] = useState([]);
@@ -56,6 +59,18 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
+ const emailAddressChange = e => {
+  setEmailAddress(e.target.value);
+ }
+
+ const emailSubjectChange = e => {
+  setEmailSubject(e.target.value);
+ }
+
+ const emailMsgChange = e => {
+  setEmailMsg(e.target.value);
+ }
+
  const imgInputChange = e => {
   setImgInput([...e.target.files]);
  }
@@ -77,6 +92,17 @@ export default function QR() {
 
  const onSubmit = e => {
   e.preventDefault();
+  if (email) {
+   if (emailAddress == '' || emailSubject == '' || emailMsg == '') {
+    alert("Please create an email to generate a QR Code.");
+    return;
+   }
+   let fullEmail = `mailto:${emailAddress}?subject=${emailSubject}&body=${emailMsg}`;
+   console.log(fullEmail);
+   setEmailAddress('');
+   setEmailSubject('');
+   setEmailMsg('');
+  }
   if (images) {
    if (imgInput.length === 0) {
     alert("Please upload an image to generate a QR Code.");
@@ -107,19 +133,17 @@ export default function QR() {
   console.log(store.getState());
  }
 
- // const portalRef = useRef(null);
-
  return (
   <div>
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
-   {email && <EmailForm onSubmit={onSubmit}/>}
    <form onSubmit={onSubmit}>
+    {email && <EmailForm emailAddressChange={emailAddressChange} emailSubjectChange={emailSubjectChange} emailMsgChange={emailMsgChange}/>}
     {images && <ImagesForm imgSrc={imgSrc} imgInputChange={imgInputChange}/>}
     {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
     {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}
     <br/>
     <br/>
-    {!email && <button type="submit">Generate QR Code</button>}
+    <button type="submit">Generate QR Code</button>
    </form>
    <br/>
    <br/>
