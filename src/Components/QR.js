@@ -13,7 +13,7 @@ export default function QR() {
  const [contact, setContact] = useState(false);
  const [firstInput, setFirstInput] = useState('');
  const [lastInput, setLastInput] = useState('');
- const [phoneInput, setPhoneInput] = useState(0);
+ const [phoneInput, setPhoneInput] = useState('');
  // email address
  const [streetInput, setStreetInput] = useState('');
  const [cityInput, setCityInput] = useState('');
@@ -164,14 +164,14 @@ export default function QR() {
  const onSubmit = e => {
   e.preventDefault();
   if (contact) {
-   if (firstInput == '' || lastInput == '' || phoneInput == 0 || emailAddress == '' || streetInput == '' || cityInput == '' || stateInput == '' || zipInput == '' || countryInput == '' || urlInput == '') {
+   if (firstInput == '' || lastInput == '' || phoneInput == '' || emailAddress == '' || streetInput == '' || cityInput == '' || stateInput == '' || zipInput == '' || countryInput == '' || urlInput == '') {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
     return;
    }
    store.dispatch(addContactCode(uniqid(), firstInput, lastInput, phoneInput, emailAddress, streetInput, cityInput, stateInput, zipInput, countryInput, urlInput));
    setFirstInput('');
    setLastInput('');
-   setPhoneInput(0);
+   setPhoneInput('');
    setEmailAddress('');
    setStreetInput('');
    setCityInput('');
