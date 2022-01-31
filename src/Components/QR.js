@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
 import { addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
@@ -107,17 +107,19 @@ export default function QR() {
   console.log(store.getState());
  }
 
+ // const portalRef = useRef(null);
+
  return (
   <div>
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
+   {email && <EmailForm onSubmit={onSubmit}/>}
    <form onSubmit={onSubmit}>
-    {email && <EmailForm/>}
     {images && <ImagesForm imgSrc={imgSrc} imgInputChange={imgInputChange}/>}
     {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
     {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}
     <br/>
     <br/>
-    <button type="submit">Generate QR Code</button>
+    {!email && <button type="submit">Generate QR Code</button>}
    </form>
    <br/>
    <br/>
