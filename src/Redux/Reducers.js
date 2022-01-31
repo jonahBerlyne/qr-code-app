@@ -6,6 +6,9 @@ export default function reducer(state = [], action) {
   const isInCodes = state.find(item => item.id === action.payload.id);
 
   switch (action.type) {
+   case actions.ADD_CONTACT_CODE:
+    return isInCodes ? state : [...state, {...action.payload, type: "contact"}];
+
    case actions.ADD_DATE_CODE:
     return isInCodes ? state : [...state, {...action.payload, type: "date"}];
 

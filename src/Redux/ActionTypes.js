@@ -1,3 +1,4 @@
+export const ADD_CONTACT_CODE = "addContactCode";
 export const ADD_DATE_CODE = "addDateCode";
 export const ADD_EMAIL_CODE = "addEmailCode";
 export const ADD_TEXT_CODE = "addTextCode";

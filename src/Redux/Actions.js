@@ -1,5 +1,22 @@
 import * as actions from "./ActionTypes";
 
+export const addContactCode = (id, first, last, phone, email, street, city, state, zip, country, url) => ({
+ type: actions.ADD_CONTACT_CODE,
+ payload: {
+  id,
+  first,
+  last,
+  phone,
+  email,
+  street,
+  city,
+  state,
+  zip,
+  country,
+  url 
+ }
+});
+
 export const addDateCode = (id, from, to, event, location, details) => ({
  type: actions.ADD_DATE_CODE,
  payload: {
