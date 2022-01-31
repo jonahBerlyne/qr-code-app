@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
+import { addEmailCode, addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
 import EmailForm from './Forms/EmailForm';
 import ImagesForm from './Forms/ImagesForm';
@@ -98,7 +98,7 @@ export default function QR() {
     return;
    }
    let fullEmail = `mailto:${emailAddress}?subject=${emailSubject}&body=${emailMsg}`;
-   console.log(fullEmail);
+   store.dispatch(addEmailCode(uniqid(), fullEmail));
    setEmailAddress('');
    setEmailSubject('');
    setEmailMsg('');
@@ -137,7 +137,7 @@ export default function QR() {
   <div>
    <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
    <form onSubmit={onSubmit}>
-    {email && <EmailForm emailAddressChange={emailAddressChange} emailSubjectChange={emailSubjectChange} emailMsgChange={emailMsgChange}/>}
+    {email && <EmailForm emailAddress={emailAddress} emailAddressChange={emailAddressChange} emailSubject={emailSubject} emailSubjectChange={emailSubjectChange} emailMsg={emailMsg} emailMsgChange={emailMsgChange}/>}
     {images && <ImagesForm imgSrc={imgSrc} imgInputChange={imgInputChange}/>}
     {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
     {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}

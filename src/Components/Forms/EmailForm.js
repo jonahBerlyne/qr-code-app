@@ -1,17 +1,17 @@
 import React from 'react';
 
-export default function EmailForm({emailAddressChange, emailSubjectChange, emailMsgChange}) {
+export default function EmailForm({emailAddress, emailAddressChange, emailSubject, emailSubjectChange, emailMsg, emailMsgChange}) {
 
  return (
   <div>
    <h4>Enter your e-mail:</h4>
-     <input type="email" onChange={emailAddressChange} placeholder="Enter your e-mail address" required/>
+     <input type="email" value={emailAddress} onChange={emailAddressChange} placeholder="Enter your e-mail address" required/>
      <br/>
      <br/>
-     <input type="text" onChange={emailSubjectChange} placeholder='Enter e-mail subject'/>
+     <input type="text" value={emailSubject} onChange={emailSubjectChange} placeholder='Enter e-mail subject'/>
      <br/>
      <br/>
-     <textarea onChange={emailMsgChange} rows="10" cols="40" placeholder='Enter your message here'/>
+     <textarea value={emailMsg} onChange={emailMsgChange} rows="10" cols="40" placeholder='Enter your message here'/>
   </div>
  );
 }

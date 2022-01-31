@@ -1,5 +1,13 @@
 import * as actions from "./ActionTypes";
 
+export const addEmailCode = (id, email) => ({
+ type: actions.ADD_EMAIL_CODE,
+ payload: {
+  id,
+  email
+ }
+});
+
 export const addImgCode = (id, src) => ({
  type: actions.ADD_IMG_CODE,
  payload: {
