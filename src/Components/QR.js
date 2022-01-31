@@ -1,10 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addEmailCode, addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
+import { addEmailCode, addDateCode, addTextCode, addUrlCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
+import DateForm from './Forms/DateForm';
 import EmailForm from './Forms/EmailForm';
-import ImagesForm from './Forms/ImagesForm';
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 
@@ -15,9 +15,10 @@ export default function QR() {
  const [emailSubject, setEmailSubject] = useState('');
  const [emailMsg, setEmailMsg] = useState('');
 
- const [images, setImages] = useState(false);
- const [imgInput, setImgInput] = useState([]);
- const [imgSrc, setImgSrc] = useState([]);
+ const [date, setDate] = useState(false);
+ const [fromDateInput, setFromDateInput] = useState('');
+ const [toDateInput, setToDateInput] = useState('');
+ const [eventInput, setEventInput] = useState('');
 
  const [text, setText] = useState(false);
  const [textInput, setTextInput] = useState('');
@@ -28,24 +29,24 @@ export default function QR() {
  const [refresh, setRefresh] = useState(false);
 
  const showEmailForm = () => {
-  setImages(false);
+  setDate(false);
   setText(false);
   setUrl(false);
   setEmail(true);
   setRefresh(!refresh);
  }
 
- const showImagesForm = () => {
+ const showDateForm = () => {
   setEmail(false);
   setText(false);
   setUrl(false);
-  setImages(true);
+  setDate(true);
   setRefresh(!refresh);
  }
 
  const showTextForm = () => {
   setEmail(false);
-  setImages(false);
+  setDate(false);
   setUrl(false);
   setText(true);
   setRefresh(!refresh);
@@ -53,7 +54,7 @@ export default function QR() {
 
  const showUrlForm = () => {
   setEmail(false);
-  setImages(false);
+  setDate(false);
   setText(false);
   setUrl(true);
   setRefresh(!refresh);
@@ -71,16 +72,17 @@ export default function QR() {
   setEmailMsg(e.target.value);
  }
 
- const imgInputChange = e => {
-  setImgInput([...e.target.files]);
+ const fromDateInputChange = e => {
+  setFromDateInput(e.target.value);
  }
 
- useEffect(() => {
-  if (imgInput.length < 1) return;
-  const newImgUrl = [];
-  imgInput.forEach(img => newImgUrl.push(URL.createObjectURL(img)));
-  setImgSrc(newImgUrl);
- }, [imgInput]);
+ const toDateInputChange = e => {
+  setToDateInput(e.target.value);
+ }
+
+ const eventInputChange = e => {
+  setEventInput(e.target.value);
+ }
 
  const textInputChange = e => {
   setTextInput(e.target.value);
@@ -103,14 +105,15 @@ export default function QR() {
    setEmailSubject('');
    setEmailMsg('');
   }
-  if (images) {
-   if (imgInput.length === 0) {
-    alert("Please upload an image to generate a QR Code.");
+  if (date) {
+   if (fromDateInput == '' || toDateInput == '') {
+    alert("Please select a date to generate a QR Code.");
     return;
    }
-   store.dispatch(addImgCode(uniqid(), imgSrc.toString()));
-   setImgInput([]);
-   setImgSrc([]);
+   store.dispatch(addDateCode(uniqid(), `${fromDateInput.replace(/-/g, "").replace(/:/g, "")}00Z`, `${toDateInput.replace(/-/g, "").replace(/:/g, "")}00Z`, eventInput.split(' ').join('+')));
+   setFromDateInput('');
+   setToDateInput('');
+   setEventInput('');
   }
   if (text) {
    if (textInput == '') {
@@ -135,10 +138,10 @@ export default function QR() {
 
  return (
   <div>
-   <SideBar showEmailForm={showEmailForm} showImagesForm={showImagesForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
+   <SideBar showEmailForm={showEmailForm} showDateForm={showDateForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
    <form onSubmit={onSubmit}>
     {email && <EmailForm emailAddress={emailAddress} emailAddressChange={emailAddressChange} emailSubject={emailSubject} emailSubjectChange={emailSubjectChange} emailMsg={emailMsg} emailMsgChange={emailMsgChange}/>}
-    {images && <ImagesForm imgSrc={imgSrc} imgInputChange={imgInputChange}/>}
+    {date && <DateForm fromDateInput={fromDateInput} fromDateInputChange={fromDateInputChange} toDateInput={toDateInput} toDateInputChange={toDateInputChange} eventInput={eventInput} eventInputChange={eventInputChange}/>}
     {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
     {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}
     <br/>

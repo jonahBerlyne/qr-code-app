@@ -11,11 +11,13 @@ export const addEmailCode = (id, address, subj, msg, email) => ({
  }
 });
 
-export const addImgCode = (id, src) => ({
- type: actions.ADD_IMG_CODE,
+export const addDateCode = (id, from, to, event) => ({
+ type: actions.ADD_DATE_CODE,
  payload: {
   id,
-  src
+  from,
+  to,
+  event
  }
 });
 
