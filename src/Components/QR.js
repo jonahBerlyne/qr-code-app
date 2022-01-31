@@ -98,7 +98,7 @@ export default function QR() {
     return;
    }
    let fullEmail = `mailto:${emailAddress}?subject=${emailSubject}&body=${emailMsg}`;
-   store.dispatch(addEmailCode(uniqid(), fullEmail));
+   store.dispatch(addEmailCode(uniqid(), emailAddress, emailSubject, emailMsg, fullEmail));
    setEmailAddress('');
    setEmailSubject('');
    setEmailMsg('');

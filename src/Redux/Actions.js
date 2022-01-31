@@ -1,9 +1,12 @@
 import * as actions from "./ActionTypes";
 
-export const addEmailCode = (id, email) => ({
+export const addEmailCode = (id, address, subj, msg, email) => ({
  type: actions.ADD_EMAIL_CODE,
  payload: {
   id,
+  address,
+  subj,
+  msg,
   email
  }
 });
