@@ -6,11 +6,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 export default function SideBar({showEmailForm, showDateForm, showTextForm, showUrlForm}) {
  return (
     <List disablePadding dense>
-      <ListItem button onClick={showEmailForm}>
-        <ListItemText>E-mail</ListItemText>
-      </ListItem>
       <ListItem button onClick={showDateForm}>
         <ListItemText>Date</ListItemText>
+      </ListItem>
+      <ListItem button onClick={showEmailForm}>
+        <ListItemText>E-mail</ListItemText>
       </ListItem>
       <ListItem button onClick={showTextForm}>
         <ListItemText>Text</ListItemText>

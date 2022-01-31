@@ -4,8 +4,8 @@ export default function EmailForm({emailAddress, emailAddressChange, emailSubjec
 
  return (
   <div>
-   <h4>Enter your e-mail:</h4>
-     <input type="email" value={emailAddress} onChange={emailAddressChange} placeholder="Enter your e-mail address" required/>
+   <h4>Send an e-mail:</h4>
+     <input type="email" value={emailAddress} onChange={emailAddressChange} placeholder="Enter e-mail address" required/>
      <br/>
      <br/>
      <input type="text" value={emailSubject} onChange={emailSubjectChange} placeholder='Enter e-mail subject'/>

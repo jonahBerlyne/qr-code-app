@@ -1,5 +1,17 @@
 import * as actions from "./ActionTypes";
 
+export const addDateCode = (id, from, to, event, location, details) => ({
+ type: actions.ADD_DATE_CODE,
+ payload: {
+  id,
+  from,
+  to,
+  event,
+  location,
+  details
+ }
+});
+
 export const addEmailCode = (id, address, subj, msg, email) => ({
  type: actions.ADD_EMAIL_CODE,
  payload: {
@@ -8,16 +20,6 @@ export const addEmailCode = (id, address, subj, msg, email) => ({
   subj,
   msg,
   email
- }
-});
-
-export const addDateCode = (id, from, to, event) => ({
- type: actions.ADD_DATE_CODE,
- payload: {
-  id,
-  from,
-  to,
-  event
  }
 });
 

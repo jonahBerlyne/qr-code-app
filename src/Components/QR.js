@@ -19,6 +19,8 @@ export default function QR() {
  const [fromDateInput, setFromDateInput] = useState('');
  const [toDateInput, setToDateInput] = useState('');
  const [eventInput, setEventInput] = useState('');
+ const [locationInput, setLocationInput] = useState('');
+ const [detailsInput, setDetailsInput] = useState('');
 
  const [text, setText] = useState(false);
  const [textInput, setTextInput] = useState('');
@@ -84,6 +86,14 @@ export default function QR() {
   setEventInput(e.target.value);
  }
 
+ const locationInputChange = e => {
+  setLocationInput(e.target.value);
+ }
+
+ const detailsInputChange = e => {
+  setDetailsInput(e.target.value);
+ }
+
  const textInputChange = e => {
   setTextInput(e.target.value);
  }
@@ -106,14 +116,16 @@ export default function QR() {
    setEmailMsg('');
   }
   if (date) {
-   if (fromDateInput == '' || toDateInput == '') {
-    alert("Please select a date to generate a QR Code.");
+   if (fromDateInput == '' || toDateInput == '' || eventInput == '' || locationInput == '' || detailsInput == '') {
+    alert("Please fill out the event form to generate a QR Code.");
     return;
    }
-   store.dispatch(addDateCode(uniqid(), `${fromDateInput.replace(/-/g, "").replace(/:/g, "")}00Z`, `${toDateInput.replace(/-/g, "").replace(/:/g, "")}00Z`, eventInput.split(' ').join('+')));
+   store.dispatch(addDateCode(uniqid(), `${fromDateInput.replace(/-/g, "")}`, `${toDateInput.replace(/-/g, "")}`, eventInput.split(' ').join('+'), locationInput.split(' ').join('+'), detailsInput.split(' ').join('+')));
    setFromDateInput('');
    setToDateInput('');
    setEventInput('');
+   setLocationInput('');
+   setDetailsInput('');
   }
   if (text) {
    if (textInput == '') {
@@ -136,14 +148,20 @@ export default function QR() {
   console.log(store.getState());
  }
 
+ const formProps = { showDateForm, showEmailForm, showTextForm, showUrlForm };
+ const dateProps = { fromDateInput, fromDateInputChange, toDateInput, toDateInputChange, eventInput, eventInputChange, locationInput, locationInputChange, detailsInput, detailsInputChange };
+ const emailProps = { emailAddress, emailAddressChange, emailSubject, emailSubjectChange, emailMsg, emailMsgChange };
+ const textProps = { textInput, textInputChange };
+ const urlProps = { urlInput, urlInputChange };
+
  return (
   <div>
-   <SideBar showEmailForm={showEmailForm} showDateForm={showDateForm} showTextForm={showTextForm} showUrlForm={showUrlForm}/>
+   <SideBar {...formProps}/>
    <form onSubmit={onSubmit}>
-    {email && <EmailForm emailAddress={emailAddress} emailAddressChange={emailAddressChange} emailSubject={emailSubject} emailSubjectChange={emailSubjectChange} emailMsg={emailMsg} emailMsgChange={emailMsgChange}/>}
-    {date && <DateForm fromDateInput={fromDateInput} fromDateInputChange={fromDateInputChange} toDateInput={toDateInput} toDateInputChange={toDateInputChange} eventInput={eventInput} eventInputChange={eventInputChange}/>}
-    {text && <TextForm textInput={textInput} textInputChange={textInputChange}/>}
-    {url && <UrlForm urlInput={urlInput} urlInputChange={urlInputChange}/>}
+    {date && <DateForm {...dateProps}/>}
+    {email && <EmailForm {...emailProps}/>}
+    {text && <TextForm {...textProps}/>}
+    {url && <UrlForm {...urlProps}/>}
     <br/>
     <br/>
     <button type="submit">Generate QR Code</button>

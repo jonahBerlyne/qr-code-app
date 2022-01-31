@@ -13,7 +13,7 @@ export default function DateCodes({state, deleteItem}) {
      <div key={item.id}>
       <h4>Code for {item.event.split("+").join(" ")}:</h4>
       <br/>
-      <QRCode value={`http://calendar.google.com/calendar/r/eventedit?text=${item.event}&dates=${item.from}/${item.to}/`}/>
+      <QRCode value={`https://calendar.google.com/calendar/u/0/r/eventedit?dates=${item.from}/${parseInt(item.to) + 1}&text=${item.event}&location=${item.location}&details=${item.details}`}/>
       <br/>
       <br/>
       <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>
