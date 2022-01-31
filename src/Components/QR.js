@@ -1,19 +1,27 @@
 import React, { useState, useEffect} from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addEmailCode, addDateCode, addTextCode, addUrlCode } from '../Redux/Actions';
+import { addContactCode, addDateCode, addEmailCode, addTextCode, addUrlCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
+import ContactForm from './Forms/ContactForm';
 import DateForm from './Forms/DateForm';
 import EmailForm from './Forms/EmailForm';
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 
 export default function QR() {
+ const [contact, setContact] = useState(false);
+ const [firstInput, setFirstInput] = useState('');
+ const [lastInput, setLastInput] = useState('');
+ const [phoneInput, setPhoneInput] = useState(0);
+ // email address
+ const [streetInput, setStreetInput] = useState('');
+ const [cityInput, setCityInput] = useState('');
+ const [stateInput, setStateInput] = useState('');
+ const [zipInput, setZipInput] = useState('');
+ const [countryInput, setCountryInput] = useState('');
+ // url
 
- const [email, setEmail] = useState(false);
- const [emailAddress, setEmailAddress] = useState('');
- const [emailSubject, setEmailSubject] = useState('');
- const [emailMsg, setEmailMsg] = useState('');
 
  const [date, setDate] = useState(false);
  const [fromDateInput, setFromDateInput] = useState('');
@@ -21,6 +29,11 @@ export default function QR() {
  const [eventInput, setEventInput] = useState('');
  const [locationInput, setLocationInput] = useState('');
  const [detailsInput, setDetailsInput] = useState('');
+
+ const [email, setEmail] = useState(false);
+ const [emailAddress, setEmailAddress] = useState('');
+ const [emailSubject, setEmailSubject] = useState('');
+ const [emailMsg, setEmailMsg] = useState('');
 
  const [text, setText] = useState(false);
  const [textInput, setTextInput] = useState('');
@@ -30,15 +43,17 @@ export default function QR() {
 
  const [refresh, setRefresh] = useState(false);
 
- const showEmailForm = () => {
+ const showContactForm = () => {
   setDate(false);
+  setEmail(false);
   setText(false);
   setUrl(false);
-  setEmail(true);
+  setContact(true);
   setRefresh(!refresh);
  }
-
+ 
  const showDateForm = () => {
+  setContact(false);
   setEmail(false);
   setText(false);
   setUrl(false);
@@ -46,20 +61,64 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
- const showTextForm = () => {
-  setEmail(false);
+ const showEmailForm = () => {
+  setContact(false);
   setDate(false);
+  setText(false);
+  setUrl(false);
+  setEmail(true);
+  setRefresh(!refresh);
+ }
+
+
+ const showTextForm = () => {
+  setContact(false);
+  setDate(false);
+  setEmail(false);
   setUrl(false);
   setText(true);
   setRefresh(!refresh);
  }
 
  const showUrlForm = () => {
-  setEmail(false);
+  setContact(false);
   setDate(false);
+  setEmail(false);
   setText(false);
   setUrl(true);
   setRefresh(!refresh);
+ }
+
+ const firstInputChange = e => {
+  setFirstInput(e.target.value);
+ }
+
+ const lastInputChange = e => {
+  setLastInput(e.target.value);
+ }
+
+ const phoneInputChange = e => {
+  setPhoneInput(e.target.value);
+ }
+
+ const streetInputChange = e => {
+  setStreetInput(e.target.value);
+ }
+
+ const cityInputChange = e => {
+  setCityInput(e.target.value);
+ }
+
+ const stateInputChange = e => {
+  setStateInput(e.target.value);
+ }
+
+ const zipInputChange = e => {
+  setZipInput(e.target.value);
+ }
+
+ const countryInputChange = e => {
+  setCountryInput(e.target.value);
  }
 
  const emailAddressChange = e => {
@@ -104,6 +163,23 @@ export default function QR() {
 
  const onSubmit = e => {
   e.preventDefault();
+  if (contact) {
+   if (firstInput == '' || lastInput == '' || phoneInput == 0 || emailAddress == '' || streetInput == '' || cityInput == '' || stateInput == '' || zipInput == '' || countryInput == '' || urlInput == '') {
+    alert("Please fill in all inputs to generate a QR Code for your contact form.");
+    return;
+   }
+   store.dispatch(addContactCode(uniqid(), firstInput, lastInput, phoneInput, emailAddress, streetInput, cityInput, stateInput, zipInput, countryInput, urlInput));
+   setFirstInput('');
+   setLastInput('');
+   setPhoneInput(0);
+   setEmailAddress('');
+   setStreetInput('');
+   setCityInput('');
+   setStateInput('');
+   setZipInput('');
+   setCountryInput('');
+   setUrlInput('');
+  }
   if (email) {
    if (emailAddress == '' || emailSubject == '' || emailMsg == '') {
     alert("Please create an email to generate a QR Code.");
@@ -148,16 +224,18 @@ export default function QR() {
   console.log(store.getState());
  }
 
- const formProps = { showDateForm, showEmailForm, showTextForm, showUrlForm };
+ const formProps = { showContactForm, showDateForm, showEmailForm, showTextForm, showUrlForm };
+ const urlProps = { urlInput, urlInputChange };
+ const contactProps = { firstInput, firstInputChange, lastInput, lastInputChange, phoneInput, phoneInputChange, emailAddress, emailAddressChange, streetInput, streetInputChange, cityInput, cityInputChange, stateInput, stateInputChange, zipInput, zipInputChange, countryInput, countryInputChange, ...urlProps };
  const dateProps = { fromDateInput, fromDateInputChange, toDateInput, toDateInputChange, eventInput, eventInputChange, locationInput, locationInputChange, detailsInput, detailsInputChange };
  const emailProps = { emailAddress, emailAddressChange, emailSubject, emailSubjectChange, emailMsg, emailMsgChange };
  const textProps = { textInput, textInputChange };
- const urlProps = { urlInput, urlInputChange };
 
  return (
   <div>
    <SideBar {...formProps}/>
    <form onSubmit={onSubmit}>
+    {contact && <ContactForm {...contactProps}/>}
     {date && <DateForm {...dateProps}/>}
     {email && <EmailForm {...emailProps}/>}
     {text && <TextForm {...textProps}/>}
