@@ -17,7 +17,7 @@ export default function ContactCodes({state, deleteItem}) {
       <h4>{item.first} {item.last}:</h4>
       <br/>
       <br/>
-      <QRCode value={item.card}/>
+      <QRCode value={item.country}/>
       <br/>
       <br/>
       <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>

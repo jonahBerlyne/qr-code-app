@@ -1,6 +1,6 @@
 import * as actions from "./ActionTypes";
 
-export const addContactCode = (id, first, last, phone, email, street, city, state, zip, country, url, card) => ({
+export const addContactCode = (id, first, last, phone, email, street, city, state, zip, country, url) => ({
  type: actions.ADD_CONTACT_CODE,
  payload: {
   id,
@@ -13,8 +13,7 @@ export const addContactCode = (id, first, last, phone, email, street, city, stat
   state,
   zip,
   country,
-  url,
-  card 
+  url
  }
 });
 
