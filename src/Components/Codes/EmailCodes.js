@@ -12,7 +12,7 @@ export default function EmailCodes({state, deleteItem}) {
     return (
      <div key={item.id}>
       <h3>Email to:</h3>
-      <h4>{item.address}</h4>
+      <h4>{item.to}</h4>
       <h3>Subject:</h3>
       <h4>{item.subj}</h4>
       <h3>Message:</h3>
