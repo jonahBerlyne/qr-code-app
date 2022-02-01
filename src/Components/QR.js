@@ -168,7 +168,18 @@ export default function QR() {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
     return;
    }
-   store.dispatch(addContactCode(uniqid(), firstInput, lastInput, phoneInput, emailAddress, streetInput, cityInput, stateInput, zipInput, countryInput, urlInput));
+   let card = `
+      BEGIN:VCARD\n
+      VERSION:4.0\n
+      N:${lastInput};${firstInput};;;\n
+      FN: ${firstInput} ${lastInput}\n
+      TEL;TYPE=home,voice;VALUE=uri:tel:+${phoneInput}\n
+      ADR;TYPE=home;LABEL="${streetInput}\n${cityInput}, ${stateInput} ${zipInput}\n${countryInput}":;;${streetInput};${cityInput};${stateInput};${zipInput};${countryInput}\n
+      EMAIL:${emailAddress}\n
+      WEBSITE:${urlInput}\n
+      END:VCARD
+      `
+   store.dispatch(addContactCode(uniqid(), firstInput, lastInput, phoneInput, emailAddress, streetInput, cityInput, stateInput, zipInput, countryInput, urlInput, card));
    setFirstInput('');
    setLastInput('');
    setPhoneInput('');

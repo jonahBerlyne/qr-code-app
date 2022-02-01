@@ -1,9 +1,12 @@
 import React from 'react';
-import qrcode from 'qrcode.react';
+// import vCard from './Contactjson';
+import QRCode from 'qrcode.react';
 
 export default function ContactCodes({state, deleteItem}) {
 
  state = state.filter(item => item.type === "contact");
+ // var card = vCard.fromJSON( data );
+ // var jcard = card.toJSON();
 
  return (
   <div>
@@ -12,6 +15,9 @@ export default function ContactCodes({state, deleteItem}) {
     return (
      <div key={item.id}>
       <h4>{item.first} {item.last}:</h4>
+      <br/>
+      <br/>
+      <QRCode value={item.card}/>
       <br/>
       <br/>
       <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>
