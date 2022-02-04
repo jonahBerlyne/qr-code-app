@@ -1,19 +1,12 @@
 import * as actions from "./ActionTypes";
 
-export const addContactCode = (id, first, last, phone, email, address, city, state, zip, country, url) => ({
+export const addContactCode = (id, first, last, card) => ({
  type: actions.ADD_CONTACT_CODE,
  payload: {
   id,
   first,
   last,
-  phone,
-  email,
-  address,
-  city,
-  state,
-  zip,
-  country,
-  url
+  card
  }
 });
 

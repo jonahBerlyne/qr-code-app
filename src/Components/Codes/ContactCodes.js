@@ -14,10 +14,10 @@ export default function ContactCodes({state, deleteItem}) {
    {state.map(item => {
     return (
      <div key={item.id}>
-      <h4>{item.first} {item.last}:</h4>
+      <h4>Contact Card for {item.first} {item.last}:</h4>
       <br/>
       <br/>
-      <QRCode value={item.country}/>
+      <QRCode value={item.card}/>
       <br/>
       <br/>
       <button onClick={() => deleteItem(item.id)}>Delete QR Code</button>
