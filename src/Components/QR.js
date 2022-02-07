@@ -8,6 +8,8 @@ import DateForm from './Forms/DateForm';
 import EmailForm from './Forms/EmailForm';
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
+import { handleDoc } from '../Firebase/Util';
+import "firebase/storage";
 
 export default function QR() {
 
@@ -82,6 +84,7 @@ export default function QR() {
 
  const onSubmit = e => {
   e.preventDefault();
+  let payload;
   if (contactIsShown) {
    if (values.firstName == '' || values.lastName == '' || values.phone == '' || values.email == '' || values.address == '' || values.city == '' || values.stateProvince == '' || values.zipPostal == '' || values.country == '' || values.url == '') {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
@@ -96,21 +99,23 @@ export default function QR() {
     return;
    }
    let fullEmail = `mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`;
-   store.dispatch(addEmailCode(uniqid(), values.email, values.emailSubj, values.emailMsg, fullEmail));
+   store.dispatch(addEmailCode(values.id, values.email, values.emailSubj, values.emailMsg, fullEmail));
   }
   if (dateIsShown) {
    if (values.fromDate == '' || values.toDate == '' || values.theEvent == '' || values.location == '' || values.details == '') {
     alert("Please fill out the event form to generate a QR Code.");
     return;
    }
-   store.dispatch(addDateCode(uniqid(), `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
+   store.dispatch(addDateCode(values.id, `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
   }
   if (textIsShown) {
    if (values.searchMsg == '') {
     alert("Please enter a message to generate a QR Code.");
     return;
    }
-   store.dispatch(addTextCode(uniqid(), values.searchMsg));
+   store.dispatch(addTextCode(values.id, values.searchMsg));
+   payload = { "id": values.id, "text": values.searchMsg, "type": "text" };
+   handleDoc("text codes", values.id, payload);
   }
   if (urlIsShown) {
    if (values.url == '') {
@@ -118,7 +123,7 @@ export default function QR() {
     return;
    }
    let fullUrl = `https://${values.url}/`;
-   store.dispatch(addUrlCode(uniqid(), fullUrl));
+   store.dispatch(addUrlCode(values.id, fullUrl));
   }
   clearForm();
   setRefresh(!refresh);
