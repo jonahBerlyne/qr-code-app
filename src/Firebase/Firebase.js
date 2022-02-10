@@ -36,7 +36,7 @@ export function logOut() {
 }
 
 export function useAuth() {
- const [currentUser, setCurrentUser ] = useState();
+ const [currentUser, setCurrentUser] = useState();
 
  useEffect(() => {
   const unsub = onAuthStateChanged(auth, user => setCurrentUser(user));

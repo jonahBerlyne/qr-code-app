@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import db from '../../Firebase/Firebase';
+import { useAuth } from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
 
 export default function TextCodes({state, deleteItem}) {
 
+ const currentUser = useAuth();
+ console.log(currentUser);
  state = state.filter(item => item.type === "text");
  const [texts, setTexts] = useState(state);
  
@@ -21,6 +24,7 @@ export default function TextCodes({state, deleteItem}) {
 
  return (
   <div>
+   <h1>{currentUser?.email}</h1>
    {texts.length !== 0 && <h3>QR Text Codes:</h3>}
    {texts.map(text => {
     return (
