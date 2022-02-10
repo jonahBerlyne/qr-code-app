@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import store from "../../Redux/Store";
 import { Link } from 'react-router-dom';
 import { deleteQRCode } from '../../Redux/Actions';
+import db from '../../Firebase/Firebase';
+import { doc, deleteDoc } from "firebase/firestore";
 import ContactCodes from './ContactCodes';
 import DateCodes from './DateCodes';
 import EmailCodes from './EmailCodes';
@@ -17,8 +19,13 @@ export default function Codes() {
 
  const [refresh, setRefresh] = useState(false);
 
- const deleteItem = id => {
+ const deleteItem = async (code_collection, id) => {
   store.dispatch(deleteQRCode(id));
+  try {
+   await deleteDoc(doc(db, code_collection, id));
+  } catch (error) {
+   alert(error);
+  }
   setRefresh(!refresh);
  }
 

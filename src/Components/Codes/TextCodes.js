@@ -3,11 +3,11 @@ import QRCode from 'qrcode.react';
 import db from '../../Firebase/Firebase';
 import { useAuth } from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
+import store from '../../Redux/Store';
 
 export default function TextCodes({state, deleteItem}) {
 
  const currentUser = useAuth();
- console.log(currentUser);
  state = state.filter(item => item.type === "text");
  const [texts, setTexts] = useState(state);
  
@@ -34,7 +34,7 @@ export default function TextCodes({state, deleteItem}) {
       <QRCode value={text.text}/>
       <br/>
       <br/>
-      <button onClick={() => deleteItem(text.id)}>Delete QR Code</button>
+      <button onClick={() => deleteItem("text codes", text.id)}>Delete QR Code</button>
       <br/>
       <br/>
      </div>
