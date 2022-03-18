@@ -124,6 +124,8 @@ export default function QR() {
    }
    let fullUrl = `https://${values.url}/`;
    store.dispatch(addUrlCode(values.id, fullUrl));
+   payload = { "id": values.id, "url": values.url, "type": "url" };
+   handleDoc("url codes", values.id, payload);
   }
   clearForm();
   setRefresh(!refresh);
