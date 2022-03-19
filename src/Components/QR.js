@@ -100,6 +100,8 @@ export default function QR() {
    }
    let fullEmail = `mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`;
    store.dispatch(addEmailCode(values.id, values.email, values.emailSubj, values.emailMsg, fullEmail));
+   payload = { "id": values.id, "email": fullEmail, "subj": values.emailSubj, "to": values.email, "msg": values.emailMsg, "type": "email" };
+   handleDoc("email codes", values.id, payload);
   }
   if (dateIsShown) {
    if (values.fromDate == '' || values.toDate == '' || values.theEvent == '' || values.location == '' || values.details == '') {
@@ -124,7 +126,7 @@ export default function QR() {
    }
    let fullUrl = `https://${values.url}/`;
    store.dispatch(addUrlCode(values.id, fullUrl));
-   payload = { "id": values.id, "url": values.url, "type": "url" };
+   payload = { "id": values.id, "url": fullUrl, "type": "url" };
    handleDoc("url codes", values.id, payload);
   }
   clearForm();
