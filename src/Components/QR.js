@@ -109,6 +109,8 @@ export default function QR() {
     return;
    }
    store.dispatch(addDateCode(values.id, `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
+   payload = { "id": values.id, "from": values.fromDate, "to": values.toDate, "event": values.theEvent, "location": values.location, "details": values.details, "type": "date" };
+   handleDoc("date codes", values.id, payload);
   }
   if (textIsShown) {
    if (values.searchMsg == '') {
