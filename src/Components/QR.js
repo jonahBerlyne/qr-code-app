@@ -90,8 +90,10 @@ export default function QR() {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
     return;
    }
-   let contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};URL:http://${values.url};;`
+   const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};URL:http://${values.url};;`
    store.dispatch(addContactCode(values.id, values.firstName, values.lastName, contactCard));
+   payload = { "id": values.id, "last": values.lastName, "first": values.firstName, "card": contactCard, "type": "contact" };
+   handleDoc("contact codes", values.id, payload);
   }
   if (emailIsShown) {
    if (values.email == '' || values.emailSubj == '' || values.emailMsg == '') {
