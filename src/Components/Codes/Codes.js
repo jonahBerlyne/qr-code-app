@@ -7,6 +7,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import ContactCodes from './ContactCodes';
 import DateCodes from './DateCodes';
 import EmailCodes from './EmailCodes';
+import ImageCodes from "./ImageCodes";
 import TextCodes from './TextCodes';
 import UrlCodes from './UrlCodes';
 
@@ -35,6 +36,7 @@ export default function Codes() {
    <ContactCodes state={state} deleteItem={deleteItem}/>
    <DateCodes state={state} deleteItem={deleteItem}/>
    <EmailCodes state={state} deleteItem={deleteItem}/>
+   <ImageCodes state={state} deleteItem={deleteItem}/>
    <TextCodes state={state} deleteItem={deleteItem}/>
    <UrlCodes state={state} deleteItem={deleteItem}/>
    <br/>
