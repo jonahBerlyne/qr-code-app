@@ -15,6 +15,9 @@ export default function reducer(state = [], action) {
    case actions.ADD_EMAIL_CODE:
     return isInCodes ? state : [...state, {...action.payload, type: "email"}];
 
+   case actions.ADD_IMG_CODE:
+    return isInCodes ? state : [...state, {...action.payload, type: "image"}];
+
    case actions.ADD_TEXT_CODE:
     return isInCodes ? state : [...state, {...action.payload, type: "text"}];
 
