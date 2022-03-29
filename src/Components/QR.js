@@ -6,6 +6,7 @@ import SideBar from './Sidebar/SideBar';
 import ContactForm from './Forms/ContactForm';
 import DateForm from './Forms/DateForm';
 import EmailForm from './Forms/EmailForm';
+import ImgForm from "./Forms/ImgForm";
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 import { handleDoc } from '../Firebase/Util';
@@ -31,6 +32,7 @@ export default function QR() {
  const [contactIsShown, setContactIsShown] = useState(false);
  const [dateIsShown, setDateIsShown] = useState(false);
  const [emailIsShown, setEmailIsShown] = useState(false);
+ const [imgIsShown, setImgIsShown] = useState(false);
  const [textIsShown, setTextIsShown] = useState(false);
  const [urlIsShown, setUrlIsShown] = useState(false);
 
@@ -39,6 +41,7 @@ export default function QR() {
  const showContactForm = () => {
   setDateIsShown(false);
   setEmailIsShown(false);
+  setImgIsShown(false);
   setTextIsShown(false);
   setUrlIsShown(false);
   setContactIsShown(true);
@@ -48,6 +51,7 @@ export default function QR() {
  const showDateForm = () => {
   setContactIsShown(false);
   setEmailIsShown(false);
+  setImgIsShown(false);
   setTextIsShown(false);
   setUrlIsShown(false);
   setDateIsShown(true);
@@ -57,9 +61,20 @@ export default function QR() {
  const showEmailForm = () => {
   setContactIsShown(false);
   setDateIsShown(false);
+  setImgIsShown(false);
   setTextIsShown(false);
   setUrlIsShown(false);
   setEmailIsShown(true);
+  setRefresh(!refresh);
+ }
+
+ const showImgForm = () => {
+  setContactIsShown(false);
+  setDateIsShown(false);
+  setEmailIsShown(false);
+  setTextIsShown(false);
+  setUrlIsShown(false);
+  setImgIsShown(true);
   setRefresh(!refresh);
  }
 
@@ -68,6 +83,7 @@ export default function QR() {
   setContactIsShown(false);
   setDateIsShown(false);
   setEmailIsShown(false);
+  setImgIsShown(false);
   setUrlIsShown(false);
   setTextIsShown(true);
   setRefresh(!refresh);
@@ -77,6 +93,7 @@ export default function QR() {
   setContactIsShown(false);
   setDateIsShown(false);
   setEmailIsShown(false);
+  setImgIsShown(false);
   setTextIsShown(false);
   setUrlIsShown(true);
   setRefresh(!refresh);
@@ -148,6 +165,7 @@ export default function QR() {
     {contactIsShown && <ContactForm {...formProps}/>} 
     {dateIsShown && <DateForm {...formProps}/>}
     {emailIsShown && <EmailForm {...formProps}/>}
+    {imgIsShown && <ImgForm {...formProps}/>}
     {textIsShown && <TextForm {...formProps}/>}
     {urlIsShown && <UrlForm {...formProps}/>}
     <br/>
