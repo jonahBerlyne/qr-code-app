@@ -155,7 +155,7 @@ export default function QR() {
   console.log(store.getState());
  }
 
- const displayProps = { showContactForm, showDateForm, showEmailForm, showTextForm, showUrlForm };
+ const displayProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange };
  
  return (
