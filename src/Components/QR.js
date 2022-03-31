@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addContactCode, addDateCode, addEmailCode, addTextCode, addUrlCode } from '../Redux/Actions';
+import { addContactCode, addDateCode, addEmailCode, addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
 import SideBar from './Sidebar/SideBar';
 import ContactForm from './Forms/ContactForm';
 import DateForm from './Forms/DateForm';
@@ -10,7 +10,7 @@ import ImgForm from "./Forms/ImgForm";
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 import { handleDoc } from '../Firebase/Util';
-import "firebase/storage";
+import "firebase/storage"; 
 
 export default function QR() {
 
@@ -130,6 +130,15 @@ export default function QR() {
    store.dispatch(addDateCode(values.id, `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
    payload = { "id": values.id, "from": values.fromDate, "to": values.toDate, "event": values.theEvent, "location": values.location, "details": values.details, "type": "date" };
    handleDoc("date codes", values.id, payload);
+  }
+  if (imgIsShown) {
+   if (values.img == '') {
+    alert("Please select an image.");
+    return;
+   }
+   store.dispatch(addImgCode(values.id, values.img));
+   payload = { "id": values.id, "img": values.img, "type": "img" };
+   handleDoc("img codes", values.id, payload);
   }
   if (textIsShown) {
    if (values.searchMsg == '') {
