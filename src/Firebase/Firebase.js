@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc, getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import React, { useState, useEffect } from 'react';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,10 +17,13 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-export default getFirestore();
+const fireDB = getFirestore(app);
+
+export default fireDB;
+
+export const storage = getStorage();
 
 const auth = getAuth();
 

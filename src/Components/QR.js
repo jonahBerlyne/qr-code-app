@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import uniqid from "uniqid";
 import store from '../Redux/Store';
 import { addContactCode, addDateCode, addEmailCode, addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
@@ -10,7 +10,8 @@ import ImgForm from "./Forms/ImgForm";
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 import { handleDoc } from '../Firebase/Util';
-import "firebase/storage"; 
+import { fireDB, storage, useAuth } from "../Firebase/Firebase";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 
 export default function QR() {
 
@@ -99,6 +100,36 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
+ const [imgFile, setImgFile] = useState(null);
+ const [imgFileErr, setImgFileErr] = useState(null);
+ const types = ['image/png', 'image/jpeg'];
+
+ const choosePic = e => {
+  const image = e.target.files[0];
+  if (image && types.includes(image.type)) {
+   setImgFile(image);
+   setImgFileErr(null);
+  } else {
+   setImgFile(null);
+   setImgFileErr("Please choose an image file (png or jpeg)");
+  }
+ }
+
+ const [imgUrl, setImgUrl] = useState(null);
+ const currentUser = useAuth();
+
+ const handleUpload = async () => {
+  if (imgFile === null) return;
+  try {
+   const uploadTask = ref(storage, `${currentUser}/${imgFile}`);
+   await uploadBytes(uploadTask, imgFile);
+   const url = await getDownloadURL(uploadTask);
+   setImgUrl(url);
+  } catch (err) {
+   alert(`Upload error: ${err}`);
+  }
+ }
+
  const onSubmit = e => {
   e.preventDefault();
   let payload;
@@ -136,9 +167,16 @@ export default function QR() {
     alert("Please select an image.");
     return;
    }
-   store.dispatch(addImgCode(values.id, values.img));
-   payload = { "id": values.id, "img": values.img, "type": "img" };
-   handleDoc("img codes", values.id, payload);
+   const promise = new Promise(() => {
+    handleUpload();
+   });
+   promise.then(() => {
+    store.dispatch(addImgCode(values.id, values.img));
+    payload = { "id": values.id, "img": values.img, "type": "img" };
+    handleDoc("img codes", values.id, payload);
+   }).catch(err => {
+    alert(`Upload error: ${err}`);
+   });
   }
   if (textIsShown) {
    if (values.searchMsg == '') {
