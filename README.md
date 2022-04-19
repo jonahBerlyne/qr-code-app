@@ -1,1 +1,1 @@
-QR Code App
+A QR Code App made using React and Firebase.
