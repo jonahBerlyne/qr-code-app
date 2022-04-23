@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
-import { signUp, logIn, useAuth, logOut } from "./Firebase"
-import Home from "../Components/Home";
+import { signUp, logIn, useAuth, logOut } from "./Firebase";
 
 export default function Auth() {
 
@@ -60,7 +59,6 @@ export default function Auth() {
 
       {currentUser && 
         <>
-          <Home/>
           <button disabled={ loading } className="auth-btn" onClick={handleLogout}>Log Out</button>
         </>
       }
