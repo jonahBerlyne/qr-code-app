@@ -1,7 +1,8 @@
 import * as actions from "./ActionTypes";
 
+const initialState: any[] = [];
 
-export default function reducer(state = [], action) {
+export default function reducer(state = initialState, action: any) {
 
   const isInCodes = state.find(item => item.id === action.payload.id);
 
