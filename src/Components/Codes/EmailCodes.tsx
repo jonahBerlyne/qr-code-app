@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import db from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
+import { CodeInterface } from "./Codes";
 
-export default function EmailCodes({state, deleteItem}) {
+export default function EmailCodes({state, deleteItem}: CodeInterface) {
 
- state = state.filter(item => item.type === "email");
- const [emails, setEmails] = useState(state);
+ const [emails, setEmails] = useState<any>(null);
+
+ useEffect(() => {
+  const filteredState = state.filter((item: any) => item.type === "email");
+  setEmails(filteredState);
+ }, []);
  
  
  useEffect(() => {
@@ -22,7 +27,7 @@ export default function EmailCodes({state, deleteItem}) {
  return (
   <div>
    {emails.length !== 0 && <h3>QR Email Codes:</h3>}
-   {emails.map(email => {
+   {emails.map((email: any) => {
     return (
      <div key={email.id}>
       <h3>Email to:</h3>
