@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import db from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
+import { CodeInterface } from "./Codes";
 
-export default function UrlCodes({state, deleteItem}) {
+export default function UrlCodes({state, deleteItem}: CodeInterface) {
 
- state = state.filter(item => item.type === "url");
- const [urls, setUrls] = useState(state);
+ const [urls, setUrls] = useState<any>(null);
+
+ useEffect(() => {
+  const filteredState = state.filter((item: any) => item.type === "url");
+  setUrls(filteredState);
+ }, []);
  
  
  useEffect(() => {
@@ -22,7 +27,7 @@ export default function UrlCodes({state, deleteItem}) {
  return (
   <div>
    {urls.length !== 0 && <h3>QR Website Codes:</h3>}
-   {urls.map(url => {
+   {urls.map((url: any) => {
     return (
      <div key={url.id}>
       <a href={url.url} target="_blank">{url.url}</a>
