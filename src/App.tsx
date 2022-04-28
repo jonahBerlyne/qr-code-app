@@ -10,10 +10,10 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" exact element={<AuthRoute><LoginPage/></AuthRoute>}/>
-        <Route path="/register" exact element={<AuthRoute><SignUpPage/></AuthRoute>}/>
-        <Route path="/" exact element={<AppRoute><HomePage/></AppRoute>}/>
-        <Route path="/codes" exact element={<AppRoute><Codes/></AppRoute>}/>
+        <Route path="/login" element={<AuthRoute><LoginPage/></AuthRoute>}/>
+        <Route path="/register" element={<AuthRoute><SignUpPage/></AuthRoute>}/>
+        <Route path="/" element={<AppRoute><HomePage/></AppRoute>}/>
+        <Route path="/codes" element={<AppRoute><Codes/></AppRoute>}/>
       </Routes>
     </Router>
   );
