@@ -1,4 +1,6 @@
-export default function ContactForm({ values, handleChange }) {
+import { FormInterface } from "../QR";
+
+export default function ContactForm({ values, handleChange }: FormInterface) {
  return (
   <div>
    <h4>Fill in contact form:</h4>

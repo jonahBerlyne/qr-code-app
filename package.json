@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
-    "@types/qrcode.react": "^1.0.2"
+    "@types/qrcode.react": "^1.0.2",
+    "@types/uniqid": "^5.3.2"
   }
 }

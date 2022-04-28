@@ -13,20 +13,43 @@ import { handleDoc } from '../Firebase/Util';
 import { fireDB, storage, useAuth } from "../Firebase/Firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 
+interface Values {
+ id: string | undefined;
+ firstName: string;
+ lastName: string;
+ phone: string;
+ email: string;
+ address: string;
+ city: string;
+ stateProvince: string;
+ zipPostal: string;
+ country: string;
+ fromDate: string;
+ toDate: string;
+ theEvent: string;
+ location: string;
+ details: string;
+ emailSubj: string;
+ emailMsg: string;
+ img: string;
+ searchMsg: string;
+ url: string;
+};
+
 export default function QR() {
 
  const initialValues = { id: uniqid(), firstName: '', lastName: '', phone: '', email: '', address: '', city: '', stateProvince: '', zipPostal: '', country: '', fromDate: '', toDate: '', theEvent: '', location: '', details: '', emailSubj: '', emailMsg: '', img: '', searchMsg: '', url: '' };
 
- const [values, setValues] = useState(initialValues);
+ const [values, setValues] = useState<Values>(initialValues);
 
- const handleChange = e => {
+ const handleChange = (e: any): void => {
   setValues({
    ...values,
    [e.target.name]: e.target.value,
   });
  }
 
- const clearForm = () => {
+ const clearForm = (): void => {
   setValues({...initialValues});
  }
 
@@ -226,3 +249,8 @@ export default function QR() {
   </div>
  );
 }
+
+export interface FormInterface {
+ values: Values;
+ handleChange: (e: any) => void;
+};
