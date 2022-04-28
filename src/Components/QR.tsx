@@ -10,8 +10,9 @@ import ImgForm from "./Forms/ImgForm";
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
 import { handleDoc } from '../Firebase/Util';
-import { fireDB, storage, useAuth } from "../Firebase/Firebase";
+import { storage, useAuth } from "../Firebase/Firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
+import { useDispatch } from 'react-redux';
 
 interface Values {
  id: string | undefined;
@@ -53,14 +54,14 @@ export default function QR() {
   setValues({...initialValues});
  }
 
- const [contactIsShown, setContactIsShown] = useState(false);
- const [dateIsShown, setDateIsShown] = useState(false);
- const [emailIsShown, setEmailIsShown] = useState(false);
- const [imgIsShown, setImgIsShown] = useState(false);
- const [textIsShown, setTextIsShown] = useState(false);
- const [urlIsShown, setUrlIsShown] = useState(false);
+ const [contactIsShown, setContactIsShown] = useState<boolean>(false);
+ const [dateIsShown, setDateIsShown] = useState<boolean>(false);
+ const [emailIsShown, setEmailIsShown] = useState<boolean>(false);
+ const [imgIsShown, setImgIsShown] = useState<boolean>(false);
+ const [textIsShown, setTextIsShown] = useState<boolean>(false);
+ const [urlIsShown, setUrlIsShown] = useState<boolean>(false);
 
- const [refresh, setRefresh] = useState(false);
+ const [refresh, setRefresh] = useState<boolean>(false);
 
  const showContactForm = (): void => {
   setDateIsShown(false);
@@ -123,11 +124,11 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
- const [imgFile, setImgFile] = useState(null);
- const [imgFileErr, setImgFileErr] = useState(null);
- const types = ['image/png', 'image/jpeg'];
+ const [imgFile, setImgFile] = useState<any>(null);
+ const [imgFileErr, setImgFileErr] = useState<string | null>(null);
+ const types: string[] = ['image/png', 'image/jpeg'];
 
- const choosePic = e => {
+ const choosePic = (e: any): void => {
   const image = e.target.files[0];
   if (image && types.includes(image.type)) {
    setImgFile(image);
@@ -138,10 +139,10 @@ export default function QR() {
   }
  }
 
- const [imgUrl, setImgUrl] = useState(null);
+ const [imgUrl, setImgUrl] = useState<any>(null);
  const currentUser = useAuth();
 
- const handleUpload = async () => {
+ const handleUpload = async (): Promise<any> => {
   if (imgFile === null) return;
   try {
    const uploadTask = ref(storage, `${currentUser}/${imgFile}`);
@@ -153,71 +154,101 @@ export default function QR() {
   }
  }
 
- const onSubmit = e => {
+ const dispatch = useDispatch();
+
+ const onSubmit = (e: any): void => {
   e.preventDefault();
   let payload;
   if (contactIsShown) {
+
    if (values.firstName == '' || values.lastName == '' || values.phone == '' || values.email == '' || values.address == '' || values.city == '' || values.stateProvince == '' || values.zipPostal == '' || values.country == '' || values.url == '') {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
     return;
    }
-   const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};URL:http://${values.url};;`
-   store.dispatch(addContactCode(values.id, values.firstName, values.lastName, contactCard));
+
+   const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};URL:http://${values.url};;`;
+
+   dispatch(addContactCode(values.id, values.firstName, values.lastName, contactCard));
+
    payload = { "id": values.id, "last": values.lastName, "first": values.firstName, "card": contactCard, "type": "contact" };
+
    handleDoc("contact codes", values.id, payload);
   }
+
   if (emailIsShown) {
+
    if (values.email == '' || values.emailSubj == '' || values.emailMsg == '') {
     alert("Please create an email to generate a QR Code.");
     return;
    }
+
    let fullEmail = `mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`;
-   store.dispatch(addEmailCode(values.id, values.email, values.emailSubj, values.emailMsg, fullEmail));
+
+   dispatch(addEmailCode(values.id, values.email, values.emailSubj, values.emailMsg, fullEmail));
+
    payload = { "id": values.id, "email": fullEmail, "subj": values.emailSubj, "to": values.email, "msg": values.emailMsg, "type": "email" };
+
    handleDoc("email codes", values.id, payload);
   }
   if (dateIsShown) {
+
    if (values.fromDate == '' || values.toDate == '' || values.theEvent == '' || values.location == '' || values.details == '') {
     alert("Please fill out the event form to generate a QR Code.");
     return;
    }
-   store.dispatch(addDateCode(values.id, `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
+
+   dispatch(addDateCode(values.id, `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
+
    payload = { "id": values.id, "from": values.fromDate, "to": values.toDate, "event": values.theEvent, "location": values.location, "details": values.details, "type": "date" };
+
    handleDoc("date codes", values.id, payload);
   }
   if (imgIsShown) {
+
    if (values.img == '') {
     alert("Please select an image.");
     return;
    }
+
    const promise = new Promise(() => {
     handleUpload();
    });
+
    promise.then(() => {
-    store.dispatch(addImgCode(values.id, values.img));
+    dispatch(addImgCode(values.id, values.img));
     payload = { "id": values.id, "img": values.img, "type": "img" };
     handleDoc("img codes", values.id, payload);
    }).catch(err => {
     alert(`Upload error: ${err}`);
    });
+
   }
   if (textIsShown) {
+
    if (values.searchMsg == '') {
     alert("Please enter a message to generate a QR Code.");
     return;
    }
-   store.dispatch(addTextCode(values.id, values.searchMsg));
+
+   dispatch(addTextCode(values.id, values.searchMsg));
+
    payload = { "id": values.id, "text": values.searchMsg, "type": "text" };
+
    handleDoc("text codes", values.id, payload);
   }
   if (urlIsShown) {
+
    if (values.url == '') {
     alert("Please enter a url to generate a QR Code.");
     return;
    }
+
    let fullUrl = `https://${values.url}/`;
-   store.dispatch(addUrlCode(values.id, fullUrl));
+
+   dispatch(addUrlCode(values.id, fullUrl));
+
    payload = { "id": values.id, "url": fullUrl, "type": "url" };
+   
    handleDoc("url codes", values.id, payload);
   }
   clearForm();
