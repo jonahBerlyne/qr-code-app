@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import db from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
+import { CodeInterface } from "./Codes";
 
-export default function DateCodes({state, deleteItem}) {
+export default function DateCodes({state, deleteItem}: CodeInterface) {
 
- state = state.filter(item => item.type === "date");
- const [dates, setDates] = useState(state);
+ const [dates, setDates] = useState<any>(null);
+
+ useEffect(() => {
+  const filteredState = state.filter((item: any) => item.type === "date");
+  setDates(filteredState);
+ }, []);
  
  
  useEffect(() => {
@@ -22,7 +27,7 @@ export default function DateCodes({state, deleteItem}) {
  return (
   <div>
    {dates.length !== 0 && <h3>QR Date Codes:</h3>}
-   {dates.map(date => {
+   {dates.map((date: any) => {
     return (
      <div key={date.id}>
       <h4>Code for {date.event.split("+").join(" ")}:</h4>
@@ -30,7 +35,7 @@ export default function DateCodes({state, deleteItem}) {
       <QRCode value={`https://calendar.google.com/calendar/u/0/r/eventedit?dates=${date.from}/${parseInt(date.to) + 1}&text=${date.event}&location=${date.location}&details=${date.details}`}/>
       <br/>
       <br/>
-      <button onClick={() => deleteItem(date.id)}>Delete QR Code</button>
+      <button onClick={() => deleteItem("date codes", date.id)}>Delete QR Code</button>
       <br/>
       <br/>
      </div>
