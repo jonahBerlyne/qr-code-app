@@ -3,7 +3,16 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-export default function SideBar({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }) {
+interface Forms {
+  showContactForm: () => void;
+  showDateForm: () => void;
+  showEmailForm: () => void;
+  showImgForm: () => void;
+  showTextForm: () => void;
+  showUrlForm: () => void;
+};
+
+export default function SideBar({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }: Forms) {
  return (
     <List disablePadding dense>
       <ListItem button onClick={showContactForm}>

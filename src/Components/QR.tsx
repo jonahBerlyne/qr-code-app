@@ -62,7 +62,7 @@ export default function QR() {
 
  const [refresh, setRefresh] = useState(false);
 
- const showContactForm = () => {
+ const showContactForm = (): void => {
   setDateIsShown(false);
   setEmailIsShown(false);
   setImgIsShown(false);
@@ -72,7 +72,7 @@ export default function QR() {
   setRefresh(!refresh);
  }
  
- const showDateForm = () => {
+ const showDateForm = (): void => {
   setContactIsShown(false);
   setEmailIsShown(false);
   setImgIsShown(false);
@@ -82,7 +82,7 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
- const showEmailForm = () => {
+ const showEmailForm = (): void => {
   setContactIsShown(false);
   setDateIsShown(false);
   setImgIsShown(false);
@@ -92,7 +92,7 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
- const showImgForm = () => {
+ const showImgForm = (): void => {
   setContactIsShown(false);
   setDateIsShown(false);
   setEmailIsShown(false);
@@ -103,7 +103,7 @@ export default function QR() {
  }
 
 
- const showTextForm = () => {
+ const showTextForm = (): void => {
   setContactIsShown(false);
   setDateIsShown(false);
   setEmailIsShown(false);
@@ -113,7 +113,7 @@ export default function QR() {
   setRefresh(!refresh);
  }
 
- const showUrlForm = () => {
+ const showUrlForm = (): void => {
   setContactIsShown(false);
   setDateIsShown(false);
   setEmailIsShown(false);
