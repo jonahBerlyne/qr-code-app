@@ -1,6 +1,7 @@
 import React from 'react';
+import { FormInterface } from "../QR";
 
-export default function EmailForm({ values, handleChange }) {
+export default function EmailForm({ values, handleChange }: FormInterface) {
 
  return (
   <div>
@@ -11,7 +12,7 @@ export default function EmailForm({ values, handleChange }) {
      <input type="text" name="emailSubj" value={values.emailSubj} onChange={handleChange} placeholder='Enter e-mail subject'/>
      <br/>
      <br/>
-     <textarea name="emailMsg" value={values.emailMsg} onChange={handleChange} rows="10" cols="40" placeholder='Enter your message here'/>
+     <textarea name="emailMsg" value={values.emailMsg} onChange={handleChange} rows={10} cols={40} placeholder='Enter your message here'/>
   </div>
  );
 }

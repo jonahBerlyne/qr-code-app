@@ -1,6 +1,7 @@
 import React from 'react';
+import { FormInterface } from "../QR";
 
-export default function UrlForm({ values, handleChange }) {
+export default function UrlForm({ values, handleChange }: FormInterface) {
  return (
   <div>
     <h4>Enter a website:</h4>

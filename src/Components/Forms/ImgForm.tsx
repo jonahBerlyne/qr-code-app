@@ -1,4 +1,6 @@
-export default function ImgForm({ values, handleChange }) {
+import { FormInterface } from "../QR";
+
+export default function ImgForm({ values, handleChange }: FormInterface) {
  return (
   <div>
    <h4>Add an image:</h4>

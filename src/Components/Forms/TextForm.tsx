@@ -1,10 +1,11 @@
 import React from 'react';
+import { FormInterface } from "../QR";
 
-export default function TextForm({ values, handleChange }) {
+export default function TextForm({ values, handleChange }: FormInterface) {
  return (
   <div>
     <h4>Enter a message:</h4>
-    <textarea name="searchMsg" value={values.searchMsg} onChange={handleChange} rows="10" cols="40" placeholder='Enter your message here'/>
+    <textarea name="searchMsg" value={values.searchMsg} onChange={handleChange} rows={10} cols={40} placeholder='Enter your message here'/>
   </div>
  );
 }
