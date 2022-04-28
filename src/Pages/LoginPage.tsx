@@ -4,11 +4,11 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function LoginPage () {
 
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
+ const [email, setEmail] = useState<string>('');
+ const [password, setPassword] = useState<string>('');
  const auth = getAuth();
 
- const login = async () => {
+ const login = async (): Promise<any> => {
   try {
    await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {

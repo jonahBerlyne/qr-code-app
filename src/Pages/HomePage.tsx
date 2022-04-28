@@ -6,7 +6,7 @@ export default function HomePage() {
 
   const auth = getAuth();
 
-  const logOut = async () => {
+  const logOut = async (): Promise<any> => {
     try {
       await signOut(auth);
     } catch (err) {

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUpPage() {
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
- const [confirmPassword, setConfirmPassword] = useState('');
+ const [email, setEmail] = useState<string>('');
+ const [password, setPassword] = useState<string>('');
+ const [confirmPassword, setConfirmPassword] = useState<string>('');
  const auth = getAuth();
 
- const register = async () => {
+ const register = async (): Promise<any> => {
   if (password !== confirmPassword) return;
   try {
    await createUserWithEmailAndPassword(auth, email, password);
