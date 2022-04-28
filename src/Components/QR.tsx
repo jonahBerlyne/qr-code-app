@@ -9,8 +9,9 @@ import EmailForm from './Forms/EmailForm';
 import ImgForm from "./Forms/ImgForm";
 import TextForm from './Forms/TextForm';
 import UrlForm from './Forms/UrlForm';
-import { handleDoc } from '../Firebase/Util';
-import { storage, useAuth } from "../Firebase/Firebase";
+import fireDB, { storage } from '../Firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 import { useDispatch } from 'react-redux';
 
@@ -140,7 +141,7 @@ export default function QR() {
  }
 
  const [imgUrl, setImgUrl] = useState<any>(null);
- const currentUser = useAuth();
+ const currentUser = getAuth();
 
  const handleUpload = async (): Promise<any> => {
   if (imgFile === null) return;
@@ -155,6 +156,15 @@ export default function QR() {
  }
 
  const dispatch = useDispatch();
+
+ const handleDoc = async (collection: string, id: string | undefined, payload: any): Promise<any> => {
+  console.log(fireDB);
+  if (id !== undefined) {
+    const docRef = doc(fireDB, collection, id);
+    console.log(docRef);
+    await setDoc(docRef, payload);
+  }
+ }
 
  const onSubmit = (e: any): void => {
   e.preventDefault();

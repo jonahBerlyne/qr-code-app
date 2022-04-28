@@ -21,27 +21,3 @@ export default fireDB;
 
 export const storage = getStorage();
 
-const auth = getAuth();
-
-export function signUp(email, password) {
- return createUserWithEmailAndPassword(auth, email, password);
-}
-
-export function logIn(email, password) {
- return signInWithEmailAndPassword(auth, email, password);
-}
-
-export function logOut() {
- return signOut(auth);
-}
-
-export function useAuth() {
- const [currentUser, setCurrentUser] = useState();
-
- useEffect(() => {
-  const unsub = onAuthStateChanged(auth, user => setCurrentUser(user));
-  return unsub;
- }, []);
-
- return currentUser;
-}
