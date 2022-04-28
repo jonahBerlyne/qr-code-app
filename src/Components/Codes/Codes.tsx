@@ -12,15 +12,15 @@ import TextCodes from './TextCodes';
 import UrlCodes from './UrlCodes';
 
 export default function Codes() {
- const [state, setState] = useState([]);
+ const [state, setState] = useState<any[]>([]);
 
  useEffect(() => {
   setState(store.getState());
  });
 
- const [refresh, setRefresh] = useState(false);
+ const [refresh, setRefresh] = useState<boolean>(false);
 
- const deleteItem = async (code_collection, id) => {
+ const deleteItem = async (code_collection: any, id: any): Promise<any> => {
   store.dispatch(deleteQRCode(id));
   try {
    await deleteDoc(doc(db, code_collection, id));
