@@ -4,12 +4,16 @@ import db from '../../Firebase/Firebase';
 import { useAuth } from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
 import store from '../../Redux/Store';
+import { CodeInterface } from "./Codes";
 
-export default function TextCodes({state, deleteItem}) {
+export default function TextCodes({state, deleteItem}: CodeInterface) {
 
- const currentUser = useAuth();
- state = state.filter(item => item.type === "text");
- const [texts, setTexts] = useState(state);
+ const [texts, setTexts] = useState<any>(null);
+
+ useEffect(() => {
+  const filteredState = state.filter((item: any) => item.type === "text");
+  setTexts(filteredState);
+ }, []);
  
  
  useEffect(() => {
@@ -24,9 +28,8 @@ export default function TextCodes({state, deleteItem}) {
 
  return (
   <div>
-   <h1>{currentUser?.email}</h1>
    {texts.length !== 0 && <h3>QR Text Codes:</h3>}
-   {texts.map(text => {
+   {texts.map((text: any) => {
     return (
      <div key={text.id}>
       <h4>{text.text}</h4>
