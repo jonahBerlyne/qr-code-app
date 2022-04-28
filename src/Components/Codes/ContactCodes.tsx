@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import db from '../../Firebase/Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
+import { CodeInterface } from "./Codes";
 
-export default function ContactCodes({state, deleteItem}) {
+export default function ContactCodes({state, deleteItem}: CodeInterface) {
 
- state = state.filter(item => item.type === "contact");
- const [contacts, setContacts] = useState(state);
+ const [contacts, setContacts] = useState<any>(null);
+
+ useEffect(() => {
+  const filteredState = state.filter((item: any) => item.type === "contact");
+  setContacts(filteredState);
+ }, []);
  
  
  useEffect(() => {
@@ -22,7 +27,7 @@ export default function ContactCodes({state, deleteItem}) {
  return (
   <div>
    {contacts.length !== 0 && <h3>QR Contact Codes:</h3>}
-   {contacts.map(contact => {
+   {contacts.map((contact: any) => {
     return (
      <div key={contact.id}>
       <h4>Contact Card for {contact.first} {contact.last}:</h4>
@@ -31,7 +36,7 @@ export default function ContactCodes({state, deleteItem}) {
       <QRCode value={contact.card}/>
       <br/>
       <br/>
-      <button onClick={() => deleteItem(contact.id)}>Delete QR Code</button>
+      <button onClick={() => deleteItem("contact codes", contact.id)}>Delete QR Code</button>
       <br/>
       <br/>
      </div>

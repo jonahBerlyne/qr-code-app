@@ -44,3 +44,8 @@ export default function Codes() {
   </div>
  );
 }
+
+export interface CodeInterface {
+ state: any;
+ deleteItem: (code_collection: any, id: any) => Promise<any>;
+};
