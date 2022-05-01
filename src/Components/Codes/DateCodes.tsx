@@ -26,8 +26,8 @@ export default function DateCodes({state, deleteItem}: CodeInterface) {
 
  return (
   <div>
-   {dates.length !== 0 && <h3>QR Date Codes:</h3>}
-   {dates.map((date: any) => {
+   {dates && dates.length !== 0 && <h3>QR Date Codes:</h3>}
+   {dates && dates.map((date: any) => {
     return (
      <div key={date.id}>
       <h4>Code for {date.event.split("+").join(" ")}:</h4>

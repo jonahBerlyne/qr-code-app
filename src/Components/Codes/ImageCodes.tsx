@@ -26,8 +26,8 @@ export default function ImageCodes({ state, deleteItem }: CodeInterface) {
 
  return (
   <div>
-   {imgs.length !== 0 && <h3>QR Image Codes:</h3>}
-   {imgs.map((img: any) => {
+   {imgs && imgs.length !== 0 && <h3>QR Image Codes:</h3>}
+   {imgs && imgs.map((img: any) => {
     return (
      <div key={img.id}>
       <h3>Image of:</h3>

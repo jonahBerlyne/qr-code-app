@@ -26,11 +26,11 @@ export default function UrlCodes({state, deleteItem}: CodeInterface) {
 
  return (
   <div>
-   {urls.length !== 0 && <h3>QR Website Codes:</h3>}
-   {urls.map((url: any) => {
+   {urls && urls.length !== 0 && <h3>QR Website Codes:</h3>}
+   {urls && urls.map((url: any) => {
     return (
      <div key={url.id}>
-      <a href={url.url} target="_blank">{url.url}</a>
+      <a href={url.url} target="_blank" rel="noreferrer">{url.url}</a>
       <br/>
       <br/>
       <QRCode value={url.url}/>

@@ -26,8 +26,8 @@ export default function ContactCodes({state, deleteItem}: CodeInterface) {
 
  return (
   <div>
-   {contacts.length !== 0 && <h3>QR Contact Codes:</h3>}
-   {contacts.map((contact: any) => {
+   {contacts && contacts.length !== 0 && <h3>QR Contact Codes:</h3>}
+   {contacts && contacts.map((contact: any) => {
     return (
      <div key={contact.id}>
       <h4>Contact Card for {contact.first} {contact.last}:</h4>

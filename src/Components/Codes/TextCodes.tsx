@@ -27,8 +27,8 @@ export default function TextCodes({state, deleteItem}: CodeInterface) {
 
  return (
   <div>
-   {texts.length !== 0 && <h3>QR Text Codes:</h3>}
-   {texts.map((text: any) => {
+   {texts && texts.length !== 0 && <h3>QR Text Codes:</h3>}
+   {texts && texts.map((text: any) => {
     return (
      <div key={text.id}>
       <h4>{text.text}</h4>

@@ -26,8 +26,8 @@ export default function EmailCodes({state, deleteItem}: CodeInterface) {
 
  return (
   <div>
-   {emails.length !== 0 && <h3>QR Email Codes:</h3>}
-   {emails.map((email: any) => {
+   {emails && emails.length !== 0 && <h3>QR Email Codes:</h3>}
+   {emails && emails.map((email: any) => {
     return (
      <div key={email.id}>
       <h3>Email to:</h3>
