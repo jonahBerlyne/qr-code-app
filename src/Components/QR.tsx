@@ -160,29 +160,28 @@ export default function QR() {
 
  useEffect(() => {
    console.log(imgFile);
-   if (imgFile) {
-     setImgPreview(URL.createObjectURL(imgFile));
-     console.log(`${currentUser}/${imgFile}`);
-   }
+   if (imgFile) setImgPreview(URL.createObjectURL(imgFile));
  }, [imgFile]);
 
- const currentUser = getAuth();
+ const auth = getAuth();
 
- const handleUpload = async (): Promise<any> => {
+ const handleImgUpload = async (): Promise<any> => {
   if (imgFile === null) return;
   try {
-   const uploadTask = ref(storage, `${currentUser}/${imgFile}`);
+   const uploadTask = ref(storage, `${auth.currentUser?.uid}/${imgFile.name}`);
    await uploadBytes(uploadTask, imgFile);
    const imgUrl = await getDownloadURL(uploadTask);
    const payload = { 
     "id": values.id, 
     "img": imgUrl, 
+    "name": imgFile.name,
     "type": "img"
    };
    await handleDoc("img codes", values.id, payload);
    dispatch(addImgCode(values.id, imgUrl));
    setImgPreview(null);
    setImgFile(null);
+   setRefresh(!refresh);
   } catch (err) {
    alert(`Upload error: ${err}`);
   }
@@ -274,7 +273,7 @@ export default function QR() {
       return;
     }
     try {
-      await handleUpload();
+      await handleImgUpload();
     } catch (err) {
       alert(`Image code upload error: ${err}`);
     }

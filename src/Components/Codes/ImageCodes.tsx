@@ -31,7 +31,7 @@ export default function ImageCodes({ state, deleteItem }: CodeInterface) {
     return (
      <div key={img.id}>
       <h3>Image of:</h3>
-      <h4>{img.img}</h4>
+      <h4>{img.name}</h4>
       <QRCode value={img.img}/>
       <br/>
       <br/>
