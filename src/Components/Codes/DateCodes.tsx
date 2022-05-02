@@ -28,6 +28,7 @@ export default function DateCodes({state, deleteItem}: CodeInterface) {
   <div>
    {dates && dates.length !== 0 && <h3>QR Date Codes:</h3>}
    {dates && dates.map((date: any) => {
+    console.log(`https://calendar.google.com/calendar/u/0/r/eventedit?dates=${date.from}/${parseInt(date.to) + 1}&text=${date.event}&location=${date.location}&details=${date.details}`);
     return (
      <div key={date.id}>
       <h4>Code for {date.event.split("+").join(" ")}:</h4>

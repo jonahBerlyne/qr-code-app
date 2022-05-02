@@ -159,7 +159,6 @@ export default function QR() {
  }
 
  useEffect(() => {
-   console.log(imgFile);
    if (imgFile) setImgPreview(URL.createObjectURL(imgFile));
  }, [imgFile]);
 
@@ -181,19 +180,20 @@ export default function QR() {
    dispatch(addImgCode(values.id, imgUrl));
    setImgPreview(null);
    setImgFile(null);
-   setRefresh(!refresh);
+   setImgIsShown(false);
+   setTimeout(() => {
+     setImgIsShown(true);
+   }, 0.000000000000001);
   } catch (err) {
-   alert(`Upload error: ${err}`);
+   alert(`Image code upload error: ${err}`);
   }
  }
 
  const dispatch = useDispatch();
 
  const handleDoc = async (collection: string, id: string | undefined, payload: any): Promise<any> => {
-  console.log(fireDB);
   if (id !== undefined) {
     const docRef = doc(fireDB, collection, id);
-    console.log(docRef);
     await setDoc(docRef, payload);
   }
  }
@@ -203,7 +203,18 @@ export default function QR() {
   let payload;
 
   if (contactIsShown) {
-   if (values.firstName === '' || values.lastName === '' || values.phone === '' || values.email === '' || values.address === '' || values.city === '' || values.stateProvince === '' || values.zipPostal === '' || values.country === '' || values.url === '') {
+   if (
+     values.firstName === '' || 
+     values.lastName === '' || 
+     values.phone === '' || 
+     values.email === '' || 
+     values.address === '' || 
+     values.city === '' || 
+     values.stateProvince === '' || 
+     values.zipPostal === '' || 
+     values.country === '' || 
+     values.url === ''
+   ) {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
     return;
    }
@@ -272,11 +283,7 @@ export default function QR() {
       alert("Please select an image.");
       return;
     }
-    try {
-      await handleImgUpload();
-    } catch (err) {
-      alert(`Image code upload error: ${err}`);
-    }
+    await handleImgUpload();
   }
 
   if (textIsShown) {
