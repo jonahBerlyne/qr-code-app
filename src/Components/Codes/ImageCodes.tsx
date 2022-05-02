@@ -15,7 +15,7 @@ export default function ImageCodes({ state, deleteItem }: CodeInterface) {
  
  
  useEffect(() => {
-  onSnapshot(collection(db, "image codes"), (snapshot) => {
+  onSnapshot(collection(db, "img codes"), (snapshot) => {
    setImgs(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})));
   });
   
@@ -35,7 +35,7 @@ export default function ImageCodes({ state, deleteItem }: CodeInterface) {
       <QRCode value={img.img}/>
       <br/>
       <br/>
-      <button onClick={() => deleteItem("image codes", img.id)}>Delete QR Code</button>
+      <button onClick={() => deleteItem("img codes", img.id)}>Delete QR Code</button>
       <br/>
       <br/>
      </div>

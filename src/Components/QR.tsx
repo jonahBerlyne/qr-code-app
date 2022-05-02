@@ -39,7 +39,27 @@ interface Values {
 
 export default function QR() {
 
- const initialValues = { id: uniqid(), firstName: '', lastName: '', phone: '', email: '', address: '', city: '', stateProvince: '', zipPostal: '', country: '', fromDate: '', toDate: '', theEvent: '', location: '', details: '', emailSubj: '', emailMsg: '', searchMsg: '', url: '' };
+ const initialValues = { 
+   id: uniqid(), 
+   firstName: '', 
+   lastName: '', 
+   phone: '', 
+   email: '', 
+   address: '', 
+   city: '', 
+   stateProvince: '', 
+   zipPostal: '', 
+   country: '', 
+   fromDate: '', 
+   toDate: '', 
+   theEvent: '', 
+   location: '', 
+   details: '', 
+   emailSubj: '', 
+   emailMsg: '', 
+   searchMsg: '', 
+   url: '' 
+ };
 
  const [values, setValues] = useState<Values>(initialValues);
 
@@ -50,9 +70,7 @@ export default function QR() {
   });
  }
 
- const clearForm = (): void => {
-  setValues({...initialValues});
- }
+ const clearForm = (): void => setValues({...initialValues});
 
  const [contactIsShown, setContactIsShown] = useState<boolean>(false);
  const [dateIsShown, setDateIsShown] = useState<boolean>(false);
@@ -127,6 +145,7 @@ export default function QR() {
  const [imgFile, setImgFile] = useState<any>(null);
  const [imgFileErr, setImgFileErr] = useState<string | null>(null);
  const types: string[] = ['image/png', 'image/jpeg'];
+ const [imgPreview, setImgPreview] = useState<any>(null);
 
  const choosePic = (e: any): void => {
   const image = e.target.files[0];
@@ -138,6 +157,11 @@ export default function QR() {
    setImgFileErr("Please choose an image file (png or jpeg)");
   }
  }
+
+ useEffect(() => {
+   console.log(imgFile);
+   if (imgFile) setImgPreview(URL.createObjectURL(imgFile));
+ }, [imgFile]);
 
  const [imgUrl, setImgUrl] = useState<any>(null);
  const currentUser = getAuth();
@@ -165,8 +189,8 @@ export default function QR() {
   }
  }
 
- const onSubmit = async (): Promise<any> => {
-   
+ const submitCode = async (): Promise<any> => {
+
   let payload;
 
   if (contactIsShown) {
@@ -248,6 +272,7 @@ export default function QR() {
       };
       await handleDoc("img codes", values.id, payload);
       dispatch(addImgCode(values.id, imgUrl));
+      setImgPreview(null);
       setImgFile(null);
       setImgUrl(null);
     } catch (err) {
@@ -292,29 +317,27 @@ export default function QR() {
    }
   }
 
-  clearForm();
+  if (!imgIsShown) clearForm();
   setRefresh(!refresh);
   console.log(store.getState());
  }
 
  const displayProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange };
- const imgProps = { choosePic, imgFile, imgFileErr };
+ const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
  
  return (
   <div>
    <SideBar {...displayProps}/>
-   <form onSubmit={onSubmit}>
-    {contactIsShown && <ContactForm {...formProps}/>} 
-    {dateIsShown && <DateForm {...formProps}/>}
-    {emailIsShown && <EmailForm {...formProps}/>}
-    {imgIsShown && <ImgForm {...imgProps}/>}
-    {textIsShown && <TextForm {...formProps}/>}
-    {urlIsShown && <UrlForm {...formProps}/>}
-    <br/>
-    <br/>
-    <button type="submit">Generate QR Code</button>
-   </form>
+   {contactIsShown && <ContactForm {...formProps}/>} 
+   {dateIsShown && <DateForm {...formProps}/>}
+   {emailIsShown && <EmailForm {...formProps}/>}
+   {imgIsShown && <ImgForm {...imgProps}/>}
+   {textIsShown && <TextForm {...formProps}/>}
+   {urlIsShown && <UrlForm {...formProps}/>}
+   <br/>
+   <br/>
+   <button type="submit" onClick={submitCode}>Generate QR Code</button>
    <br/>
    <br/>
    <br/>
