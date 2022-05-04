@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormInterface } from "../QR";
+import { FormInterface } from "../../Pages/HomePage";
 
 export default function EmailForm({ values, handleChange }: FormInterface) {
 

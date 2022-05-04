@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormInterface } from "../QR";
+import { FormInterface } from "../../Pages/HomePage";
 
 export default function DateForm({ values, handleChange }: FormInterface) {
 

@@ -1,4 +1,4 @@
-import { FormInterface } from "../QR";
+import { FormInterface } from "../../Pages/HomePage";
 
 export default function ContactForm({ values, handleChange }: FormInterface) {
  return (
