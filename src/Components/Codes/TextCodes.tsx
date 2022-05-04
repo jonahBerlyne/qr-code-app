@@ -3,7 +3,7 @@ import QRCode from 'qrcode.react';
 import db from '../../Firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
 import store from '../../Redux/Store';
-import { CodeInterface } from "./Codes";
+import { CodeInterface } from "../../Pages/CodesPage";
 
 export default function TextCodes({state, deleteItem}: CodeInterface) {
 

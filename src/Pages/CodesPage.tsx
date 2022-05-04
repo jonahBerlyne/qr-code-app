@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import store from "../../Redux/Store";
+import store from "../Redux/Store";
 import { Link } from 'react-router-dom';
-import { deleteQRCode } from '../../Redux/Actions';
-import db from '../../Firebase';
+import { deleteQRCode } from '../Redux/Actions';
+import db from '../Firebase';
 import { doc, deleteDoc } from "firebase/firestore";
-import ContactCodes from './ContactCodes';
-import DateCodes from './DateCodes';
-import EmailCodes from './EmailCodes';
-import ImageCodes from "./ImageCodes";
-import TextCodes from './TextCodes';
-import UrlCodes from './UrlCodes';
+import ContactCodes from '../Components/Codes/ContactCodes';
+import DateCodes from '../Components/Codes/DateCodes';
+import EmailCodes from '../Components/Codes/EmailCodes';
+import ImageCodes from "../Components/Codes/ImageCodes";
+import TextCodes from '../Components/Codes/TextCodes';
+import UrlCodes from '../Components/Codes/UrlCodes';
 
 export default function Codes() {
  const [state, setState] = useState<any[]>([]);
