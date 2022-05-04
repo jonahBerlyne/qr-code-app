@@ -17,8 +17,8 @@ export default function LoginPage () {
  }
 
  return (
-  <div className="field">
-   <h2>Login:</h2>
+  <div className="input-field">
+   <h2 className='input-field-header'>Login:</h2>
    <input 
     type="email" 
     className="auth-input" placeholder='Email' 
@@ -31,9 +31,9 @@ export default function LoginPage () {
     value={password} 
     onChange={(e) => {setPassword(e.target.value)}}
    />
-   <button className="auth-btn" onClick={login}>Login</button>
-   <hr/>
-   <Link to="/register">Click Here to Register</Link>
+   <button className="auth-btn btn btn-outline-info" onClick={login}>Login</button>
+   <br />
+   <Link to="/register" className='link-info auth-link'>Click Here to Register</Link>
   </div>
  );
 }

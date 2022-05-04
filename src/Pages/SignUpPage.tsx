@@ -18,8 +18,8 @@ export default function SignUpPage() {
  }
 
  return (
-  <div className="field">
-   <h2>Register:</h2>
+  <div className="input-field">
+   <h2 className='input-field-header'>Register:</h2>
    <input 
     type="email" 
     className="auth-input" placeholder='Email' 
@@ -38,9 +38,9 @@ export default function SignUpPage() {
     value={confirmPassword} 
     onChange={(e) => {setConfirmPassword(e.target.value)}}
    />
-   <button className="auth-btn" onClick={register}>Register</button>
+   <button className="auth-btn btn btn-outline-info" onClick={register}>Register</button>
    <hr/>
-   <Link to="/login">Click Here to Login</Link>
+   <Link to="/login" className='link-info auth-link'>Click Here to Login</Link>
   </div>
  );
 }

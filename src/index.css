@@ -2,14 +2,36 @@
  margin: 50px;
 }
 
-.field {
- margin: 50px 0px;
+.input-field {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ margin-top: 200px;
+}
+
+.input-field-header {
+ margin-bottom: 25px;
 }
 
 .auth-input {
- font-size: 50px;
+ font-size: 30px;
+ margin-bottom: 25px;
 }
 
 .auth-btn {
  margin: 0px 20px 0px 0px;
+ color: #000;
+ font-family: Raleway;
+}
+
+.auth-btn:hover {
+ color: #fff;
+}
+
+.auth-link {
+ text-decoration: none;
+ font-family: "Fira Sans";
+ font-weight: bold;
+ font-size: 18px;
 }
