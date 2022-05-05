@@ -12,17 +12,21 @@
 
 .input-field-header {
  margin-bottom: 25px;
+ font-family: "Rubik";
 }
 
 .auth-input {
  font-size: 30px;
  margin-bottom: 25px;
+ font-family: 'Quicksand', sans-serif;
+ padding-left: 10px;
+ border: 1px solid #b9b7b7;
 }
 
 .auth-btn {
  margin: 0px 20px 0px 0px;
  color: #000;
- font-family: Raleway;
+ font-family: "Raleway";
 }
 
 .auth-btn:hover {
