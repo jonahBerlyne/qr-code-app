@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Option from './Option';
+import { ContactPage } from "@mui/icons-material";
 
 interface Forms {
   showContactForm: () => void;
@@ -14,25 +16,6 @@ interface Forms {
 
 export default function Options({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }: Forms) {
  return (
-    <List disablePadding dense>
-      <ListItem button onClick={showContactForm}>
-        <ListItemText>Contact</ListItemText>
-      </ListItem>
-      <ListItem button onClick={showDateForm}>
-        <ListItemText>Date</ListItemText>
-      </ListItem>
-      <ListItem button onClick={showEmailForm}>
-        <ListItemText>E-mail</ListItemText>
-      </ListItem>
-      <ListItem button onClick={showImgForm}>
-        <ListItemText>Image</ListItemText>
-      </ListItem>
-      <ListItem button onClick={showTextForm}>
-        <ListItemText>Text</ListItemText>
-      </ListItem>
-      <ListItem button onClick={showUrlForm}>
-        <ListItemText>Website</ListItemText>
-      </ListItem>
-    </List>
+   <Option icon={<ContactPage />} name={"Contact"} onClick={showContactForm} />
  );
 }
