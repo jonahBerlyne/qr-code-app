@@ -74,6 +74,8 @@ export default function HomePage() {
 
  const clearForm = (): void => setValues({...initialValues});
 
+ const [noForm, setNoForm] = useState<boolean>(true);
+
  const [contactIsShown, setContactIsShown] = useState<boolean>(false);
  const [dateIsShown, setDateIsShown] = useState<boolean>(false);
  const [emailIsShown, setEmailIsShown] = useState<boolean>(false);
@@ -84,62 +86,68 @@ export default function HomePage() {
  const [refresh, setRefresh] = useState<boolean>(false);
 
  const showContactForm = (): void => {
-  setDateIsShown(false);
-  setEmailIsShown(false);
-  setImgIsShown(false);
-  setTextIsShown(false);
-  setUrlIsShown(false);
+  if (noForm) setNoForm(false);
+  if (dateIsShown) setDateIsShown(false);
+  if (emailIsShown) setEmailIsShown(false);
+  if (imgIsShown) setImgIsShown(false);
+  if (textIsShown) setTextIsShown(false);
+  if (urlIsShown) setUrlIsShown(false);
   setContactIsShown(true);
   setRefresh(!refresh);
  }
  
  const showDateForm = (): void => {
-  setContactIsShown(false);
-  setEmailIsShown(false);
-  setImgIsShown(false);
-  setTextIsShown(false);
-  setUrlIsShown(false);
+  if (noForm) setNoForm(false);
+  if (contactIsShown) setContactIsShown(false);
+  if (emailIsShown) setEmailIsShown(false);
+  if (imgIsShown) setImgIsShown(false);
+  if (textIsShown) setTextIsShown(false);
+  if (urlIsShown) setUrlIsShown(false);
   setDateIsShown(true);
   setRefresh(!refresh);
  }
 
  const showEmailForm = (): void => {
-  setContactIsShown(false);
-  setDateIsShown(false);
-  setImgIsShown(false);
-  setTextIsShown(false);
-  setUrlIsShown(false);
+  if (noForm) setNoForm(false);
+  if (contactIsShown) setContactIsShown(false);
+  if (dateIsShown) setDateIsShown(false);
+  if (imgIsShown) setImgIsShown(false);
+  if (textIsShown) setTextIsShown(false);
+  if (urlIsShown) setUrlIsShown(false);
   setEmailIsShown(true);
   setRefresh(!refresh);
  }
 
  const showImgForm = (): void => {
-  setContactIsShown(false);
-  setDateIsShown(false);
-  setEmailIsShown(false);
-  setTextIsShown(false);
-  setUrlIsShown(false);
+  if (noForm) setNoForm(false);
+  if (contactIsShown) setContactIsShown(false);
+  if (dateIsShown) setDateIsShown(false);
+  if (emailIsShown) setEmailIsShown(false);
+  if (textIsShown) setTextIsShown(false);
+  if (urlIsShown) setUrlIsShown(false);
   setImgIsShown(true);
   setRefresh(!refresh);
  }
 
 
  const showTextForm = (): void => {
-  setContactIsShown(false);
-  setDateIsShown(false);
-  setEmailIsShown(false);
-  setImgIsShown(false);
-  setUrlIsShown(false);
+  if (noForm) setNoForm(false);
+  if (contactIsShown) setContactIsShown(false);
+  if (dateIsShown) setDateIsShown(false);
+  if (emailIsShown) setEmailIsShown(false);
+  if (imgIsShown) setImgIsShown(false);
+  if (urlIsShown) setUrlIsShown(false);
   setTextIsShown(true);
   setRefresh(!refresh);
  }
 
  const showUrlForm = (): void => {
-  setContactIsShown(false);
-  setDateIsShown(false);
-  setEmailIsShown(false);
-  setImgIsShown(false);
-  setTextIsShown(false);
+  if (noForm) setNoForm(false);
+  if (contactIsShown) setContactIsShown(false);
+  if (dateIsShown) setDateIsShown(false);
+  if (emailIsShown) setEmailIsShown(false);
+  if (imgIsShown) setImgIsShown(false);
+  if (textIsShown) setTextIsShown(false);
   setUrlIsShown(true);
   setRefresh(!refresh);
  }
@@ -346,6 +354,7 @@ export default function HomePage() {
    <div className="home">
      <h1 className="home-header">QR Code App</h1>
      <Sidebar {...sidebarProps}/>
+     {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>}
      {contactIsShown && <ContactForm {...formProps}/>} 
      {dateIsShown && <DateForm {...formProps}/>}
      {emailIsShown && <EmailForm {...formProps}/>}
