@@ -1,4 +1,5 @@
 import React from 'react';
+import "../../Styles/Sidebar.css";
 import Icon from './Icon';
 import { ContactPage, CalendarMonth, Email, CameraAlt, Search, Link } from "@mui/icons-material";
 

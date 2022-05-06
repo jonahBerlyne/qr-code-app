@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import store from "../Redux/Store";
 import { Link } from 'react-router-dom';
 import { deleteQRCode } from '../Redux/Actions';
-import db from '../Firebase';
+import db from '../firebaseConfig';
 import { doc, deleteDoc } from "firebase/firestore";
 import ContactCodes from '../Components/Codes/ContactCodes';
 import DateCodes from '../Components/Codes/DateCodes';

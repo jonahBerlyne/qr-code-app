@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../Styles/Home.css";
 import { Link } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import uniqid from "uniqid";
@@ -11,7 +12,7 @@ import EmailForm from "../Components/Forms/EmailForm";
 import ImgForm from "../Components/Forms/ImgForm";
 import TextForm from "../Components/Forms/TextForm";
 import UrlForm from "../Components/Forms/UrlForm";
-import fireDB, { storage } from '../Firebase';
+import fireDB, { storage } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 import { useDispatch } from 'react-redux';

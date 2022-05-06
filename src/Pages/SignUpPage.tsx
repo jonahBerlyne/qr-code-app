@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../Styles/Auth.css";
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 

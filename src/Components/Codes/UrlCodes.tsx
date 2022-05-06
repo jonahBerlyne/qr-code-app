@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
-import db from '../../Firebase';
+import db from '../../firebaseConfig';
 import { onSnapshot, collection } from 'firebase/firestore';
 import { CodeInterface } from "../../Pages/CodesPage";
 
