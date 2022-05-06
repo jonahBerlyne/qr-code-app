@@ -4,7 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import uniqid from "uniqid";
 import store from '../Redux/Store';
 import { addContactCode, addDateCode, addEmailCode, addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
-import Options from "../Components/Options/Options";
+import Sidebar from "../Components/Sidebar/Sidebar";
 import ContactForm from "../Components/Forms/ContactForm";
 import DateForm from "../Components/Forms/DateForm";
 import EmailForm from "../Components/Forms/EmailForm";
@@ -329,7 +329,7 @@ export default function HomePage() {
   console.log(store.getState());
  }
 
- const optionProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
+ const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange };
  const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
 
@@ -344,7 +344,7 @@ export default function HomePage() {
  return (
    <div className="home">
      <h1 className="home-header">QR Code App</h1>
-     <Options {...optionProps}/>
+     <Sidebar {...sidebarProps}/>
      {contactIsShown && <ContactForm {...formProps}/>} 
      {dateIsShown && <DateForm {...formProps}/>}
      {emailIsShown && <EmailForm {...formProps}/>}
