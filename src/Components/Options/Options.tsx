@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import React from 'react';
 import Option from './Option';
-import { ContactPage } from "@mui/icons-material";
+import { ContactPage, CalendarMonth, Email, CameraAlt, Search, Link } from "@mui/icons-material";
 
 interface Forms {
   showContactForm: () => void;
@@ -16,6 +13,13 @@ interface Forms {
 
 export default function Options({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }: Forms) {
  return (
-   <Option icon={<ContactPage />} name={"Contact"} onClick={showContactForm} />
+   <div>
+    <Option icon={<ContactPage />} name="Contact" onClick={showContactForm} />
+    <Option icon={<CalendarMonth />} name="Date" onClick={showDateForm} />
+    <Option icon={<Email />} name="Email" onClick={showEmailForm} />
+    <Option icon={<CameraAlt />} name="Image" onClick={showImgForm} />
+    <Option icon={<Search />} name="Search" onClick={showTextForm} />
+    <Option icon={<Link />} name="Website" onClick={showUrlForm} />
+  </div>
  );
 }

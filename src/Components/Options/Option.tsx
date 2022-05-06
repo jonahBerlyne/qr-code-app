@@ -6,7 +6,7 @@ interface OptionInterface {
 
 export default function Option({ icon, name, onClick }: OptionInterface) {
  return (
-  <div onClick={onClick}>
+  <div className="option" onClick={onClick}>
    {icon}
    <p>{name}</p>
   </div>
