@@ -39,3 +39,9 @@
  font-weight: bold;
  font-size: 18px;
 }
+
+.home-header {
+ text-align: center;
+ margin-top: 5px;
+ font-family: "Open Sans";
+}

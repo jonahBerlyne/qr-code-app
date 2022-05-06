@@ -12,7 +12,7 @@ interface Forms {
   showUrlForm: () => void;
 };
 
-export default function SideBar({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }: Forms) {
+export default function Options({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }: Forms) {
  return (
     <List disablePadding dense>
       <ListItem button onClick={showContactForm}>
