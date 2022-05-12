@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FormInterface } from "../../Pages/HomePage";
+import "../../Styles/Date.css";
 
 export default function DateForm({ values, handleChange }: FormInterface) {
 
@@ -21,22 +22,34 @@ export default function DateForm({ values, handleChange }: FormInterface) {
  }, []);
 
  return (
-  <div>
-   <h4>Set an event:</h4>
-   <h4>From:</h4>
-   <input type="date" min={currentDate} name="fromDate" value={values.fromDate} onChange={handleChange} required/>
-   <br/>
-   <br/>
-   <h4>To:</h4>
-   <input type="date" min={currentDate} name="toDate" value={values.toDate} onChange={handleChange} required/>
-   <br/>
-   <br/>
-   <h4>Event:</h4>
-   <input type="text" name="theEvent" value={values.theEvent} onChange={handleChange} placeholder='Enter an event here'/>
-   <h4>Location:</h4>
-   <input type="text" name="location" value={values.location} onChange={handleChange} placeholder='Enter event location'/>
-   <h4>Details:</h4>
-   <textarea name="details" value={values.details} onChange={handleChange} rows={10} cols={40} placeholder='Enter event details'/>
+  <div className='date-input-form'>
+   <h4 className='date-input-form-header'>Set an event:</h4>
+   <div className="date-form-inputs-container">
+    <div className="date-inputs">
+      <div className="date-form-input">
+        <h4 className="input-label">From:</h4>
+        <input type="date" className='form-control date-input' min={currentDate} name="fromDate" value={values.fromDate} onChange={handleChange} required/>
+      </div>
+      <div className="date-form-input">
+        <h4 className="input-label">To:</h4>
+        <input type="date" className='form-control date-input' min={currentDate} name="toDate" value={values.toDate} onChange={handleChange} required/>
+      </div>
+    </div>
+    <div className="date-form-inputs">
+      <div className="date-form-input">
+        <h4 className="input-label">Event:</h4>
+        <input type="text" className='form-control' name="theEvent" value={values.theEvent} onChange={handleChange} placeholder='Enter an event here'/>
+      </div>
+      <div className="date-form-input">
+        <h4 className="input-label">Location:</h4>
+        <input type="text" className='form-control' name="location" value={values.location} onChange={handleChange} placeholder='Enter event location'/>
+      </div>
+    </div>
+    <div className="date-form-input details-input">
+      <h4 className="input-label">Details:</h4>
+      <textarea name="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} placeholder='Enter event details'/>
+    </div>
+   </div>
   </div>
  );
 }

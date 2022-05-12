@@ -355,7 +355,7 @@ export default function HomePage() {
      <h1 className="home-header">QR Code App</h1>
      <Sidebar {...sidebarProps}/>
      {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>}
-     {contactIsShown && <ContactForm {...formProps}/>} 
+     {contactIsShown && <ContactForm {...formProps} />} 
      {dateIsShown && <DateForm {...formProps}/>}
      {emailIsShown && <EmailForm {...formProps}/>}
      {imgIsShown && <ImgForm {...imgProps}/>}
