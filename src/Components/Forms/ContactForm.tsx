@@ -4,7 +4,7 @@ import "../../Styles/Contact.css";
 export default function ContactForm({ values, handleChange }: FormInterface) {
  return (
   <div className="contact-form">
-   <h4 className="contact-form-header">Fill in contact form:</h4>
+   <h4 className="contact-form-header">Create a contact:</h4>
    <div className="contact-inputs-container">
      <div className="contact-inputs-row">
       <div className="contact-form-input">

@@ -13,6 +13,10 @@
 .url-input-header {
  margin-bottom: 20px;
  margin-right: 60px;
+ font-family: "Lato", sans-serif;
+ font-weight: 500;
+ text-decoration: underline;
+ font-size: 25px;
 }
 
 .url-input-container {

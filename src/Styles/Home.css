@@ -19,3 +19,9 @@ textarea:focus {
  -moz-box-shadow: none !important;
  box-shadow: none !important;
 }
+
+.input-label {
+ font-family: 'Source Sans Pro', sans-serif;
+ font-weight: 500;
+ font-size: 18px;
+}
