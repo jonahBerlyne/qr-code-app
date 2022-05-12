@@ -1,18 +1,28 @@
 import React from 'react';
 import { FormInterface } from "../../Pages/HomePage";
+import "../../Styles/Email.css";
 
 export default function EmailForm({ values, handleChange }: FormInterface) {
 
  return (
-  <div>
-   <h4>Send an e-mail:</h4>
-     <input type="email" name="email" value={values.email} onChange={handleChange} placeholder="Enter e-mail address" required/>
-     <br/>
-     <br/>
-     <input type="text" name="emailSubj" value={values.emailSubj} onChange={handleChange} placeholder='Enter e-mail subject'/>
-     <br/>
-     <br/>
-     <textarea name="emailMsg" value={values.emailMsg} onChange={handleChange} rows={10} cols={40} placeholder='Enter your message here'/>
+  <div className='email-input-form'>
+   <h4 className='email-input-form-header'>Send an e-mail:</h4>
+   <div className="email-input-form-container">
+     <div className="email-input-form-row">
+      <div className="email-form-input">
+        <p className="input-label">E-mail address:</p>
+        <input type="email" className='form-control' name="email" value={values.email} onChange={handleChange} placeholder="Enter e-mail address" required/>
+      </div>
+      <div className="email-form-input">
+        <p className="input-label">Subject:</p>
+        <input type="text" className='form-control' name="emailSubj" value={values.emailSubj} onChange={handleChange} placeholder='Enter e-mail subject'/>
+      </div>
+     </div>
+     <div className="email-form-input">
+      <p className="input-label">Message:</p>
+      <textarea name="emailMsg" className='form-control' value={values.emailMsg} onChange={handleChange} rows={5} cols={40} placeholder='Enter your message here...'/>
+     </div>
+   </div>
   </div>
  );
 }

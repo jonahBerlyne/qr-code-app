@@ -1,3 +1,5 @@
+import "../../Styles/Image.css";
+
 interface ImgFormInterface {
  choosePic: (e: any) => void;
  imgFile: any;
@@ -7,11 +9,13 @@ interface ImgFormInterface {
 
 export default function ImgForm({ choosePic, imgFile, imgFileErr, imgPreview }: ImgFormInterface) {
  return (
-  <div>
-   <h4>Add an image:</h4>
-   <input type="file" name="img" onChange={choosePic} required />
-   {imgFileErr && <h6>{imgFileErr}</h6>} 
-   {imgFile && <img src={imgPreview} alt={imgPreview} height="100" width="200"/>}
+  <div className="img-form-container">
+   <p className="img-form-header">Add an image:</p>
+   <div className="img-input-container">
+    <input type="file" name="img" className="img-input" onChange={choosePic} required />
+    {imgFileErr && <h6>{imgFileErr}</h6>} 
+    {imgFile && <img src={imgPreview} alt={imgPreview} className="img-preview" />}
+   </div>
   </div>
  );
 }

@@ -12,3 +12,10 @@
 .no-form {
  font-size: 40px;
 }
+
+input:focus,
+textarea:focus {
+ -webkit-box-shadow: none !important;
+ -moz-box-shadow: none !important;
+ box-shadow: none !important;
+}

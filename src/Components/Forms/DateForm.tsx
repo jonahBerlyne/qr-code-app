@@ -27,27 +27,27 @@ export default function DateForm({ values, handleChange }: FormInterface) {
    <div className="date-form-inputs-container">
     <div className="date-inputs">
       <div className="date-form-input">
-        <h4 className="input-label">From:</h4>
+        <p className="input-label">From:</p>
         <input type="date" className='form-control date-input' min={currentDate} name="fromDate" value={values.fromDate} onChange={handleChange} required/>
       </div>
       <div className="date-form-input">
-        <h4 className="input-label">To:</h4>
+        <p className="input-label">To:</p>
         <input type="date" className='form-control date-input' min={currentDate} name="toDate" value={values.toDate} onChange={handleChange} required/>
       </div>
     </div>
     <div className="date-form-inputs">
       <div className="date-form-input">
-        <h4 className="input-label">Event:</h4>
+        <p className="input-label">Event:</p>
         <input type="text" className='form-control' name="theEvent" value={values.theEvent} onChange={handleChange} placeholder='Enter an event here'/>
       </div>
       <div className="date-form-input">
-        <h4 className="input-label">Location:</h4>
+        <p className="input-label">Location:</p>
         <input type="text" className='form-control' name="location" value={values.location} onChange={handleChange} placeholder='Enter event location'/>
       </div>
     </div>
     <div className="date-form-input details-input">
-      <h4 className="input-label">Details:</h4>
-      <textarea name="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} placeholder='Enter event details'/>
+      <p className="input-label">Details:</p>
+      <textarea name="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} placeholder='Enter event details here...'/>
     </div>
    </div>
   </div>
