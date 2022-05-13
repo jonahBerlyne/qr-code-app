@@ -78,7 +78,6 @@ export default function HomePage() {
  const [noForm, setNoForm] = useState<boolean>(true);
  const [qrAttributes, setQRAttributes] = useState<any>({});
  const [qrCollection, setQRCollection] = useState<string>("");
- const [qrColor, setQRColor] = useState<string>("");
  const [qrValue, setQRValue] = useState<string>("");
  const [qrIsShown, setQRIsShown] = useState<boolean>(false);
 
@@ -95,7 +94,6 @@ export default function HomePage() {
   if (noForm) setNoForm(false);
   if (qrIsShown) {
     setQRIsShown(false);
-    setQRColor("");
     setQRCollection("");
     setQRValue("");
     setQRAttributes({});
@@ -113,7 +111,6 @@ export default function HomePage() {
   if (noForm) setNoForm(false);
   if (qrIsShown) {
     setQRIsShown(false);
-    setQRColor("");
     setQRCollection("");
     setQRValue("");
     setQRAttributes({});
@@ -131,7 +128,6 @@ export default function HomePage() {
   if (noForm) setNoForm(false);
   if (qrIsShown) {
     setQRIsShown(false);
-    setQRColor("");
     setQRCollection("");
     setQRValue("");
     setQRAttributes({});
@@ -149,7 +145,6 @@ export default function HomePage() {
   if (noForm) setNoForm(false);
   if (qrIsShown) {
     setQRIsShown(false);
-    setQRColor("");
     setQRCollection("");
     setQRValue("");
     setQRAttributes({});
@@ -168,7 +163,6 @@ export default function HomePage() {
   if (noForm) setNoForm(false);
   if (qrIsShown) {
     setQRIsShown(false);
-    setQRColor("");
     setQRCollection("");
     setQRValue("");
     setQRAttributes({});
@@ -186,7 +180,6 @@ export default function HomePage() {
   if (noForm) setNoForm(false);
   if (qrIsShown) {
     setQRIsShown(false);
-    setQRColor("");
     setQRCollection("");
     setQRValue("");
     setQRAttributes({});
@@ -228,6 +221,7 @@ export default function HomePage() {
    const imgUrl = await getDownloadURL(uploadTask);
    const timestamp = serverTimestamp();
    const payload = { 
+    "color": "darkslategray",
     "id": values.id,
     "img": imgUrl, 
     "name": imgFile.name,
@@ -239,7 +233,6 @@ export default function HomePage() {
    setImgFile(null);
    setQRValue(imgUrl);
    setQRAttributes(payload);
-   setQRColor("darkslategray");
    setQRCollection("img codes");
    setImgIsShown(false);
    setQRIsShown(true);
@@ -256,7 +249,7 @@ export default function HomePage() {
  const submitCode = async (): Promise<any> => {
 
   const timestamp = serverTimestamp();
-  let payload;
+  let payload: any = {};
 
   if (contactIsShown) {
    if (
@@ -276,18 +269,18 @@ export default function HomePage() {
    try {
      const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};;`;
      payload = { 
+       "color": "rosybrown",
        "id": values.id,
        "last": values.lastName, 
        "first": values.firstName, 
        "card": contactCard, 
        "type": "contact",
-       timestamp 
+       timestamp
      };
      await handleDoc("contact codes", values.id, payload);
      setQRValue(contactCard);
      setQRAttributes(payload);
      setQRCollection("contact codes");
-     setQRColor("rosybrown");
      setContactIsShown(false);
      setQRIsShown(true);
    } catch (err) {
@@ -303,11 +296,11 @@ export default function HomePage() {
    try {
      const fullEmail = `mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`;
      payload = {  
+       "color": "goldenrod",
        "id": values.id,
-       "email": fullEmail, 
-       "subj": values.emailSubj, 
+       "email": fullEmail,
+       "subj": values.emailSubj,
        "to": values.email, 
-       "msg": values.emailMsg, 
        "type": "email",
        timestamp 
      };
@@ -315,7 +308,6 @@ export default function HomePage() {
      setQRValue(fullEmail);
      setQRAttributes(payload);
      setQRCollection("email codes");
-     setQRColor("goldenrod");
      setEmailIsShown(false);
      setQRIsShown(true);
    } catch (err) {
@@ -338,6 +330,7 @@ export default function HomePage() {
      const dateCard = `https://calendar.google.com/calendar/u/0/r/eventedit?dates=${fromDate}/${parseInt(toDate) + 1}&text=${theEvent}&location=${location}&details=${details}`;
 
      payload = { 
+       "color": "red",
        "id": values.id,
        "card": dateCard, 
        "event": theEvent,
@@ -349,7 +342,6 @@ export default function HomePage() {
      setQRValue(dateCard);
      setQRAttributes(payload);
      setQRCollection("date codes");
-     setQRColor("red");
      setDateIsShown(false);
      setQRIsShown(true);
    } catch (err) {
@@ -372,6 +364,7 @@ export default function HomePage() {
    }
    try {
      payload = {  
+       "color": "black",
        "id": values.id,
        "text": values.searchMsg, 
        "type": "search",
@@ -381,7 +374,6 @@ export default function HomePage() {
      setQRValue(values.searchMsg);
      setQRAttributes(payload);
      setQRCollection("search codes");
-     setQRColor("black");
      setTextIsShown(false);
      setQRIsShown(true);
    } catch (err) {
@@ -397,6 +389,7 @@ export default function HomePage() {
    try {
      const fullUrl = `https://${values.url}/`;
      payload = { 
+       "color": "blue",
        "id": values.id,
        "url": fullUrl, 
        "type": "url",
@@ -406,7 +399,6 @@ export default function HomePage() {
      setQRValue(fullUrl);
      setQRAttributes(payload);
      setQRCollection("url codes");
-     setQRColor("blue");
      setUrlIsShown(false);
      setQRIsShown(true);
    } catch (err) {
@@ -438,25 +430,19 @@ export default function HomePage() {
 
      {qrIsShown && 
         <QR 
+          codeCollection={qrCollection}
           codeType={qrAttributes.type} 
-          collection={qrCollection}
-          color={qrColor}
+          color={qrAttributes.color}
           id={qrAttributes.id}
+          showDeleteBtn={false}
+          timestamp={qrAttributes.timestamp}
           value={qrValue}
-          card={qrAttributes?.card}
-          details={qrAttributes?.details}
-          email={qrAttributes?.email}
           event={qrAttributes?.event}
           first={qrAttributes?.first}
-          from={qrAttributes?.from}
-          img={qrAttributes?.img}
           last={qrAttributes?.last}
-          location={qrAttributes?.location}
-          msg={qrAttributes?.msg}
           name={qrAttributes?.name}
           subj={qrAttributes?.subj}
           text={qrAttributes?.text}
-          title={qrAttributes?.title}
           to={qrAttributes?.to}
           url={qrAttributes?.url}
         />

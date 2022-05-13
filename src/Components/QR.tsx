@@ -1,75 +1,92 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react';
-import { doc, deleteDoc } from "firebase/firestore";
-import fireDB from '../firebaseConfig';
+import { doc, deleteDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
+import fireDB, { auth } from '../firebaseConfig';
 
 interface QRInterface {
-  card?: string;
+  codeCollection: string;
   codeType: string;
-  collection: string;
   color: string;
-  details?: string;
-  email?: string;
+  id: any;
+  showDeleteBtn: boolean;
+  timestamp: any;
+  value: string;
   event?: string;
   first?: string;
-  from?: string;
-  id: any;
-  img?: string;
   last?: string;
-  location?: string;
-  msg?: string;
   name?: string;
   subj?: string;
   text?: string;
-  title?: string;
   to?: string;
   url?: string;
-  value: string;
 };
 
 export default function QR(props: QRInterface) {
   const {
-    card,
-    codeType, 
-    collection, 
-    color, 
-    details, 
-    email, 
+    codeCollection,
+    codeType,
+    color,
+    id,
+    showDeleteBtn,
+    timestamp,
+    value,
     event,
     first,
-    from,
-    id,
-    img,
     last,
-    location,
-    msg,
     name,
     subj,
     text,
-    title,
     to,
-    url,
-    value 
+    url
   } = props;
 
   const deleteItem = async (code_collection: any, id: any): Promise<any> => {
     try {
-      await deleteDoc(doc(fireDB, code_collection, id));
+      await deleteDoc(doc(fireDB, "users", `${auth.currentUser?.uid}`, code_collection, id));
     } catch (err) {
       alert(`Deletion error: ${err}`);
     }
   }
 
   return (
-    <div key={id} className="qr-code" style={{ borderColor: `${color}` }}>
-      <br/>
-      <br/>
-      <QRCode value={value} />
-      <br/>
-      <br/>
-      <button onClick={() => deleteItem(collection, id)}>Delete QR Code</button>
-      <br/>
-      <br/>
+    <div className="qr-code" style={{ borderColor: `${color}` }}>
+      {codeType === "contact" && 
+        <div className='qr-code-header'>
+          <p>Contact card for {first} {last}:</p>
+        </div>
+      }
+      {codeType === "date" && 
+        <div className='qr-code-header'>
+          <p>Code for {event}</p>
+        </div>
+      }
+      {codeType === "email" && 
+        <div className='qr-code-header'>
+          <p className='qr-code-of'>Email to {to}</p>
+          <p className='qr-code-of'>Subject:</p>
+          <p>{subj}</p>
+        </div>
+      }
+      {codeType === "img" && 
+        <div className='qr-code-header'>
+          <p className='qr-code-of'>Image of:</p>
+          <p>{name}</p>
+        </div>
+      }
+      {codeType === "search" && 
+        <div className='qr-code-header'>
+          <p>{text}</p>
+        </div>
+      }
+      {codeType === "url" && 
+        <div className='qr-code-header'>
+          <a href={url} target="_blank" rel="noreferrer">{url}</a>
+        </div>
+      }
+      <div className='qr-code-container'>
+        <QRCode value={value} />
+      </div>
+      {showDeleteBtn && <button onClick={() => deleteItem(codeCollection, id)}>Delete QR Code</button>}
     </div>
   );
 }

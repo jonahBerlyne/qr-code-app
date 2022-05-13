@@ -15,10 +15,6 @@ export default function DateForm({ values, handleChange }: FormInterface) {
    if (dd < 10) dd = '0' + dd;
    if (mm < 10) mm = '0' + mm;
    setCurrentDate(`${yyyy}-${mm}-${dd}`);
-
-   return () => {
-      setCurrentDate("");
-   }
  }, []);
 
  return (
