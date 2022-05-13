@@ -12,10 +12,11 @@ import EmailForm from "../Components/Forms/EmailForm";
 import ImgForm from "../Components/Forms/ImgForm";
 import TextForm from "../Components/Forms/TextForm";
 import UrlForm from "../Components/Forms/UrlForm";
-import fireDB, { storage } from '../firebaseConfig';
-import { doc, setDoc } from 'firebase/firestore';
+import fireDB, { storage, auth } from '../firebaseConfig';
+import { doc, setDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 import { useDispatch } from 'react-redux';
+import QR from "../Components/QR";
 
 interface Values {
  id: string | undefined;
@@ -75,6 +76,11 @@ export default function HomePage() {
  const clearForm = (): void => setValues({...initialValues});
 
  const [noForm, setNoForm] = useState<boolean>(true);
+ const [qrAttributes, setQRAttributes] = useState<any>({});
+ const [qrCollection, setQRCollection] = useState<string>("");
+ const [qrColor, setQRColor] = useState<string>("");
+ const [qrValue, setQRValue] = useState<string>("");
+ const [qrIsShown, setQRIsShown] = useState<boolean>(false);
 
  const [contactIsShown, setContactIsShown] = useState<boolean>(false);
  const [dateIsShown, setDateIsShown] = useState<boolean>(false);
@@ -87,6 +93,13 @@ export default function HomePage() {
 
  const showContactForm = (): void => {
   if (noForm) setNoForm(false);
+  if (qrIsShown) {
+    setQRIsShown(false);
+    setQRColor("");
+    setQRCollection("");
+    setQRValue("");
+    setQRAttributes({});
+  }
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (imgIsShown) setImgIsShown(false);
@@ -98,6 +111,13 @@ export default function HomePage() {
  
  const showDateForm = (): void => {
   if (noForm) setNoForm(false);
+  if (qrIsShown) {
+    setQRIsShown(false);
+    setQRColor("");
+    setQRCollection("");
+    setQRValue("");
+    setQRAttributes({});
+  }
   if (contactIsShown) setContactIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (imgIsShown) setImgIsShown(false);
@@ -109,6 +129,13 @@ export default function HomePage() {
 
  const showEmailForm = (): void => {
   if (noForm) setNoForm(false);
+  if (qrIsShown) {
+    setQRIsShown(false);
+    setQRColor("");
+    setQRCollection("");
+    setQRValue("");
+    setQRAttributes({});
+  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (imgIsShown) setImgIsShown(false);
@@ -120,6 +147,13 @@ export default function HomePage() {
 
  const showImgForm = (): void => {
   if (noForm) setNoForm(false);
+  if (qrIsShown) {
+    setQRIsShown(false);
+    setQRColor("");
+    setQRCollection("");
+    setQRValue("");
+    setQRAttributes({});
+  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
@@ -132,6 +166,13 @@ export default function HomePage() {
 
  const showTextForm = (): void => {
   if (noForm) setNoForm(false);
+  if (qrIsShown) {
+    setQRIsShown(false);
+    setQRColor("");
+    setQRCollection("");
+    setQRValue("");
+    setQRAttributes({});
+  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
@@ -143,6 +184,13 @@ export default function HomePage() {
 
  const showUrlForm = (): void => {
   if (noForm) setNoForm(false);
+  if (qrIsShown) {
+    setQRIsShown(false);
+    setQRColor("");
+    setQRCollection("");
+    setQRValue("");
+    setQRAttributes({});
+  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
@@ -172,44 +220,42 @@ export default function HomePage() {
    if (imgFile) setImgPreview(URL.createObjectURL(imgFile));
  }, [imgFile]);
 
- const auth = getAuth();
-
  const handleImgUpload = async (): Promise<any> => {
   if (imgFile === null) return;
   try {
    const uploadTask = ref(storage, `${auth.currentUser?.uid}/${imgFile.name}`);
    await uploadBytes(uploadTask, imgFile);
    const imgUrl = await getDownloadURL(uploadTask);
+   const timestamp = serverTimestamp();
    const payload = { 
-    "id": values.id, 
+    "id": values.id,
     "img": imgUrl, 
     "name": imgFile.name,
-    "type": "img"
+    "type": "img",
+    timestamp
    };
    await handleDoc("img codes", values.id, payload);
-   dispatch(addImgCode(values.id, imgUrl));
    setImgPreview(null);
    setImgFile(null);
+   setQRValue(imgUrl);
+   setQRAttributes(payload);
+   setQRColor("darkslategray");
+   setQRCollection("img codes");
    setImgIsShown(false);
-   setTimeout(() => {
-     setImgIsShown(true);
-   }, 0.000000000000001);
+   setQRIsShown(true);
   } catch (err) {
    alert(`Image code upload error: ${err}`);
   }
  }
 
- const dispatch = useDispatch();
-
- const handleDoc = async (collection: string, id: string | undefined, payload: any): Promise<any> => {
-  if (id !== undefined) {
-    const docRef = doc(fireDB, collection, id);
-    await setDoc(docRef, payload);
-  }
+ const handleDoc = async (codes: string, id: any, tweetDoc: any): Promise<any> => {
+  const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, codes, id);
+  await setDoc(docRef, tweetDoc);
  }
 
  const submitCode = async (): Promise<any> => {
 
+  const timestamp = serverTimestamp();
   let payload;
 
   if (contactIsShown) {
@@ -222,23 +268,28 @@ export default function HomePage() {
      values.city === '' || 
      values.stateProvince === '' || 
      values.zipPostal === '' || 
-     values.country === '' || 
-     values.url === ''
+     values.country === ''
    ) {
     alert("Please fill in all inputs to generate a QR Code for your contact form.");
     return;
    }
    try {
-     const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};URL:http://${values.url};;`;
+     const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};;`;
      payload = { 
-       "id": values.id, 
+       "id": values.id,
        "last": values.lastName, 
        "first": values.firstName, 
        "card": contactCard, 
-       "type": "contact" 
+       "type": "contact",
+       timestamp 
      };
      await handleDoc("contact codes", values.id, payload);
-     dispatch(addContactCode(values.id, values.firstName, values.lastName, contactCard));
+     setQRValue(contactCard);
+     setQRAttributes(payload);
+     setQRCollection("contact codes");
+     setQRColor("rosybrown");
+     setContactIsShown(false);
+     setQRIsShown(true);
    } catch (err) {
      alert(`Contact code upload error: ${err}`);
    }
@@ -251,16 +302,22 @@ export default function HomePage() {
    }
    try {
      const fullEmail = `mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`;
-     payload = { 
-       "id": values.id, 
+     payload = {  
+       "id": values.id,
        "email": fullEmail, 
        "subj": values.emailSubj, 
        "to": values.email, 
        "msg": values.emailMsg, 
-       "type": "email" 
+       "type": "email",
+       timestamp 
      };
      await handleDoc("email codes", values.id, payload);
-     dispatch(addEmailCode(values.id, values.email, values.emailSubj, values.emailMsg, fullEmail));
+     setQRValue(fullEmail);
+     setQRAttributes(payload);
+     setQRCollection("email codes");
+     setQRColor("goldenrod");
+     setEmailIsShown(false);
+     setQRIsShown(true);
    } catch (err) {
      alert(`Email code upload error: ${err}`);
    }
@@ -272,17 +329,29 @@ export default function HomePage() {
     return;
    }
    try {
+     const details = values.details.split(' ').join('+');
+     const fromDate = values.fromDate.replace(/-/g, "");
+     const location = values.location.split(' ').join('+');
+     const toDate = values.toDate.replace(/-/g, "");
+     const theEvent = values.theEvent.split(' ').join('+');
+
+     const dateCard = `https://calendar.google.com/calendar/u/0/r/eventedit?dates=${fromDate}/${parseInt(toDate) + 1}&text=${theEvent}&location=${location}&details=${details}`;
+
      payload = { 
-       "id": values.id, 
-       "from": values.fromDate, 
-       "to": values.toDate, 
-       "event": values.theEvent, 
-       "location": values.location, 
-       "details": values.details, 
-       "type": "date" 
+       "id": values.id,
+       "card": dateCard, 
+       "event": theEvent,
+       "type": "date",
+       timestamp 
      };
+
      await handleDoc("date codes", values.id, payload);
-     dispatch(addDateCode(values.id, `${values.fromDate.replace(/-/g, "")}`, `${values.toDate.replace(/-/g, "")}`, values.theEvent.split(' ').join('+'), values.location.split(' ').join('+'), values.details.split(' ').join('+')));
+     setQRValue(dateCard);
+     setQRAttributes(payload);
+     setQRCollection("date codes");
+     setQRColor("red");
+     setDateIsShown(false);
+     setQRIsShown(true);
    } catch (err) {
      alert(`Date code upload error: ${err}`);
    }
@@ -302,13 +371,19 @@ export default function HomePage() {
     return;
    }
    try {
-     payload = { 
-       "id": values.id, 
+     payload = {  
+       "id": values.id,
        "text": values.searchMsg, 
-       "type": "text" 
+       "type": "search",
+       timestamp 
      };
-     await handleDoc("text codes", values.id, payload);
-     dispatch(addTextCode(values.id, values.searchMsg));
+     await handleDoc("search codes", values.id, payload);
+     setQRValue(values.searchMsg);
+     setQRAttributes(payload);
+     setQRCollection("search codes");
+     setQRColor("black");
+     setTextIsShown(false);
+     setQRIsShown(true);
    } catch (err) {
      alert(`Text code upload error: ${err}`);
    }
@@ -322,20 +397,25 @@ export default function HomePage() {
    try {
      const fullUrl = `https://${values.url}/`;
      payload = { 
-       "id": values.id, 
+       "id": values.id,
        "url": fullUrl, 
-       "type": "url" 
+       "type": "url",
+       timestamp 
      };
      await handleDoc("url codes", values.id, payload);
-     dispatch(addUrlCode(values.id, fullUrl));
+     setQRValue(fullUrl);
+     setQRAttributes(payload);
+     setQRCollection("url codes");
+     setQRColor("blue");
+     setUrlIsShown(false);
+     setQRIsShown(true);
    } catch (err) {
      alert(`Url code upload error: ${err}`);
    }
   }
 
-  if (!imgIsShown) clearForm();
+  clearForm();
   setRefresh(!refresh);
-  console.log(store.getState());
  }
 
  const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
@@ -355,6 +435,33 @@ export default function HomePage() {
      <h1 className="home-header">QR Code App</h1>
      <Sidebar {...sidebarProps}/>
      {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>}
+
+     {qrIsShown && 
+        <QR 
+          codeType={qrAttributes.type} 
+          collection={qrCollection}
+          color={qrColor}
+          id={qrAttributes.id}
+          value={qrValue}
+          card={qrAttributes?.card}
+          details={qrAttributes?.details}
+          email={qrAttributes?.email}
+          event={qrAttributes?.event}
+          first={qrAttributes?.first}
+          from={qrAttributes?.from}
+          img={qrAttributes?.img}
+          last={qrAttributes?.last}
+          location={qrAttributes?.location}
+          msg={qrAttributes?.msg}
+          name={qrAttributes?.name}
+          subj={qrAttributes?.subj}
+          text={qrAttributes?.text}
+          title={qrAttributes?.title}
+          to={qrAttributes?.to}
+          url={qrAttributes?.url}
+        />
+     }
+
      {contactIsShown && <ContactForm {...formProps} />} 
      {dateIsShown && <DateForm {...formProps}/>}
      {emailIsShown && <EmailForm {...formProps}/>}
@@ -363,7 +470,7 @@ export default function HomePage() {
      {urlIsShown && <UrlForm {...formProps}/>}
      <br/>
      <br/>
-     <button type="submit" onClick={submitCode}>Generate QR Code</button>
+     {!noForm && !qrIsShown && <button type="submit" onClick={submitCode}>Generate QR Code</button>}
      <br/>
      <br/>
      <br/>

@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import "../Styles/Auth.css";
 import { Link } from 'react-router-dom';
+import fireDB, { auth } from '../firebaseConfig';
+import { doc, collection, setDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUpPage() {
  const [email, setEmail] = useState<string>('');
  const [password, setPassword] = useState<string>('');
  const [confirmPassword, setConfirmPassword] = useState<string>('');
- const auth = getAuth();
 
  const register = async (): Promise<any> => {
   if (password !== confirmPassword) return;
   try {
-   await createUserWithEmailAndPassword(auth, email, password);
+   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+   const docRef = doc(fireDB, "users", `${userCredential.user.uid}`);
+   const userDoc = {
+    email,
+    password
+   };
+   await setDoc(docRef, userDoc);
   } catch (err) {
    alert(`Registration error: ${err}`);
   }
