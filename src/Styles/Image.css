@@ -32,6 +32,15 @@
  flex-direction: row-reverse;
 }
 
+.img-input-text {
+ display: flex;
+ flex-direction: column;
+}
+
+.img-file-err {
+ margin-top: -275px;
+}
+
 .img-preview {
  height: 315px;
  width: 450px;

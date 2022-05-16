@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import store from "../Redux/Store";
 import { Link } from 'react-router-dom';
-import { deleteQRCode } from '../Redux/Actions';
 import { doc, deleteDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 import fireDB, { auth } from '../firebaseConfig';
 import QR from "../Components/QR";

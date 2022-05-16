@@ -1,0 +1,27 @@
+.qr-code {
+ border: 10px solid;
+ border-bottom: 50px solid;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin: -22.5% 40% 0% 40%;
+ padding: 20px 120px 35px 120px;
+}
+
+.qr-text,
+.url-text {
+ text-align: center;
+ padding: 0px 45px 0px 45px;
+ margin: 0px -100px 20px -100px;
+ font-size: 15px;
+ font-weight: bold;
+}
+
+.url-text,
+.url-text:hover {
+ color: #000;
+}
+
+.url-text-header {
+ margin-bottom: 20px;
+}

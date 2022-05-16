@@ -1,4 +1,3 @@
-import * as actions from "./ActionTypes";
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./Store";

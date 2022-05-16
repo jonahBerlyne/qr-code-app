@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import uniqid from "uniqid";
 import store from '../Redux/Store';
-import { addContactCode, addDateCode, addEmailCode, addImgCode, addTextCode, addUrlCode } from '../Redux/Actions';
 import Sidebar from "../Components/Sidebar/Sidebar";
 import ContactForm from "../Components/Forms/ContactForm";
 import DateForm from "../Components/Forms/DateForm";

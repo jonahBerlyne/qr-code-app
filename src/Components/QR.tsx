@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react';
 import { doc, deleteDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 import fireDB, { auth } from '../firebaseConfig';
+import "../Styles/QR.css";
 
 interface QRInterface {
   codeCollection: string;
@@ -52,35 +53,35 @@ export default function QR(props: QRInterface) {
     <div className="qr-code" style={{ borderColor: `${color}` }}>
       {codeType === "contact" && 
         <div className='qr-code-header'>
-          <p>Contact card for {first} {last}:</p>
+          <p className='qr-text'>Contact card for {first} {last}:</p>
         </div>
       }
       {codeType === "date" && 
         <div className='qr-code-header'>
-          <p>Code for {event}</p>
+          <p className='qr-text'>Code for {event}</p>
         </div>
       }
       {codeType === "email" && 
         <div className='qr-code-header'>
-          <p className='qr-code-of'>Email to {to}</p>
-          <p className='qr-code-of'>Subject:</p>
-          <p>{subj}</p>
+          <p className='qr-text'>Email to {to}</p>
+          <p className='qr-text'>Subject:</p>
+          <p className="qr-text">{subj}</p>
         </div>
       }
       {codeType === "img" && 
         <div className='qr-code-header'>
-          <p className='qr-code-of'>Image of:</p>
-          <p>{name}</p>
+          <p className='qr-text'>Image of:</p>
+          <p className='qr-text'>{name}</p>
         </div>
       }
       {codeType === "search" && 
         <div className='qr-code-header'>
-          <p>{text}</p>
+          <p className="qr-text">{text}</p>
         </div>
       }
       {codeType === "url" && 
-        <div className='qr-code-header'>
-          <a href={url} target="_blank" rel="noreferrer">{url}</a>
+        <div className='url-text-header'>
+          <a href={url} target="_blank" rel="noreferrer" className="url-text">{url}</a>
         </div>
       }
       <div className='qr-code-container'>

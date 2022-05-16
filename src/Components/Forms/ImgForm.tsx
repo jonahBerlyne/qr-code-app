@@ -12,8 +12,10 @@ export default function ImgForm({ choosePic, imgFile, imgFileErr, imgPreview }: 
   <div className="img-form-container">
    <p className="img-form-header">Add an image:</p>
    <div className="img-input-container">
-    <input type="file" name="img" className="form-control img-input" onChange={choosePic} required />
-    {imgFileErr && <h6>{imgFileErr}</h6>} 
+    <div className="img-input-text">
+     <input type="file" name="img" className="form-control img-input" onChange={choosePic} required />
+     {imgFileErr && <h6 className="img-file-err">{imgFileErr}</h6>} 
+    </div>
     {imgFile ? 
      <img src={imgPreview} alt={imgPreview} className="img-preview" /> : 
      <div className="img-preview">
