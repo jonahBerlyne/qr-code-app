@@ -9,43 +9,43 @@ export default function ContactForm({ values, handleChange }: FormInterface) {
      <div className="contact-inputs-row">
       <div className="contact-form-input">
         <p className="input-label">First Name:</p>
-        <input type="text" className="form-control contact-input" name="firstName" value={values.firstName} onChange={handleChange} placeholder='First Name' required/>
+        <input type="text" className="form-control contact-input" name="firstName" value={values.firstName} onChange={handleChange} placeholder='First Name' maxLength={20} required/>
       </div>
       <div className="contact-form-input">
         <p className="input-label">Last Name:</p>
-        <input type="text" className="form-control contact-input" name="lastName" value={values.lastName} onChange={handleChange} placeholder='Last Name' required/>
+        <input type="text" className="form-control contact-input" name="lastName" value={values.lastName} onChange={handleChange} maxLength={20} placeholder='Last Name' required/>
       </div>
         <div className="contact-form-input">
         <p className="input-label">Phone Number:</p>
-        <input type="text" className="form-control contact-input" name="phone" value={values.phone} onChange={handleChange} placeholder='Phone Number' required/>
+        <input type="text" className="form-control contact-input" name="phone" value={values.phone} onChange={handleChange} maxLength={50} placeholder='Phone Number' required/>
       </div>
      </div>
      <div className="contact-inputs-row">
       <div className="contact-form-input">
         <p className="input-label">E-mail Address:</p>
-        <input type="text" className="form-control contact-input" name="email" value={values.email} onChange={handleChange} placeholder='E-mail Address' required/>
+        <input type="text" className="form-control contact-input" name="email" value={values.email} onChange={handleChange} maxLength={50} placeholder='E-mail Address' required/>
       </div>
       <div className="contact-form-input">
         <p className="input-label">Address:</p>
-        <input type="text" className="form-control contact-input" name="address" value={values.address} onChange={handleChange} placeholder='Address' required/>
+        <input type="text" className="form-control contact-input" name="address" value={values.address} onChange={handleChange} maxLength={50} placeholder='Address' required/>
       </div>
       <div className="contact-form-input">
         <p className="input-label">City:</p>
-        <input type="text" className="form-control contact-input" name="city" value={values.city} onChange={handleChange} placeholder='City' required/>
+        <input type="text" className="form-control contact-input" name="city" value={values.city} onChange={handleChange} maxLength={50} placeholder='City' required/>
       </div>
      </div>
      <div className="contact-inputs-row">
       <div className="contact-form-input">
         <p className="input-label">State/Province:</p>
-        <input type="text" className="form-control contact-input" name="stateProvince" value={values.stateProvince} onChange={handleChange} placeholder='State/Province' required/>
+        <input type="text" className="form-control contact-input" name="stateProvince" value={values.stateProvince} onChange={handleChange} placeholder='State/Province' maxLength={50} required/>
       </div>
       <div className="contact-form-input">
         <p className="input-label">Zip/Postal Code:</p>
-        <input type="text" className="form-control contact-input" name="zipPostal" value={values.zipPostal} onChange={handleChange} placeholder='Zip/Postal Code' required/>
+        <input type="text" className="form-control contact-input" name="zipPostal" value={values.zipPostal} onChange={handleChange} placeholder='Zip/Postal Code' maxLength={50} required/>
       </div>
       <div className="contact-form-input">
         <p className="input-label">Country:</p>
-        <input type="text" className="form-control contact-input" name="country" value={values.country} onChange={handleChange} placeholder='Country' required/>
+        <input type="text" className="form-control contact-input" name="country" value={values.country} onChange={handleChange} placeholder='Country' maxLength={50} required/>
       </div>
      </div>
    </div>

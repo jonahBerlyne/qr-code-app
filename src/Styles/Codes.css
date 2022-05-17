@@ -3,6 +3,7 @@
  flex-direction: column;
  justify-content: flex-start;
  align-items: flex-start;
+ overflow: hidden;
 }
 
 .home-link {
@@ -26,10 +27,15 @@
 }
 
 .codes-header {
- border-bottom: 1px solid whitesmoke;
  text-align: center;
  font-size: 35px;
  margin-top: 10px;
+ margin-left: 50px;
+}
+
+.codes-header-border {
+ border: 1px solid whitesmoke;
+ width: 200%;
 }
 
 .contact-codes,
@@ -56,4 +62,29 @@
  margin-top: 50px;
  margin-bottom: 100px;
  margin-right: 50px;
+}
+
+.contact-code-one,
+.date-code-one,
+.email-code-one,
+.img-code-one,
+.search-code-one,
+.url-code-one {
+ margin-left: 205px;
+}
+
+.contact-code-one-header,
+.date-code-one-header,
+.email-code-one-header,
+.img-code-one-header,
+.search-code-one-header,
+.url-code-one-header {
+ margin-left: 260px;
+}
+
+.no-codes {
+ margin-top: 275px;
+ margin-left: 275px;
+ font-family: "Open Sans";
+ font-size: 40px;
 }

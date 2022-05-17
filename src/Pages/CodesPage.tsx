@@ -16,6 +16,9 @@ export default function Codes() {
  const [searchCodesData, setSearchCodesData] = useState<any[]>([]);
  const [urlCodesData, setUrlCodesData] = useState<any[]>([]);
 
+ const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
+ const [noCodes, setNoCodes] = useState<boolean>(false);
+
  const getCodes = (code_collection: string, setCodesData: React.Dispatch<React.SetStateAction<any[]>>) => {
   try {
    const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, code_collection), orderBy("timestamp", "desc"));
@@ -37,6 +40,7 @@ export default function Codes() {
     });
     setCodesData(codesArr);
    });
+   if (code_collection === "url codes") setFinishedLoading(true);
    return unsub;
   } catch (err) {
     alert(`Codes retrieval error: ${err}`);
@@ -57,8 +61,24 @@ export default function Codes() {
    setImgCodesData([]);
    setSearchCodesData([]);
    setUrlCodesData([]);
+   setFinishedLoading(false);
   }
  }, []);
+
+ useEffect(() => {
+   if (
+     contactCodesData.length === 0 
+     && dateCodesData.length === 0
+     && emailCodesData.length === 0
+     && imgCodesData.length === 0
+     && searchCodesData.length === 0
+     && urlCodesData.length === 0
+     && finishedLoading
+   ) setNoCodes(true);
+   return () => {
+     if (noCodes) setNoCodes(false);
+   }
+ });
 
  return (
   <div className='codes-page'>
@@ -66,134 +86,155 @@ export default function Codes() {
     <Link to="/"><ArrowBack /></Link>
     Go back
    </p>
-   <div className="contact-codes-container">
-    <h2 className="codes-header">Contact codes:</h2>
-    <div className="contact-codes">
-      {contactCodesData.map(contact => {
-        return (
-        <div key={contact.id} className="contact-code">
-          <QR  
-            codeCollection={contact.codeCollection}
-            codeType={contact.type}
-            color={contact.color}
-            id={contact.id}
-            showDeleteBtn={true}
-            timestamp={contact.timestamp}
-            value={contact.value}
-            first={contact.first}
-            last={contact.last}
-          />
-        </div>
-        );
-      })}
+   {contactCodesData.length > 0 && finishedLoading && 
+    <div className="contact-codes-container">
+      <h2 className={`codes-header ${contactCodesData.length === 1 && "contact-code-one-header"}`}>Contact codes:</h2>
+      <div className="codes-header-border"></div>
+      <div className={`contact-codes ${contactCodesData.length === 1 && "contact-code-one"}`}>
+        {contactCodesData.map(contact => {
+          return (
+          <div key={contact.id} className="contact-code">
+            <QR  
+              codeCollection={contact.codeCollection}
+              codeType={contact.type}
+              color={contact.color}
+              id={contact.id}
+              showDeleteBtn={true}
+              timestamp={contact.timestamp}
+              value={contact.value}
+              first={contact.first}
+              last={contact.last}
+            />
+          </div>
+          );
+        })}
+      </div>
     </div>
-   </div>
-   <div className="date-codes-container">
-    <h2 className="codes-header">Date codes:</h2>
-    <div className="date-codes">
-      {dateCodesData.map(date => {
-        return (
-        <div key={date.id} className="date-code">
-          <QR  
-            codeCollection={date.codeCollection}
-            codeType={date.type}
-            color={date.color}
-            id={date.id}
-            showDeleteBtn={true}
-            timestamp={date.timestamp}
-            value={date.value}
-            event={date.event}
-          />
-        </div>
-        );
-      })}
+   }
+   {dateCodesData.length > 0 && finishedLoading &&
+    <div className="date-codes-container">
+      <h2 className={`codes-header ${dateCodesData.length === 1 && "date-code-one-header"}`}>Date codes:</h2>
+      <div className="codes-header-border"></div>
+      <div className={`date-codes ${dateCodesData.length === 1 && "date-code-one"}`}>
+        {dateCodesData.map(date => {
+          return (
+          <div key={date.id} className="date-code">
+            <QR  
+              codeCollection={date.codeCollection}
+              codeType={date.type}
+              color={date.color}
+              id={date.id}
+              showDeleteBtn={true}
+              timestamp={date.timestamp}
+              value={date.value}
+              event={date.event}
+            />
+          </div>
+          );
+        })}
+      </div>
     </div>
-   </div>
-   <div className="email-codes-container">
-    <h2 className="codes-header">Email codes:</h2>
-    <div className="email-codes">
-      {emailCodesData.map(email => {
-        return (
-        <div key={email.id} className="email-code">
-          <QR  
-            codeCollection={email.codeCollection}
-            codeType={email.type}
-            color={email.color}
-            id={email.id}
-            showDeleteBtn={true}
-            timestamp={email.timestamp}
-            value={email.value}
-            to={email.to}
-            subj={email.subj}
-          />
-        </div>
-        );
-      })}
+   }
+   {emailCodesData.length > 0 && finishedLoading &&
+    <div className="email-codes-container">
+      <h2 className={`codes-header ${emailCodesData.length === 1 && "email-code-one-header"}`}>Email codes:</h2>
+      <div className="codes-header-border"></div>
+      <div className={`email-codes ${emailCodesData.length === 1 && "email-code-one"}`}>
+        {emailCodesData.map(email => {
+          return (
+          <div key={email.id} className="email-code">
+            <QR  
+              codeCollection={email.codeCollection}
+              codeType={email.type}
+              color={email.color}
+              id={email.id}
+              showDeleteBtn={true}
+              timestamp={email.timestamp}
+              value={email.value}
+              to={email.to}
+              subj={email.subj}
+            />
+          </div>
+          );
+        })}
+      </div>
     </div>
-   </div>
-   <div className="img-codes-container">
-    <h2 className="codes-header">Image codes:</h2>
-    <div className="img-codes">
-      {imgCodesData.map(img => {
-        return (
-        <div key={img.id} className="img-code">
-          <QR  
-            codeCollection={img.codeCollection}
-            codeType={img.type}
-            color={img.color}
-            id={img.id}
-            showDeleteBtn={true}
-            timestamp={img.timestamp}
-            value={img.value}
-            name={img.name}
-          />
-        </div>
-        );
-      })}
+   }
+   {imgCodesData.length > 0 && finishedLoading &&
+    <div className="img-codes-container">
+      <h2 className={`codes-header ${imgCodesData.length === 1 && "img-code-one-header"}`}>Image codes:</h2>
+      <div className="codes-header-border"></div>
+      <div className={`img-codes ${imgCodesData.length === 1 && "img-code-one"}`}>
+        {imgCodesData.map(img => {
+          return (
+          <div key={img.id} className="img-code">
+            <QR  
+              codeCollection={img.codeCollection}
+              codeType={img.type}
+              color={img.color}
+              id={img.id}
+              showDeleteBtn={true}
+              timestamp={img.timestamp}
+              value={img.value}
+              name={img.name}
+            />
+          </div>
+          );
+        })}
+      </div>
     </div>
-   </div>
-   <div className="search-codes-container">
-    <h2 className="codes-header">Search codes:</h2>
-    <div className="search-codes">
-      {searchCodesData.map(search => {
-        return (
-        <div key={search.id} className="search-code">
-          <QR  
-            codeCollection={search.codeCollection}
-            codeType={search.type}
-            color={search.color}
-            id={search.id}
-            showDeleteBtn={true}
-            timestamp={search.timestamp}
-            value={search.value}
-            text={search.text}
-          />
-        </div>
-        );
-      })}
+   }
+   {searchCodesData.length > 0 && finishedLoading && 
+    <div className="search-codes-container">
+      <h2 className={`codes-header ${searchCodesData.length === 1 && "search-code-one-header"}`}>Search codes:</h2>
+      <div className="codes-header-border"></div>
+      <div className={`search-codes ${searchCodesData.length === 1 && "search-code-one"}`}>
+        {searchCodesData.map(search => {
+          return (
+          <div key={search.id} className="search-code">
+            <QR  
+              codeCollection={search.codeCollection}
+              codeType={search.type}
+              color={search.color}
+              id={search.id}
+              showDeleteBtn={true}
+              timestamp={search.timestamp}
+              value={search.value}
+              text={search.text}
+            />
+          </div>
+          );
+        })}
+      </div>
     </div>
-   </div>
-   <div className="url-codes-container">
-    <h2 className="codes-header">URL codes:</h2>
-    <div className="url-codes">
-      {urlCodesData.map(url => {
-        return (
-        <div key={url.id} className="url-code">
-          <QR  
-            codeCollection={url.codeCollection}
-            codeType={url.type}
-            color={url.color}
-            id={url.id}
-            showDeleteBtn={true}
-            timestamp={url.timestamp}
-            value={url.value}
-            url={url.url}
-          />
-        </div>
-        );
-      })}
+   }
+   {urlCodesData.length > 0 && finishedLoading &&
+    <div className="url-codes-container">
+      <h2 className={`codes-header ${urlCodesData.length === 1 && "url-code-one-header"}`}>URL codes:</h2>
+      <div className="codes-header-border"></div>
+      <div className={`url-codes ${urlCodesData.length === 1 && "url-code-one"}`}>
+        {urlCodesData.map(url => {
+          return (
+          <div key={url.id} className="url-code">
+            <QR  
+              codeCollection={url.codeCollection}
+              codeType={url.type}
+              color={url.color}
+              id={url.id}
+              showDeleteBtn={true}
+              timestamp={url.timestamp}
+              value={url.value}
+              url={url.url}
+            />
+          </div>
+          );
+        })}
+      </div>
     </div>
-   </div>
+   }
+   {noCodes &&
+    <h2 className='no-codes'>Sorry, but you don't have any QR codes saved.</h2>
+   }
   </div>
  );
 }

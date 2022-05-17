@@ -34,16 +34,16 @@ export default function DateForm({ values, handleChange }: FormInterface) {
     <div className="date-form-inputs">
       <div className="date-form-input">
         <p className="input-label">Event:</p>
-        <input type="text" className='form-control' name="theEvent" value={values.theEvent} onChange={handleChange} placeholder='Enter an event here'/>
+        <input type="text" className='form-control' name="theEvent" value={values.theEvent} onChange={handleChange} maxLength={20} placeholder='Enter an event here'/>
       </div>
       <div className="date-form-input">
         <p className="input-label">Location:</p>
-        <input type="text" className='form-control' name="location" value={values.location} onChange={handleChange} placeholder='Enter event location'/>
+        <input type="text" className='form-control' name="location" value={values.location} onChange={handleChange} maxLength={50} placeholder='Enter event location'/>
       </div>
     </div>
     <div className="date-form-input details-input">
       <p className="input-label">Details:</p>
-      <textarea name="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} placeholder='Enter event details here...'/>
+      <textarea name="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} maxLength={50} placeholder='Enter event details here...'/>
     </div>
    </div>
   </div>

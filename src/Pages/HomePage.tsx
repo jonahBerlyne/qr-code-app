@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../Styles/Home.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import uniqid from "uniqid";
 import store from '../Redux/Store';
@@ -420,32 +420,43 @@ export default function HomePage() {
      alert(`Signout error: ${err}`);
    }
  }
+
+ const navigate = useNavigate();
+
+ const goToCodesPage = (): void => navigate("/codes");
   
  return (
    <div className="home">
-     <h1 className="home-header">QR Code App</h1>
-     <Sidebar {...sidebarProps}/>
      {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>}
+     <Sidebar {...sidebarProps}/>
 
-     {qrIsShown && 
-        <QR 
-          codeCollection={qrCollection}
-          codeType={qrAttributes.type} 
-          color={qrAttributes.color}
-          id={qrAttributes.id}
-          showDeleteBtn={false}
-          timestamp={qrAttributes.timestamp}
-          value={qrValue}
-          event={qrAttributes?.event}
-          first={qrAttributes?.first}
-          last={qrAttributes?.last}
-          name={qrAttributes?.name}
-          subj={qrAttributes?.subj}
-          text={qrAttributes?.text}
-          to={qrAttributes?.to}
-          url={qrAttributes?.url}
-        />
-     }
+      {qrIsShown && 
+        <div className={
+          `${qrAttributes.type === "contact" && "contact-code-container"} ${qrAttributes.type === "date" && "date-code-container"}
+          ${qrAttributes.type === "email" && "email-code-container"}
+          ${qrAttributes.type === "img" && "img-code-container"}
+          ${qrAttributes.type === "search" && "search-code-container"}
+          ${qrAttributes.type === "url" && "url-code-container"}`
+        }>
+          <QR  
+            codeCollection={qrCollection}
+            codeType={qrAttributes.type} 
+            color={qrAttributes.color}
+            id={qrAttributes.id}
+            showDeleteBtn={false}
+            timestamp={qrAttributes.timestamp}
+            value={qrValue}
+            event={qrAttributes?.event}
+            first={qrAttributes?.first}
+            last={qrAttributes?.last}
+            name={qrAttributes?.name}
+            subj={qrAttributes?.subj}
+            text={qrAttributes?.text}
+            to={qrAttributes?.to}
+            url={qrAttributes?.url}
+          />
+        </div>
+      }
 
      {contactIsShown && <ContactForm {...formProps} />} 
      {dateIsShown && <DateForm {...formProps}/>}
@@ -455,13 +466,16 @@ export default function HomePage() {
      {urlIsShown && <UrlForm {...formProps}/>}
      <br/>
      <br/>
-     {!noForm && !qrIsShown && <button type="submit" onClick={submitCode}>Generate QR Code</button>}
+     {!noForm && !qrIsShown && <button type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>}
      <br/>
      <br/>
      <br/>
      <br/>
-     <Link to="/codes">Your QR Codes</Link>
-     <button onClick={logOut}>Sign Out</button>
+     <div className="footer">
+      <button className='btn btn-info codes-link-btn' onClick={goToCodesPage}>Your QR Codes</button>
+      <p>QR Code App</p>
+      <button onClick={logOut} className="btn btn-warning sign-out-btn">Sign Out</button>
+     </div>
    </div>
  );
 }
