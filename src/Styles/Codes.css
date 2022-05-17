@@ -1,0 +1,59 @@
+.codes-page {
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+ align-items: flex-start;
+}
+
+.home-link {
+ font-size: 20px;
+ font-family: "Open Sans";
+}
+
+.codes-page-header {
+ text-align: center;
+ margin-bottom: 100px;
+}
+
+.contact-codes-container,
+.date-codes-container,
+.email-codes-container,
+.img-codes-container,
+.search-codes-container,
+.url-codes-container {
+ display: flex;
+ flex-direction: column;
+}
+
+.codes-header {
+ border-bottom: 1px solid whitesmoke;
+ text-align: center;
+ font-size: 35px;
+ margin-top: 10px;
+}
+
+.contact-codes,
+.date-codes,
+.email-codes,
+.img-codes,
+.search-codes,
+.url-codes {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+ align-items: center;
+ gap: 30px;
+ margin-right: 380px;
+ padding-top: 100px;
+}
+
+.contact-code,
+.date-code,
+.email-code,
+.img-code,
+.search-code,
+.url-code {
+ margin-top: 50px;
+ margin-bottom: 100px;
+ margin-right: 50px;
+}

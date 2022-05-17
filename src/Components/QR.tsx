@@ -58,7 +58,7 @@ export default function QR(props: QRInterface) {
       }
       {codeType === "date" && 
         <div className='qr-code-header'>
-          <p className='qr-text'>Code for {event}</p>
+          <p className='qr-text'>Code for {event}:</p>
         </div>
       }
       {codeType === "email" && 
@@ -87,7 +87,7 @@ export default function QR(props: QRInterface) {
       <div className='qr-code-container'>
         <QRCode value={value} />
       </div>
-      {showDeleteBtn && <button onClick={() => deleteItem(codeCollection, id)}>Delete QR Code</button>}
+      {showDeleteBtn && <button onClick={() => deleteItem(codeCollection, id)} className="btn btn-danger delete-btn">Delete QR Code</button>}
     </div>
   );
 }
