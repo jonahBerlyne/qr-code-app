@@ -21,20 +21,23 @@ export default function LoginPage () {
   <div className="input-field">
    <h2 className='input-field-header'>Login:</h2>
    <input 
-    type="email" 
-    className="auth-input" placeholder='Email' 
+    type="email"
+    data-testid="Email" 
+    className="auth-input" 
+    placeholder='Email' 
     value={email} 
     onChange={(e) => {setEmail(e.target.value)}}
    />
    <input 
-    type="password" 
+    type="password"
+    data-testid="Password" 
     className="auth-input" placeholder='Password' 
     value={password} 
     onChange={(e) => {setPassword(e.target.value)}}
    />
    <button className="auth-btn btn btn-outline-info" onClick={login}>Login</button>
    <br />
-   <Link to="/register" className='link-info auth-link'>Click Here to Register</Link>
+   <Link to="/register" data-testid="register-link" className='link-info auth-link'>Click Here to Register</Link>
   </div>
  );
 }

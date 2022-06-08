@@ -29,26 +29,31 @@ export default function SignUpPage() {
   <div className="input-field">
    <h2 className='input-field-header'>Register:</h2>
    <input 
-    type="email" 
-    className="auth-input" placeholder='Email' 
+    type="email"
+    data-testid="Email" 
+    className="auth-input" 
+    placeholder='Email' 
     value={email} 
     onChange={(e) => {setEmail(e.target.value)}}
    />
    <input 
-    type="password" 
+    type="password"
+    data-testid="Password" 
     className="auth-input" placeholder='Password' 
     value={password} 
     onChange={(e) => {setPassword(e.target.value)}}
    />
    <input 
     type="password" 
-    className="auth-input" placeholder='Confirm Password' 
+    data-testid="confirmPassword"
+    className="auth-input" 
+    placeholder='Confirm Password' 
     value={confirmPassword} 
     onChange={(e) => {setConfirmPassword(e.target.value)}}
    />
    <button className="auth-btn btn btn-outline-info" onClick={register}>Register</button>
    <hr/>
-   <Link to="/login" className='link-info auth-link'>Click Here to Login</Link>
+   <Link to="/login" data-testid="login-link" className='link-info auth-link'>Click Here to Login</Link>
   </div>
  );
 }
