@@ -24,26 +24,26 @@ export default function DateForm({ values, handleChange }: FormInterface) {
     <div className="date-inputs">
       <div className="date-form-input">
         <p className="input-label">From:</p>
-        <input type="date" className='form-control date-input' min={currentDate} name="fromDate" value={values.fromDate} onChange={handleChange} required/>
+        <input type="date" data-testid="fromDate" className='form-control date-input' min={currentDate} name="fromDate" value={values.fromDate} onChange={handleChange} required/>
       </div>
       <div className="date-form-input">
         <p className="input-label">To:</p>
-        <input type="date" className='form-control date-input' min={currentDate} name="toDate" value={values.toDate} onChange={handleChange} required/>
+        <input type="date" data-testid="toDate" className='form-control date-input' min={currentDate} name="toDate" value={values.toDate} onChange={handleChange} required/>
       </div>
     </div>
     <div className="date-form-inputs">
       <div className="date-form-input">
         <p className="input-label">Event:</p>
-        <input type="text" className='form-control' name="theEvent" value={values.theEvent} onChange={handleChange} maxLength={20} placeholder='Enter an event here'/>
+        <input type="text" data-testid="theEvent" className='form-control' name="theEvent" value={values.theEvent} onChange={handleChange} maxLength={20} placeholder='Enter an event here'/>
       </div>
       <div className="date-form-input">
         <p className="input-label">Location:</p>
-        <input type="text" className='form-control' name="location" value={values.location} onChange={handleChange} maxLength={50} placeholder='Enter event location'/>
+        <input type="text" data-testid="location" className='form-control' name="location" value={values.location} onChange={handleChange} maxLength={50} placeholder='Enter event location'/>
       </div>
     </div>
     <div className="date-form-input details-input">
       <p className="input-label">Details:</p>
-      <textarea name="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} maxLength={50} placeholder='Enter event details here...'/>
+      <textarea name="details" data-testid="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} maxLength={50} placeholder='Enter event details here...'/>
     </div>
    </div>
   </div>

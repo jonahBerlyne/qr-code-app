@@ -6,7 +6,7 @@ export default function TextForm({ values, handleChange }: FormInterface) {
  return (
   <div data-testid="searchForm" className='search-input-form'>
     <h4 className="search-input-header">Search:</h4>
-    <textarea name="searchMsg" className="form-control search-input" value={values.searchMsg} onChange={handleChange} rows={5} cols={40} maxLength={50} placeholder='Enter your search value here...'/>
+    <textarea name="searchMsg" data-testid="searchMsg" className="form-control search-input" value={values.searchMsg} onChange={handleChange} rows={5} cols={40} maxLength={50} placeholder='Enter your search value here...'/>
   </div>
  );
 }
