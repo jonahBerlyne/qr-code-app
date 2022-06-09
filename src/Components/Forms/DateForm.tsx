@@ -18,7 +18,7 @@ export default function DateForm({ values, handleChange }: FormInterface) {
  }, []);
 
  return (
-  <div className='date-input-form'>
+  <div data-testid="dateForm" className='date-input-form'>
    <h4 className='date-input-form-header'>Set an event:</h4>
    <div className="date-form-inputs-container">
     <div className="date-inputs">

@@ -15,12 +15,12 @@ interface Forms {
 export default function Sidebar({ showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm }: Forms) {
  return (
    <div className="sidebar">
-    <Icon icon={<ContactPage style={{ color: "rosybrown" }} fontSize="large" />} onClick={showContactForm} />
-    <Icon icon={<CalendarMonth style={{ color: "red" }} fontSize="large" />} onClick={showDateForm} />
-    <Icon icon={<Email style={{ color: "goldenrod" }} fontSize="large" />} onClick={showEmailForm} />
-    <Icon icon={<CameraAlt style={{ color: "darkslategray" }} fontSize="large" />} onClick={showImgForm} />
-    <Icon icon={<Search fontSize="large" />} onClick={showTextForm} />
-    <Icon icon={<Link color="primary" fontSize="large" />} onClick={showUrlForm} />
+    <Icon icon={<ContactPage style={{ color: "rosybrown" }} fontSize="large" />} onClick={showContactForm} testId="contactIcon" />
+    <Icon icon={<CalendarMonth style={{ color: "red" }} fontSize="large" />} onClick={showDateForm} testId="dateIcon" />
+    <Icon icon={<Email style={{ color: "goldenrod" }} fontSize="large" />} onClick={showEmailForm} testId="emailIcon" />
+    <Icon icon={<CameraAlt style={{ color: "darkslategray" }} fontSize="large" />} onClick={showImgForm} testId="imgIcon" />
+    <Icon icon={<Search fontSize="large" />} onClick={showTextForm} testId="searchIcon" />
+    <Icon icon={<Link color="primary" fontSize="large" />} onClick={showUrlForm} testId="urlIcon" />
   </div>
  );
 }

@@ -5,7 +5,7 @@ import "../../Styles/Email.css";
 export default function EmailForm({ values, handleChange }: FormInterface) {
 
  return (
-  <div className='email-input-form'>
+  <div data-testid="emailForm" className='email-input-form'>
    <h4 className='email-input-form-header'>Send an e-mail:</h4>
    <div className="email-input-form-container">
      <div className="email-input-form-row">

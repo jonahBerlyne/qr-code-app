@@ -9,7 +9,7 @@ interface ImgFormInterface {
 
 export default function ImgForm({ choosePic, imgFile, imgFileErr, imgPreview }: ImgFormInterface) {
  return (
-  <div className="img-form-container">
+  <div data-testid="imgForm" className="img-form-container">
    <p className="img-form-header">Add an image:</p>
    <div className="img-input-container">
     <div className="img-input-text">

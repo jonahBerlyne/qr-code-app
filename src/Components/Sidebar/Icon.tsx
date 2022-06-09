@@ -1,11 +1,12 @@
 interface IconInterface {
  icon: object;
  onClick: () => void;
+ testId: string;
 };
 
-export default function Icon({ icon, onClick }: IconInterface) {
+export default function Icon({ icon, onClick, testId }: IconInterface) {
  return (
-  <div className="icon" onClick={onClick}>
+  <div data-testid={testId} className="icon" onClick={onClick}>
    {icon}
   </div>
  );
