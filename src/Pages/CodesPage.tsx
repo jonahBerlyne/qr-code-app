@@ -6,6 +6,7 @@ import fireDB, { auth } from '../firebaseConfig';
 import QR from "../Components/QR";
 import "../Styles/Codes.css";
 import { ArrowBack } from "@mui/icons-material";
+import { getAuth } from 'firebase/auth';
 
 export default function Codes() {
 
@@ -21,7 +22,11 @@ export default function Codes() {
 
  const getCodes = (code_collection: string, setCodesData: React.Dispatch<React.SetStateAction<any[]>>) => {
   try {
-   const q = query(collection(fireDB, "users", `${auth.currentUser?.uid}`, code_collection), orderBy("timestamp", "desc"));
+   const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, code_collection), orderBy("timestamp", "desc"));
+   if (q === undefined) {
+     if (code_collection === "url codes") setFinishedLoading(true);
+     return;
+   }
    const unsub = onSnapshot(q, snapshot => {
     let codesArr: any[] = [];
     let value: any = null;
@@ -78,7 +83,7 @@ export default function Codes() {
    return () => {
      if (noCodes) setNoCodes(false);
    }
- });
+ }, [contactCodesData.length, dateCodesData.length, emailCodesData.length, imgCodesData.length, searchCodesData.length, urlCodesData.length, finishedLoading]);
 
  return (
   <div className='codes-page'>
@@ -233,7 +238,7 @@ export default function Codes() {
     </div>
    }
    {noCodes &&
-    <h2 className='no-codes'>Sorry, but you don't have any QR codes saved.</h2>
+    <h2 data-testid="noCodes" className='no-codes'>Sorry, but you don't have any QR codes saved.</h2>
    }
   </div>
  );
