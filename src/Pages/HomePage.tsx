@@ -240,9 +240,9 @@ export default function HomePage() {
   }
  }
 
- const handleDoc = async (codes: string, id: any, tweetDoc: any): Promise<any> => {
+ const handleDoc = async (codes: string, id: any, codeDoc: any): Promise<any> => {
   const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, codes, id);
-  await setDoc(docRef, tweetDoc);
+  await setDoc(docRef, codeDoc);
  }
 
  const submitCode = async (): Promise<any> => {

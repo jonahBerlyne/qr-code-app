@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import QRCode from 'qrcode.react';
+import { QRCodeCanvas } from 'qrcode.react';
 import { doc, deleteDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 import fireDB, { auth } from '../firebaseConfig';
 import "../Styles/QR.css";
@@ -53,41 +53,41 @@ export default function QR(props: QRInterface) {
     <div className="qr-code" style={{ borderColor: `${color}` }}>
       {codeType === "contact" && 
         <div className='qr-code-header'>
-          <p className='qr-text'>Contact card for {first} {last}:</p>
+          <p data-testid="contactCodeHeader" className='qr-text'>Contact card for {first} {last}:</p>
         </div>
       }
       {codeType === "date" && 
         <div className='qr-code-header'>
-          <p className='qr-text'>Code for {event}:</p>
+          <p data-testid="dateCodeHeader" className='qr-text'>Code for {event}:</p>
         </div>
       }
       {codeType === "email" && 
         <div className='qr-code-header'>
-          <p className='qr-text'>Email to {to}</p>
+          <p data-testid="emailCodeAddress" className='qr-text'>Email to {to}</p>
           <p className='qr-text'>Subject:</p>
-          <p className="qr-text">{subj}</p>
+          <p data-testid="emailCodeSubj" className="qr-text">{subj}</p>
         </div>
       }
       {codeType === "img" && 
         <div className='qr-code-header'>
           <p className='qr-text'>Image of:</p>
-          <p className='qr-text'>{name}</p>
+          <p data-testid="imgCodeHeader" className='qr-text'>{name}</p>
         </div>
       }
       {codeType === "search" && 
         <div className='qr-code-header'>
-          <p className="qr-text">{text}</p>
+          <p data-testid="searchCodeHeader" className="qr-text">{text}</p>
         </div>
       }
       {codeType === "url" && 
         <div className='url-text-header'>
-          <a href={url} target="_blank" rel="noreferrer" className="url-text">{url}</a>
+          <a data-testid="urlCodeLink" href={url} target="_blank" rel="noreferrer" className="url-text">{url}</a>
         </div>
       }
       <div className='qr-code-container'>
-        <QRCode value={value} />
+        <QRCodeCanvas value={value} />
       </div>
-      {showDeleteBtn && <button onClick={() => deleteItem(codeCollection, id)} className="btn btn-danger delete-btn">Delete QR Code</button>}
+      {showDeleteBtn && <button onClick={() => deleteItem(codeCollection, id)} data-testid="deleteBtn" className="btn btn-danger delete-btn">Delete QR Code</button>}
     </div>
   );
 }
