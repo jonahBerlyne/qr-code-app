@@ -215,7 +215,7 @@ export default function HomePage() {
  const handleImgUpload = async (): Promise<any> => {
   if (imgFile === null) return;
   try {
-   const uploadTask = ref(storage, `${auth.currentUser?.uid}/${imgFile.name}`);
+   const uploadTask = ref(storage, `${getAuth().currentUser?.uid}/${imgFile.name}`);
    await uploadBytes(uploadTask, imgFile);
    const imgUrl = await getDownloadURL(uploadTask);
    const timestamp = serverTimestamp();
@@ -241,7 +241,7 @@ export default function HomePage() {
  }
 
  const handleDoc = async (codes: string, id: any, codeDoc: any): Promise<any> => {
-  const docRef = doc(fireDB, "users", `${auth.currentUser?.uid}`, codes, id);
+  const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, codes, id);
   await setDoc(docRef, codeDoc);
  }
 
@@ -466,7 +466,7 @@ export default function HomePage() {
      {urlIsShown && <UrlForm {...formProps}/>}
      <br/>
      <br/>
-     {!noForm && !qrIsShown && <button type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>}
+     {!noForm && !qrIsShown && <button data-testid="submitCodeBtn" type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>}
      <br/>
      <br/>
      <br/>

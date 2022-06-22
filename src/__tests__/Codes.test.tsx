@@ -22,10 +22,6 @@ jest.mock("firebase/auth", () => {
 
 jest.mock('firebase/firestore');
 
-beforeAll(done => {
-  done();
-});
-
 afterEach(done => {
   cleanup();
   jest.resetAllMocks();

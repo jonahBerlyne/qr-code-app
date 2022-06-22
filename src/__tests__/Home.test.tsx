@@ -4,6 +4,9 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/extend-expect";
 import { BrowserRouter as Router } from "react-router-dom";
 import HomePage from "../Pages/HomePage";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { Auth, getAuth } from "firebase/auth";
 
 jest.mock("../firebaseConfig", () => {
   return {
@@ -13,9 +16,9 @@ jest.mock("../firebaseConfig", () => {
 
 jest.mock('firebase/auth');
 
-beforeAll(done => {
-  done();
-});
+jest.mock('firebase/firestore');
+
+jest.mock('firebase/storage');
 
 afterEach(done => {
   cleanup();
@@ -25,7 +28,7 @@ afterEach(done => {
 
 describe("Home Page", () => {
 
- it("renders home page", () => {
+ const setup = () => {
 
   const { container } = render(
    <Router>
@@ -33,16 +36,27 @@ describe("Home Page", () => {
    </Router>
   );
 
+  return {
+    container
+  };
+ }
+
+ it("renders home page", () => {
+  const { container } = setup();
   expect(container).toMatchSnapshot();
  }); 
 
- it("changes contact form values", async () => {
-
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+ it("fills out and submits contact form", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
+  setup();
 
   const contactIcon = await screen.findByTestId("contactIcon");
   fireEvent.click(contactIcon);
@@ -67,15 +81,26 @@ describe("Home Page", () => {
   expect(screen.getByTestId("stateProvince")).toHaveValue("NY");
   expect(screen.getByTestId("zipPostal")).toHaveValue("10001");
   expect(screen.getByTestId("country")).toHaveValue("USA");
+
+  fireEvent.click(screen.getByTestId("submitCodeBtn"));
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
  });
 
- it("changes date form values", () => {
+ it("fills out and submits date form", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
 
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+  setup();
 
   const dateIcon = screen.getByTestId("dateIcon");
   fireEvent.click(dateIcon);
@@ -92,15 +117,26 @@ describe("Home Page", () => {
   expect(screen.getByTestId("theEvent")).toHaveValue("Event");
   expect(screen.getByTestId("location")).toHaveValue("New York");
   expect(screen.getByTestId("details")).toHaveValue("Nothing of note.");
+
+  fireEvent.click(screen.getByTestId("submitCodeBtn"));
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
  });
 
- it("changes email form values", () => {
+ it("fills out and submits email form", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
 
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+  setup();
 
   const emailIcon = screen.getByTestId("emailIcon");
   fireEvent.click(emailIcon);
@@ -113,15 +149,29 @@ describe("Home Page", () => {
   expect(screen.getByTestId("Email")).toHaveValue("example@example.com");
   expect(screen.getByTestId("emailSubj")).toHaveValue("Example Subj");
   expect(screen.getByTestId("emailMsg")).toHaveValue("This is an example msg.");
+
+  fireEvent.click(screen.getByTestId("submitCodeBtn"));
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
  });
 
- it("changes img value", () => {
+ it("uploads an img and submits img form", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (ref as jest.Mock).mockReturnThis();
+  (uploadBytes as jest.Mock).mockResolvedValue(this);
+  (getDownloadURL as jest.Mock).mockResolvedValue("example.png");
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
 
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+  setup();
 
   const imgIcon = screen.getByTestId("imgIcon");
   fireEvent.click(imgIcon);
@@ -137,15 +187,24 @@ describe("Home Page", () => {
   expect(screen.getByTestId("imgForm")).toBeInTheDocument();
   expect(global.URL.createObjectURL).toHaveBeenCalledTimes(1);
   expect(screen.queryByTestId("imgFileErr")).not.toBeInTheDocument();
+
+  fireEvent.click(screen.getByTestId("submitCodeBtn"));
+
+  await waitFor(() => {
+    expect(uploadBytes).toBeCalled();
+  });
+
+  await waitFor(() => {
+    expect(getDownloadURL).toBeCalled();
+  });
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
  });
 
  it("shows img file error message", () => {
-
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+  setup();
 
   const imgIcon = screen.getByTestId("imgIcon");
   fireEvent.click(imgIcon);
@@ -161,13 +220,18 @@ describe("Home Page", () => {
   expect(screen.getByTestId("imgFileErr")).toHaveTextContent("Please choose an image file (png or jpeg)");
  });
 
- it("changes search form value", () => {
+ it("fills out and submits search form", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
 
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+  setup();
 
   const searchIcon = screen.getByTestId("searchIcon");
   fireEvent.click(searchIcon);
@@ -176,15 +240,26 @@ describe("Home Page", () => {
 
   expect(screen.getByTestId("searchForm")).toBeInTheDocument();
   expect(screen.getByTestId("searchMsg")).toHaveValue("This is an example search msg.");
+
+  fireEvent.click(screen.getByTestId("submitCodeBtn"));
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
  });
 
- it("changes url form value", () => {
+ it("fills out and submits url form", async () => {
+  const mockAuth = ({
+    currentUser: {
+      uid: "abc"
+    }
+  } as unknown) as Auth;
+  (getAuth as jest.Mock).mockReturnValue(mockAuth);
+  (serverTimestamp as jest.Mock).mockReturnThis();
+  (doc as jest.Mock).mockReturnThis();
+  (setDoc as jest.Mock).mockResolvedValue(this);
 
-  render(
-   <Router>
-    <HomePage />
-   </Router>
-  );
+  setup();
 
   const urlIcon = screen.getByTestId("urlIcon");
   fireEvent.click(urlIcon);
@@ -193,6 +268,12 @@ describe("Home Page", () => {
 
   expect(screen.getByTestId("urlForm")).toBeInTheDocument();
   expect(screen.getByTestId("urlInput")).toHaveValue("www.google.com");
+
+  fireEvent.click(screen.getByTestId("submitCodeBtn"));
+
+  await waitFor(() => {
+    expect(setDoc).toBeCalled();
+  });
  });
 
 });
