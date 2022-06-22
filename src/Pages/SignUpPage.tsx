@@ -51,7 +51,7 @@ export default function SignUpPage() {
     value={confirmPassword} 
     onChange={(e) => {setConfirmPassword(e.target.value)}}
    />
-   <button className="auth-btn btn btn-outline-info" onClick={register}>Register</button>
+   <button data-testid="registerBtn" className="auth-btn btn btn-outline-info" onClick={register}>Register</button>
    <hr/>
    <Link to="/login" data-testid="login-link" className='link-info auth-link'>Click Here to Login</Link>
   </div>

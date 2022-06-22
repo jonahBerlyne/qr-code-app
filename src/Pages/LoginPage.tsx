@@ -35,7 +35,7 @@ export default function LoginPage () {
     value={password} 
     onChange={(e) => {setPassword(e.target.value)}}
    />
-   <button className="auth-btn btn btn-outline-info" onClick={login}>Login</button>
+   <button data-testid="loginBtn" className="auth-btn btn btn-outline-info" onClick={login}>Login</button>
    <br />
    <Link to="/register" data-testid="register-link" className='link-info auth-link'>Click Here to Register</Link>
   </div>
