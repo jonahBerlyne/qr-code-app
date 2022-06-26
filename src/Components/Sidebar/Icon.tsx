@@ -1,7 +1,7 @@
 interface IconInterface {
  icon: object;
  onClick: () => void;
- testId: string;
+ testId?: string;
 };
 
 export default function Icon({ icon, onClick, testId }: IconInterface) {

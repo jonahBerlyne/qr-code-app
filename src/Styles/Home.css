@@ -1,6 +1,6 @@
 .home {
- min-width: 1400px;
- overflow: hidden;
+ display: flex;
+ flex-direction: column;
 }
 
 .no-form {

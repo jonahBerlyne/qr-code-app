@@ -412,18 +412,6 @@ export default function HomePage() {
  const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange };
  const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
-
- const logOut = async (): Promise<any> => {
-   try {
-     await signOut(auth);
-   } catch (err) {
-     alert(`Signout error: ${err}`);
-   }
- }
-
- const navigate = useNavigate();
-
- const goToCodesPage = (): void => navigate("/codes");
   
  return (
    <div className="home">
@@ -471,11 +459,6 @@ export default function HomePage() {
      <br/>
      <br/>
      <br/>
-     <div className="footer">
-      <button className='btn btn-info codes-link-btn' onClick={goToCodesPage}>Your QR Codes</button>
-      <p>QR Code App</p>
-      <button onClick={logOut} className="btn btn-warning sign-out-btn">Sign Out</button>
-     </div>
    </div>
  );
 }
