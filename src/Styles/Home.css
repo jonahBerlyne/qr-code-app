@@ -1,6 +1,31 @@
 .home {
  display: flex;
  flex-direction: column;
+ font-family: "Raleway", sans-serif;
+}
+
+.icons-container {
+ display: flex;
+ justify-content: center;
+ gap: 35px;
+ margin-top: 20px;
+ border-bottom: 1px solid whitesmoke;
+ padding-bottom: 10px;
+}
+
+.icon-container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.icon {
+ cursor: pointer;
+}
+
+.icon-title {
+ font-size: 15px;
+ text-decoration: none;
 }
 
 .no-form {
@@ -101,4 +126,14 @@ textarea:focus {
 
 .sign-out-btn {
  margin-right: 5px;
+}
+
+@media screen and (max-width: 450px) {
+ .icons-container {
+  gap: 15px;
+ }
+
+ .icon-title {
+  font-size: 12px;
+ }
 }

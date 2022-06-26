@@ -31,7 +31,7 @@ export default function Sidebar({ showContactForm, showDateForm, showEmailForm, 
   <nav className='sidebar sidebar-close'>
 
 
-    <div className="menu-bar-top">
+    {/* <div className="menu-bar-top">
       <h2 className="nav-header">Create a QR Code:</h2>
       <div className="menu">
         <ul className="modal-menu">
@@ -78,7 +78,7 @@ export default function Sidebar({ showContactForm, showDateForm, showEmailForm, 
           </ul>
         </div>
       </div>
-    </div>
+    </div> */}
 
   </nav>
   //  <div className="sidebar">

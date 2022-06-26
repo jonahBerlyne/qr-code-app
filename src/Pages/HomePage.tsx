@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../Styles/Home.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import uniqid from "uniqid";
 import store from '../Redux/Store';
@@ -18,6 +18,8 @@ import { useDispatch } from 'react-redux';
 import QR from "../Components/QR";
 import { QRCodeCanvas } from 'qrcode.react';
 import Header from '../Components/Header';
+import { ContactPage, CalendarMonth, Email, CameraAlt, Search, Link, QrCodeScanner, Logout } from "@mui/icons-material";
+import Icon from "../Components/Sidebar/Icon";
 
 interface Values {
  id: string | undefined;
@@ -422,8 +424,52 @@ export default function HomePage() {
 
     {/* Use the gmail app header for a generic green header with the title on the left and on the right, options for the codes page and to logout */}
     <Header />
-    
+
     {/* Beneath the header, include the qr code option icons */}
+    <div className="icons-container">
+      <Icon 
+        color="rosybrown"
+        icon={<ContactPage fontSize="large" />} 
+        onClick={showContactForm}
+        title="Contact" 
+        testId="contactIcon" 
+      />
+      <Icon 
+        color="red"
+        icon={<CalendarMonth fontSize="large" />} 
+        onClick={showDateForm}
+        title="Date" 
+        testId="dateIcon" 
+      />
+      <Icon 
+        color="goldenrod"
+        icon={<Email fontSize="large" />} 
+        onClick={showEmailForm} 
+        title="Email"
+        testId="emailIcon" 
+      />
+      <Icon 
+        color="darkslategray"
+        icon={<CameraAlt fontSize="large" />} 
+        onClick={showImgForm}
+        title="Image" 
+        testId="imgIcon" 
+      />
+      <Icon
+        color="black" 
+        icon={<Search fontSize="large" />} 
+        onClick={showTextForm} 
+        title="Search"
+        testId="searchIcon" 
+      />
+      <Icon
+        color="blue" 
+        icon={<Link fontSize="large" />} 
+        onClick={showUrlForm} 
+        title="URL"
+        testId="urlIcon" 
+      />
+    </div>
     {/* Beneath that, include the input form and qr code side-by-side */}
     {/* Beneath the qr code, include a save code button which will redirect to the code page with the qr code */}
      {/* {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>} */}
@@ -459,7 +505,7 @@ export default function HomePage() {
             url={qrAttributes?.url}
           />
         </div>
-      }
+      } */}
 
      {contactIsShown && <ContactForm {...formProps} />} 
      {dateIsShown && <DateForm {...formProps}/>}
@@ -467,13 +513,13 @@ export default function HomePage() {
      {imgIsShown && <ImgForm {...imgProps}/>}
      {textIsShown && <TextForm {...formProps}/>}
      {urlIsShown && <UrlForm {...formProps}/>}
+     {/* <br/>
+     <br/>
+     {!noForm && !qrIsShown && <button data-testid="submitCodeBtn" type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>} */}
      <br/>
      <br/>
-     {!noForm && !qrIsShown && <button data-testid="submitCodeBtn" type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>}
      <br/>
      <br/>
-     <br/>
-     <br/> */}
    </div>
  );
 }

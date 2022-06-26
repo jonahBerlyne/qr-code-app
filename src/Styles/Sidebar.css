@@ -51,10 +51,10 @@ body {
  margin-top: 120px;
 }
 
-.icon {
+/* .icon {
  margin-left: -40px;
  cursor: pointer;
-}
+} */
 
 .nav-header,
 .nav-text {
@@ -88,9 +88,9 @@ body {
   font-size: 18px;
  }
  
- .icon {
+ /* .icon {
   margin-left: 0px;
- }
+ } */
  
  .sidebar .menu-bar-bottom {
   margin-top: 3px;
@@ -115,9 +115,9 @@ body {
   font-size: 18px;
  }
 
- .icon {
+ /* .icon {
   margin-left: 0px;
- }
+ } */
 
  .sidebar .menu-bar-bottom {
   margin-top: -5px;
