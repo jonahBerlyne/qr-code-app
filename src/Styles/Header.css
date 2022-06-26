@@ -1,0 +1,33 @@
+.header {
+ font-family: "Raleway", sans-serif;
+ background-color: #008000a7;
+}
+
+.nav-options {
+ display: flex;
+ align-items: center;
+ gap: 20px;
+ margin-left: 70%;
+ color: #000;
+}
+
+@media screen and (max-width: 1399px) {
+ .nav-options {
+  margin-left: 60%;
+ }
+}
+
+@media screen and (max-width: 1199px) {
+ .nav-options {
+  margin-left: 50%;
+ }
+}
+
+
+@media screen and (max-width: 991px) {
+ .nav-options {
+  margin-left: 0%;
+  text-align: center;
+  gap: 1px;
+ }
+}

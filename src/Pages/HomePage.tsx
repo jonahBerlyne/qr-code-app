@@ -16,6 +16,8 @@ import { doc, setDoc, collection, addDoc, serverTimestamp, query, orderBy, onSna
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 import { useDispatch } from 'react-redux';
 import QR from "../Components/QR";
+import { QRCodeCanvas } from 'qrcode.react';
+import Header from '../Components/Header';
 
 interface Values {
  id: string | undefined;
@@ -412,13 +414,26 @@ export default function HomePage() {
  const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange };
  const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
+
+ const [qrVal, setQrVal] = useState<string>("");
   
  return (
    <div className="home">
-     {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>}
-     <Sidebar {...sidebarProps}/>
 
-      {qrIsShown && 
+    {/* Use the gmail app header for a generic green header with the title on the left and on the right, options for the codes page and to logout */}
+    <Header />
+    
+    {/* Beneath the header, include the qr code option icons */}
+    {/* Beneath that, include the input form and qr code side-by-side */}
+    {/* Beneath the qr code, include a save code button which will redirect to the code page with the qr code */}
+     {/* {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>} */}
+     {/* <Sidebar {...sidebarProps} /> */}
+
+     {/* <input type="text" value={qrVal} onChange={e => setQrVal(e.target.value)} />
+
+     <QRCodeCanvas value={qrVal} /> */}
+
+      {/* {qrIsShown && 
         <div className={
           `${qrAttributes.type === "contact" && "contact-code-container"} ${qrAttributes.type === "date" && "date-code-container"}
           ${qrAttributes.type === "email" && "email-code-container"}
@@ -458,7 +473,7 @@ export default function HomePage() {
      <br/>
      <br/>
      <br/>
-     <br/>
+     <br/> */}
    </div>
  );
 }
