@@ -1,7 +1,13 @@
+import React, { useEffect } from "react";
 import { FormInterface } from "../../Pages/HomePage";
-import "../../Styles/Contact.css";
+// import "../../Styles/Contact.css";
 
-export default function ContactForm({ values, handleChange }: FormInterface) {
+export default function ContactForm({ values, handleChange, setQRValue }: FormInterface) {
+
+ useEffect(() => {
+  setQRValue(`MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};;`);
+ }, [values]);
+
  return (
   <div data-testid="contactForm" className="contact-form">
    <h4 className="contact-form-header">Create a contact:</h4>

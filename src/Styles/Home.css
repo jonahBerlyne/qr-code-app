@@ -28,7 +28,55 @@
  text-decoration: none;
 }
 
-.no-form {
+.qr-container {
+ display: flex;
+ justify-content: center;
+}
+
+.form-container {
+ display: flex;
+ flex-direction: column;
+}
+
+.qr-code-container {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ margin-top: 65px;
+ margin-left: 15%;
+ gap: 30px;
+}
+
+.save-code-btn {
+ font-weight: bold;
+ width: 200px;
+}
+/* Get rid of border right from form container later */
+.contact-form {
+ margin-top: 20px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.contact-form-header {
+ margin-bottom: 25px;
+}
+
+.contact-inputs-container {
+ display: flex;
+ flex-direction: column;
+ flex-wrap: wrap;
+ gap: 15px;
+}
+
+.contact-inputs-row {
+ display: flex;
+ gap: 20px;
+}
+
+/* .no-form {
  text-align: center;
  margin-top: 5px;
  font-family: "Open Sans";
@@ -46,7 +94,7 @@ textarea:focus {
  font-family: 'Source Sans Pro', sans-serif;
  font-weight: 500;
  font-size: 18px;
-}
+} */
 
 /* .qr-code-container {
  margin-right: 150px;
@@ -58,7 +106,7 @@ textarea:focus {
  margin-bottom: 25px;
 } */
 
-.contact-code-container {
+/* .contact-code-container {
  margin-bottom: 45px;
  margin-right: 300px;
  margin-top: -310px;
@@ -92,16 +140,16 @@ textarea:focus {
  margin-bottom: 60px;
  margin-right: 320px;
  margin-top: -300px;
-}
+} */
 
-.qr-code-btn {
+/* .qr-code-btn {
  font-weight: bold;
  margin-left: 46%;
  margin-top: 50px;
  margin-bottom: -55px;
-}
+} */
 
-.footer {
+/* .footer {
  display: flex;
  justify-content: space-evenly;
  align-items: center;
@@ -118,14 +166,49 @@ textarea:focus {
 
 .footer > button {
  font-weight: bold;
-}
+} */
 
-.codes-link-btn {
+/* .codes-link-btn {
  margin-left: 5px;
 }
 
 .sign-out-btn {
  margin-right: 5px;
+} */
+
+@media screen and (max-width: 1024px) {
+ .qr-container {
+  flex-direction: column;
+  gap: 40px;
+ }
+
+ .qr-code-container {
+  margin-left: 0%;
+  margin-top: 0px;
+ }
+}
+
+@media screen and (max-width: 768px) {
+ .contact-form {
+  margin-right: 0px;
+  align-items: center;
+ }
+ 
+ .contact-inputs-container {
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+ }
+
+ .contact-inputs-row {
+  flex-direction: column;
+ }
+ 
+ .contact-form-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ }
 }
 
 @media screen and (max-width: 450px) {

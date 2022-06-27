@@ -81,7 +81,6 @@ export default function HomePage() {
  const [noForm, setNoForm] = useState<boolean>(true);
  const [qrAttributes, setQRAttributes] = useState<any>({});
  const [qrCollection, setQRCollection] = useState<string>("");
- const [qrValue, setQRValue] = useState<string>("");
  const [qrIsShown, setQRIsShown] = useState<boolean>(false);
 
  const [contactIsShown, setContactIsShown] = useState<boolean>(false);
@@ -413,11 +412,11 @@ export default function HomePage() {
   setRefresh(!refresh);
  }
 
- const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
- const formProps = { values, handleChange };
- const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
+ const [qrValue, setQRValue] = useState<string>("");
 
- const [qrVal, setQrVal] = useState<string>("");
+ const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
+ const formProps = { values, handleChange, setQRValue };
+ const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
   
  return (
    <div className="home">
@@ -471,6 +470,22 @@ export default function HomePage() {
       />
     </div>
     {/* Beneath that, include the input form and qr code side-by-side */}
+    <div className="qr-container">
+      <div className="form-container">
+        {contactIsShown && <ContactForm {...formProps} />}
+        {dateIsShown && <DateForm {...formProps}/>}
+        {emailIsShown && <EmailForm {...formProps}/>}
+        {imgIsShown && <ImgForm {...imgProps}/>}
+        {textIsShown && <TextForm {...formProps}/>}
+        {urlIsShown && <UrlForm {...formProps}/>}
+      </div>
+      {(contactIsShown || dateIsShown || emailIsShown || imgIsShown || textIsShown || urlIsShown) &&       
+        <div className="qr-code-container">
+          <QRCodeCanvas size={200} value={qrValue} />
+          <button className='btn btn-success save-code-btn'>Save QR Code</button>
+        </div>
+      }
+    </div>
     {/* Beneath the qr code, include a save code button which will redirect to the code page with the qr code */}
      {/* {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>} */}
      {/* <Sidebar {...sidebarProps} /> */}
@@ -505,14 +520,7 @@ export default function HomePage() {
             url={qrAttributes?.url}
           />
         </div>
-      } */}
-
-     {contactIsShown && <ContactForm {...formProps} />} 
-     {dateIsShown && <DateForm {...formProps}/>}
-     {emailIsShown && <EmailForm {...formProps}/>}
-     {imgIsShown && <ImgForm {...imgProps}/>}
-     {textIsShown && <TextForm {...formProps}/>}
-     {urlIsShown && <UrlForm {...formProps}/>}
+      } */} 
      {/* <br/>
      <br/>
      {!noForm && !qrIsShown && <button data-testid="submitCodeBtn" type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>} */}
@@ -527,4 +535,5 @@ export default function HomePage() {
 export interface FormInterface {
  values: Values;
  handleChange: (e: any) => void;
+ setQRValue: React.Dispatch<React.SetStateAction<string>>;
 };
