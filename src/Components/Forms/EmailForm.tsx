@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormInterface } from "../../Pages/HomePage";
-import "../../Styles/Email.css";
+import "../../Styles/Home.css";
 
-export default function EmailForm({ values, handleChange }: FormInterface) {
+export default function EmailForm({ values, handleChange, setQRValue }: FormInterface) {
+
+ useEffect(() => {
+  setQRValue(`mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`);
+ }, [values]);
 
  return (
-  <div data-testid="emailForm" className='email-input-form'>
-   <h4 className='email-input-form-header'>Send an e-mail:</h4>
-   <div className="email-input-form-container">
-     <div className="email-input-form-row">
+  <div data-testid="emailForm" className='email-form'>
+   <h4 className='email-form-header'>Send an e-mail:</h4>
+   <div className="email-form-inputs">
+     <div className="email-form-input-row">
       <div className="email-form-input">
         <p className="input-label">E-mail address:</p>
         <input type="email" data-testid="Email" className='form-control' name="email" value={values.email} onChange={handleChange} maxLength={30} placeholder="Enter e-mail address" required/>

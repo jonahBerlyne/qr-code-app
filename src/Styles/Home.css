@@ -55,7 +55,8 @@
 }
 
 .contact-form,
-.date-form {
+.date-form,
+.email-form {
  display: flex;
  flex-direction: column;
  align-items: center;
@@ -67,7 +68,8 @@
 }
 
 .contact-form-header,
-.date-form-header {
+.date-form-header,
+.email-form-header {
  margin-bottom: 25px;
 }
 
@@ -89,11 +91,18 @@
  padding-right: 250px;
 }
 
-.date-form-input {
+.date-form-input,
+.email-form-input {
  display: flex;
  flex-direction: column;
  align-items: center;
  margin-bottom: 20px;
+}
+
+.email-form {
+ margin-top: 20px;
+ margin-left: 125px;
+ padding-right: 235px;
 }
 
 /* .no-form {
@@ -209,11 +218,13 @@ textarea:focus {
  }
 
  .contact-form,
- .date-form {
+ .date-form,
+ .email-form {
   padding-right: 0px;
  }
 
- .date-form {
+ .date-form,
+ .email-form {
   margin-left: 0px;
  }
 }
@@ -252,7 +263,9 @@ textarea:focus {
  }
 
  .date-form-input > input,
- .date-form-input > textarea {
+ .date-form-input > textarea,
+ .email-form-input > input,
+ .email-form-input > textarea {
   width: 75%;
  }
 }
