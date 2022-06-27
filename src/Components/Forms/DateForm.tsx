@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FormInterface } from "../../Pages/HomePage";
-import "../../Styles/Date.css";
+import "../../Styles/Home.css";
 
-export default function DateForm({ values, handleChange }: FormInterface) {
+export default function DateForm({ values, handleChange, setQRValue }: FormInterface) {
 
  const [currentDate, setCurrentDate] = useState<string>("");
 
@@ -16,10 +16,20 @@ export default function DateForm({ values, handleChange }: FormInterface) {
    if (mm < 10) mm = '0' + mm;
    setCurrentDate(`${yyyy}-${mm}-${dd}`);
  }, []);
+  
+ useEffect(() => {
+   const details = values.details.split(' ').join('+');
+   const fromDate = values.fromDate.replace(/-/g, "");
+   const location = values.location.split(' ').join('+');
+   const toDate = values.toDate.replace(/-/g, "");
+   const theEvent = values.theEvent.split(' ').join('+');
+ 
+   setQRValue(`https://calendar.google.com/calendar/u/0/r/eventedit?dates=${fromDate}/${parseInt(toDate) + 1}&text=${theEvent}&location=${location}&details=${details}`);
+ }, [values]);
 
  return (
-  <div data-testid="dateForm" className='date-input-form'>
-   <h4 className='date-input-form-header'>Set an event:</h4>
+  <div data-testid="dateForm" className='date-form'>
+   <h4 className='date-form-header'>Set an event:</h4>
    <div className="date-form-inputs-container">
     <div className="date-inputs">
       <div className="date-form-input">
@@ -41,7 +51,7 @@ export default function DateForm({ values, handleChange }: FormInterface) {
         <input type="text" data-testid="location" className='form-control' name="location" value={values.location} onChange={handleChange} maxLength={50} placeholder='Enter event location'/>
       </div>
     </div>
-    <div className="date-form-input details-input">
+    <div className="date-form-input">
       <p className="input-label">Details:</p>
       <textarea name="details" data-testid="details" className='form-control' value={values.details} onChange={handleChange} rows={5} cols={40} maxLength={50} placeholder='Enter event details here...'/>
     </div>

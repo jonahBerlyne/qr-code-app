@@ -31,6 +31,7 @@
 .qr-container {
  display: flex;
  justify-content: center;
+ align-items: flex-start;
 }
 
 .form-container {
@@ -44,23 +45,29 @@
  justify-content: center;
  align-items: center;
  margin-top: 65px;
- margin-left: 15%;
  gap: 30px;
+ position: relative;
 }
 
 .save-code-btn {
  font-weight: bold;
  width: 200px;
 }
-/* Get rid of border right from form container later */
-.contact-form {
- margin-top: 20px;
+
+.contact-form,
+.date-form {
  display: flex;
  flex-direction: column;
  align-items: center;
 }
 
-.contact-form-header {
+.contact-form {
+ margin-top: 20px;
+ padding-right: 100px;
+}
+
+.contact-form-header,
+.date-form-header {
  margin-bottom: 25px;
 }
 
@@ -74,6 +81,19 @@
 .contact-inputs-row {
  display: flex;
  gap: 20px;
+}
+
+.date-form {
+ margin-top: 20px;
+ margin-left: 110px;
+ padding-right: 250px;
+}
+
+.date-form-input {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin-bottom: 20px;
 }
 
 /* .no-form {
@@ -179,12 +199,22 @@ textarea:focus {
 @media screen and (max-width: 1024px) {
  .qr-container {
   flex-direction: column;
+  align-items: center;
   gap: 40px;
  }
 
  .qr-code-container {
   margin-left: 0%;
   margin-top: 0px;
+ }
+
+ .contact-form,
+ .date-form {
+  padding-right: 0px;
+ }
+
+ .date-form {
+  margin-left: 0px;
  }
 }
 
@@ -198,6 +228,7 @@ textarea:focus {
   justify-content: center;
   flex-wrap: nowrap;
   flex-direction: column;
+  gap: 20px;
  }
 
  .contact-inputs-row {
@@ -218,5 +249,10 @@ textarea:focus {
 
  .icon-title {
   font-size: 12px;
+ }
+
+ .date-form-input > input,
+ .date-form-input > textarea {
+  width: 75%;
  }
 }
