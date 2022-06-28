@@ -57,7 +57,8 @@
 .contact-form,
 .date-form,
 .email-form,
-.img-form {
+.img-form,
+.search-form {
  display: flex;
  flex-direction: column;
  align-items: center;
@@ -71,7 +72,8 @@
 .contact-form-header,
 .date-form-header,
 .email-form-header,
-.img-form-header {
+.img-form-header,
+.search-form-header {
  margin-bottom: 25px;
 }
 
@@ -146,6 +148,12 @@
  color: red;
  margin-right: -60px;
  margin-left: -30px;
+}
+
+.search-form {
+ margin-top: 20px;
+ margin-left: 35px;
+ padding-right: 242px;
 }
 
 /* .no-form {
@@ -263,13 +271,15 @@ textarea:focus {
  .contact-form,
  .date-form,
  .email-form,
- .img-form {
+ .img-form,
+ .search-form {
   padding-right: 0px;
  }
 
  .date-form,
  .email-form,
- .img-form {
+ .img-form,
+ .search-form {
   margin-left: 0px;
  }
 }
@@ -310,7 +320,8 @@ textarea:focus {
  .date-form-input > input,
  .date-form-input > textarea,
  .email-form-input > input,
- .email-form-input > textarea {
+ .email-form-input > textarea,
+ .search-form > textarea {
   width: 75%;
  }
 
