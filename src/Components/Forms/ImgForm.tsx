@@ -3,13 +3,12 @@ import "../../Styles/Home.css";
 
 interface ImgFormInterface {
  choosePic: (e: any) => void;
- imgFile: any;
  imgFileErr: string | null;
  imgPreview: any;
  setQRValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function ImgForm({ choosePic, imgFile, imgFileErr, imgPreview, setQRValue }: ImgFormInterface) {
+export default function ImgForm({ choosePic, imgFileErr, imgPreview, setQRValue }: ImgFormInterface) {
 
  useEffect(() => {
   setQRValue(imgPreview);

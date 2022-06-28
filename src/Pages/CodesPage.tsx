@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import store from "../Redux/Store";
 import { Link } from 'react-router-dom';
-import { doc, deleteDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
-import fireDB, { auth } from '../firebaseConfig';
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import fireDB from '../firebaseConfig';
 import QR from "../Components/QR";
 import "../Styles/Codes.css";
 import { ArrowBack } from "@mui/icons-material";

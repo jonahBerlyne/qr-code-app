@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import "../Styles/Home.css";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import uniqid from "uniqid";
-import store from '../Redux/Store';
-import Sidebar from "../Components/Sidebar/Sidebar";
 import ContactForm from "../Components/Forms/ContactForm";
 import DateForm from "../Components/Forms/DateForm";
 import EmailForm from "../Components/Forms/EmailForm";
 import ImgForm from "../Components/Forms/ImgForm";
 import TextForm from "../Components/Forms/TextForm";
 import UrlForm from "../Components/Forms/UrlForm";
-import fireDB, { storage, auth } from '../firebaseConfig';
-import { doc, setDoc, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; 
-import { useDispatch } from 'react-redux';
-import QR from "../Components/QR";
+import fireDB, { storage } from '../firebaseConfig';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { QRCodeCanvas } from 'qrcode.react';
 import Header from '../Components/Header';
-import { ContactPage, CalendarMonth, Email, CameraAlt, Search, Link, QrCodeScanner, Logout } from "@mui/icons-material";
+import { ContactPage, CalendarMonth, Email, CameraAlt, Search, Link } from "@mui/icons-material";
 import Icon from "../Components/Sidebar/Icon";
 
 interface Values {
@@ -76,123 +72,74 @@ export default function HomePage() {
   });
  }
 
- const clearForm = (): void => setValues({...initialValues});
-
  const [noForm, setNoForm] = useState<boolean>(true);
- const [qrAttributes, setQRAttributes] = useState<any>({});
- const [qrCollection, setQRCollection] = useState<string>("");
- const [qrIsShown, setQRIsShown] = useState<boolean>(false);
 
  const [contactIsShown, setContactIsShown] = useState<boolean>(false);
  const [dateIsShown, setDateIsShown] = useState<boolean>(false);
  const [emailIsShown, setEmailIsShown] = useState<boolean>(false);
  const [imgIsShown, setImgIsShown] = useState<boolean>(false);
  const [textIsShown, setTextIsShown] = useState<boolean>(false);
- const [urlIsShown, setUrlIsShown] = useState<boolean>(true);
-
- const [refresh, setRefresh] = useState<boolean>(false);
+ const [urlIsShown, setUrlIsShown] = useState<boolean>(false);
 
  const showContactForm = (): void => {
   if (noForm) setNoForm(false);
-  if (qrIsShown) {
-    setQRIsShown(false);
-    setQRCollection("");
-    setQRValue("");
-    setQRAttributes({});
-  }
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (imgIsShown) setImgIsShown(false);
   if (textIsShown) setTextIsShown(false);
   if (urlIsShown) setUrlIsShown(false);
   setContactIsShown(true);
-  setRefresh(!refresh);
  }
  
  const showDateForm = (): void => {
   if (noForm) setNoForm(false);
-  if (qrIsShown) {
-    setQRIsShown(false);
-    setQRCollection("");
-    setQRValue("");
-    setQRAttributes({});
-  }
   if (contactIsShown) setContactIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (imgIsShown) setImgIsShown(false);
   if (textIsShown) setTextIsShown(false);
   if (urlIsShown) setUrlIsShown(false);
   setDateIsShown(true);
-  setRefresh(!refresh);
  }
 
  const showEmailForm = (): void => {
   if (noForm) setNoForm(false);
-  if (qrIsShown) {
-    setQRIsShown(false);
-    setQRCollection("");
-    setQRValue("");
-    setQRAttributes({});
-  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (imgIsShown) setImgIsShown(false);
   if (textIsShown) setTextIsShown(false);
   if (urlIsShown) setUrlIsShown(false);
   setEmailIsShown(true);
-  setRefresh(!refresh);
  }
 
  const showImgForm = (): void => {
   if (noForm) setNoForm(false);
-  if (qrIsShown) {
-    setQRIsShown(false);
-    setQRCollection("");
-    setQRValue("");
-    setQRAttributes({});
-  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (textIsShown) setTextIsShown(false);
   if (urlIsShown) setUrlIsShown(false);
   setImgIsShown(true);
-  setRefresh(!refresh);
  }
 
 
  const showTextForm = (): void => {
   if (noForm) setNoForm(false);
-  if (qrIsShown) {
-    setQRIsShown(false);
-    setQRCollection("");
-    setQRValue("");
-    setQRAttributes({});
-  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (imgIsShown) setImgIsShown(false);
   if (urlIsShown) setUrlIsShown(false);
   setTextIsShown(true);
-  setRefresh(!refresh);
  }
 
  const showUrlForm = (): void => {
   if (noForm) setNoForm(false);
-  if (qrIsShown) {
-    setQRIsShown(false);
-    setQRCollection("");
-    setQRValue("");
-    setQRAttributes({});
-  }
   if (contactIsShown) setContactIsShown(false);
   if (dateIsShown) setDateIsShown(false);
   if (emailIsShown) setEmailIsShown(false);
   if (imgIsShown) setImgIsShown(false);
   if (textIsShown) setTextIsShown(false);
   setUrlIsShown(true);
-  setRefresh(!refresh);
  }
 
  const [imgFile, setImgFile] = useState<any>(null);
@@ -217,37 +164,38 @@ export default function HomePage() {
  }, [imgFile]);
 
  const handleImgUpload = async (): Promise<any> => {
-  if (imgFile === null) return;
+  if (imgFile === null) {
+    alert("The image could not be saved.");
+    return;
+  }
   try {
    const uploadTask = ref(storage, `${getAuth().currentUser?.uid}/${imgFile.name}`);
    await uploadBytes(uploadTask, imgFile);
    const imgUrl = await getDownloadURL(uploadTask);
    const timestamp = serverTimestamp();
    const payload = { 
-    "color": "darkslategray",
     "id": values.id,
-    "img": imgUrl, 
-    "name": imgFile.name,
+    "info": {
+      "name": imgFile.name,
+    },
     "type": "img",
+    "value": imgUrl, 
     timestamp
    };
-   await handleDoc("img codes", values.id, payload);
-   setImgPreview(null);
-   setImgFile(null);
-   setQRValue(imgUrl);
-   setQRAttributes(payload);
-   setQRCollection("img codes");
-   setImgIsShown(false);
-   setQRIsShown(true);
+   await handleDoc(values.id, payload);
   } catch (err) {
    alert(`Image code upload error: ${err}`);
   }
  }
 
- const handleDoc = async (codes: string, id: any, codeDoc: any): Promise<any> => {
-  const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, codes, id);
+ const handleDoc = async (id: any, codeDoc: any): Promise<any> => {
+  const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, "codes", id);
   await setDoc(docRef, codeDoc);
  }
+
+ const [qrValue, setQRValue] = useState<string>("");
+
+ const navigate = useNavigate();
 
  const submitCode = async (): Promise<any> => {
 
@@ -270,24 +218,41 @@ export default function HomePage() {
     return;
    }
    try {
-     const contactCard = `MECARD:N:${values.lastName},${values.firstName};ADR:${values.address},${values.city},${values.stateProvince},${values.zipPostal},${values.country};TEL:${values.phone};EMAIL:${values.email};;`;
      payload = { 
-       "color": "rosybrown",
        "id": values.id,
-       "last": values.lastName, 
-       "first": values.firstName, 
-       "card": contactCard, 
+       "info": {
+         "last": values.lastName, 
+         "first": values.firstName, 
+       },
        "type": "contact",
+       "value": qrValue, 
        timestamp
      };
-     await handleDoc("contact codes", values.id, payload);
-     setQRValue(contactCard);
-     setQRAttributes(payload);
-     setQRCollection("contact codes");
-     setContactIsShown(false);
-     setQRIsShown(true);
+     await handleDoc(values.id, payload);
    } catch (err) {
      alert(`Contact code upload error: ${err}`);
+   }
+  }
+  
+  if (dateIsShown) {
+   if (values.fromDate === '' || values.toDate === '' || values.theEvent === '' || values.location === '' || values.details === '') {
+    alert("Please fill out the event form to generate a QR Code.");
+    return;
+   }
+   try {
+     payload = { 
+       "id": values.id,
+       "info": {
+         "event": values.theEvent
+       },
+       "type": "date",
+       "value": qrValue, 
+       timestamp 
+     };
+
+     await handleDoc(values.id, payload);
+   } catch (err) {
+     alert(`Date code upload error: ${err}`);
    }
   }
 
@@ -297,58 +262,19 @@ export default function HomePage() {
     return;
    }
    try {
-     const fullEmail = `mailto:${values.email}?subject=${values.emailSubj}&body=${values.emailMsg}`;
      payload = {  
-       "color": "goldenrod",
        "id": values.id,
-       "email": fullEmail,
-       "subj": values.emailSubj,
-       "to": values.email, 
+       "info": {
+         "subj": values.emailSubj,
+         "to": values.email, 
+       },
        "type": "email",
+       "value": qrValue,
        timestamp 
      };
-     await handleDoc("email codes", values.id, payload);
-     setQRValue(fullEmail);
-     setQRAttributes(payload);
-     setQRCollection("email codes");
-     setEmailIsShown(false);
-     setQRIsShown(true);
+     await handleDoc(values.id, payload);
    } catch (err) {
      alert(`Email code upload error: ${err}`);
-   }
-  }
-
-  if (dateIsShown) {
-   if (values.fromDate === '' || values.toDate === '' || values.theEvent === '' || values.location === '' || values.details === '') {
-    alert("Please fill out the event form to generate a QR Code.");
-    return;
-   }
-   try {
-     const details = values.details.split(' ').join('+');
-     const fromDate = values.fromDate.replace(/-/g, "");
-     const location = values.location.split(' ').join('+');
-     const toDate = values.toDate.replace(/-/g, "");
-     const theEvent = values.theEvent.split(' ').join('+');
-
-     const dateCard = `https://calendar.google.com/calendar/u/0/r/eventedit?dates=${fromDate}/${parseInt(toDate) + 1}&text=${theEvent}&location=${location}&details=${details}`;
-
-     payload = { 
-       "color": "red",
-       "id": values.id,
-       "card": dateCard, 
-       "event": theEvent,
-       "type": "date",
-       timestamp 
-     };
-
-     await handleDoc("date codes", values.id, payload);
-     setQRValue(dateCard);
-     setQRAttributes(payload);
-     setQRCollection("date codes");
-     setDateIsShown(false);
-     setQRIsShown(true);
-   } catch (err) {
-     alert(`Date code upload error: ${err}`);
    }
   }
 
@@ -367,18 +293,12 @@ export default function HomePage() {
    }
    try {
      payload = {  
-       "color": "black",
        "id": values.id,
-       "text": values.searchMsg, 
        "type": "search",
+       "value": values.searchMsg, 
        timestamp 
      };
-     await handleDoc("search codes", values.id, payload);
-     setQRValue(values.searchMsg);
-     setQRAttributes(payload);
-     setQRCollection("search codes");
-     setTextIsShown(false);
-     setQRIsShown(true);
+     await handleDoc(values.id, payload);
    } catch (err) {
      alert(`Text code upload error: ${err}`);
    }
@@ -390,42 +310,27 @@ export default function HomePage() {
     return;
    }
    try {
-     const fullUrl = `https://${values.url}/`;
      payload = { 
-       "color": "blue",
        "id": values.id,
-       "url": fullUrl, 
        "type": "url",
+       "value": qrValue, 
        timestamp 
      };
-     await handleDoc("url codes", values.id, payload);
-     setQRValue(fullUrl);
-     setQRAttributes(payload);
-     setQRCollection("url codes");
-     setUrlIsShown(false);
-     setQRIsShown(true);
+     await handleDoc(values.id, payload);
    } catch (err) {
      alert(`Url code upload error: ${err}`);
    }
   }
 
-  clearForm();
-  setRefresh(!refresh);
+  navigate(`/codes/${values.id}`);
  }
 
- const [qrValue, setQRValue] = useState<string>("");
-
- const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange, setQRValue };
- const imgProps = { choosePic, imgFile, imgFileErr, imgPreview, setQRValue };
+ const imgProps = { choosePic, imgFileErr, imgPreview, setQRValue };
   
  return (
    <div className="home">
-
-    {/* Use the gmail app header for a generic green header with the title on the left and on the right, options for the codes page and to logout */}
     <Header />
-
-    {/* Beneath the header, include the qr code option icons */}
     <div className="icons-container">
       <Icon 
         color="rosybrown"
@@ -468,9 +373,9 @@ export default function HomePage() {
         onClick={showUrlForm} 
         title="URL"
         testId="urlIcon" 
-      />
+        />
     </div>
-    {/* Beneath that, include the input form and qr code side-by-side */}
+    {noForm && <h2 className='no-form-text'>Click an icon above and create your own QR code!</h2>}
     <div className="qr-container">
       <div className="form-container">
         {contactIsShown && <ContactForm {...formProps} />}
@@ -483,52 +388,10 @@ export default function HomePage() {
       {(contactIsShown || dateIsShown || emailIsShown || imgIsShown || textIsShown || urlIsShown) &&       
         <div className="qr-code-container">
           <QRCodeCanvas size={200} value={qrValue} />
-          <button className='btn btn-success save-code-btn'>Save QR Code</button>
+          <button onClick={submitCode} className='btn btn-success save-code-btn'>Save QR Code</button>
         </div>
       }
     </div>
-    {/* Beneath the qr code, include a save code button which will redirect to the code page with the qr code */}
-     {/* {noForm && <h2 className='no-form'>Click an option from the sidebar and create your own QR code!</h2>} */}
-     {/* <Sidebar {...sidebarProps} /> */}
-
-     {/* <input type="text" value={qrVal} onChange={e => setQrVal(e.target.value)} />
-
-     <QRCodeCanvas value={qrVal} /> */}
-
-      {/* {qrIsShown && 
-        <div className={
-          `${qrAttributes.type === "contact" && "contact-code-container"} ${qrAttributes.type === "date" && "date-code-container"}
-          ${qrAttributes.type === "email" && "email-code-container"}
-          ${qrAttributes.type === "img" && "img-code-container"}
-          ${qrAttributes.type === "search" && "search-code-container"}
-          ${qrAttributes.type === "url" && "url-code-container"}`
-        }>
-          <QR  
-            codeCollection={qrCollection}
-            codeType={qrAttributes.type} 
-            color={qrAttributes.color}
-            id={qrAttributes.id}
-            showDeleteBtn={false}
-            timestamp={qrAttributes.timestamp}
-            value={qrValue}
-            event={qrAttributes?.event}
-            first={qrAttributes?.first}
-            last={qrAttributes?.last}
-            name={qrAttributes?.name}
-            subj={qrAttributes?.subj}
-            text={qrAttributes?.text}
-            to={qrAttributes?.to}
-            url={qrAttributes?.url}
-          />
-        </div>
-      } */} 
-     {/* <br/>
-     <br/>
-     {!noForm && !qrIsShown && <button data-testid="submitCodeBtn" type="submit" onClick={submitCode} className="btn btn-success qr-code-btn">Generate QR Code</button>} */}
-     <br/>
-     <br/>
-     <br/>
-     <br/>
    </div>
  );
 }

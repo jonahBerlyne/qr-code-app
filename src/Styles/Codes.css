@@ -1,4 +1,64 @@
-.codes-page {
+.code-page-container {
+ font-family: "Raleway", sans-serif;
+}
+
+.saved-qr-code-container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin-top: 120px;
+}
+
+.saved-qr-code-header {
+ font-size: 25px;
+ margin-bottom: 50px;
+ text-align: center;
+ word-break: break-all;
+}
+
+.email-code-header {
+ font-size: 25px;
+ margin-bottom: 25px;
+ text-align: center;
+ word-break: break-all;
+}
+
+.email-subj-text {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ font-size: 25px;
+ margin-bottom: 25px;
+ text-align: center;
+ word-break: break-all;
+}
+
+.saved-url-code-header {
+ margin-bottom: 50px;
+ text-align: center;
+}
+
+.saved-url-text {
+ font-size: 25px;
+ word-break: break-all;
+}
+
+@media screen and (max-width: 768px) {
+ .saved-qr-code-container {
+  margin-top: 100px;
+ }
+}
+
+@media screen and (max-width: 375px) {
+ .saved-qr-code-header,
+ .email-code-header,
+ .email-subj-text,
+ .saved-url-text {
+  font-size: 20px;
+ }
+}
+
+/* .codes-page {
  display: flex;
  flex-direction: column;
  justify-content: flex-start;
@@ -87,4 +147,4 @@
  margin-left: 275px;
  font-family: "Open Sans";
  font-size: 40px;
-}
+} */
