@@ -87,8 +87,8 @@ export default function HomePage() {
  const [dateIsShown, setDateIsShown] = useState<boolean>(false);
  const [emailIsShown, setEmailIsShown] = useState<boolean>(false);
  const [imgIsShown, setImgIsShown] = useState<boolean>(false);
- const [textIsShown, setTextIsShown] = useState<boolean>(true);
- const [urlIsShown, setUrlIsShown] = useState<boolean>(false);
+ const [textIsShown, setTextIsShown] = useState<boolean>(false);
+ const [urlIsShown, setUrlIsShown] = useState<boolean>(true);
 
  const [refresh, setRefresh] = useState<boolean>(false);
 

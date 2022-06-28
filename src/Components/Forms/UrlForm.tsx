@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormInterface } from "../../Pages/HomePage";
-import "../../Styles/Url.css";
+import "../../Styles/Home.css";
 
-export default function UrlForm({ values, handleChange }: FormInterface) {
+export default function UrlForm({ values, handleChange, setQRValue }: FormInterface) {
+
+ useEffect(() => {
+  setQRValue(`https://${values.url}/`);
+ }, [values]);
+
  return (
-  <div data-testid="urlForm" className="input-group url-input-form">
-    <p className="url-input-header">Enter a website:</p>
+  <div data-testid="urlForm" className="input-group url-form">
+    <h4 className="url-form-header">Enter a website:</h4>
     <div className="url-input-container">
       <div className="input-group-prepend">
         <span className="input-group-text">https://</span>
