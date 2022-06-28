@@ -1,27 +1,30 @@
-import "../../Styles/Image.css";
+import React, { useEffect } from "react";
+import "../../Styles/Home.css";
 
 interface ImgFormInterface {
  choosePic: (e: any) => void;
  imgFile: any;
  imgFileErr: string | null;
  imgPreview: any;
+ setQRValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function ImgForm({ choosePic, imgFile, imgFileErr, imgPreview }: ImgFormInterface) {
+export default function ImgForm({ choosePic, imgFile, imgFileErr, imgPreview, setQRValue }: ImgFormInterface) {
+
+ useEffect(() => {
+  setQRValue(imgPreview);
+ }, [imgPreview]);
+
  return (
-  <div data-testid="imgForm" className="img-form-container">
-   <p className="img-form-header">Add an image:</p>
+  <div data-testid="imgForm" className="img-form">
+   <h4 className="img-form-header">Add an image:</h4>
    <div className="img-input-container">
-    <div className="img-input-text">
-     <input type="file" data-testid="imgInput" name="img" className="form-control img-input" onChange={choosePic} required />
-     {imgFileErr && <h6 data-testid="imgFileErr" className="img-file-err">{imgFileErr}</h6>} 
-    </div>
-    {imgFile ? 
-     <img src={imgPreview} alt={imgPreview} className="img-preview" /> : 
-     <div className="img-preview">
-      <p className="img-preview-text">Choose an image</p>
-     </div>
-    }
+    <img src={imgPreview} alt={imgPreview} className="img-preview" /> 
+    {imgFileErr && <h6 data-testid="imgFileErr" className="img-file-err">{imgFileErr}</h6>}
+    <div className="img-input">     
+     <p className="img-preview-text">Choose an image</p>
+     <input type="file" data-testid="imgInput" name="img" className="form-control" onChange={choosePic} required />
+    </div> 
    </div>
   </div>
  );

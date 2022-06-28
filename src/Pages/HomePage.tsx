@@ -85,8 +85,8 @@ export default function HomePage() {
 
  const [contactIsShown, setContactIsShown] = useState<boolean>(false);
  const [dateIsShown, setDateIsShown] = useState<boolean>(false);
- const [emailIsShown, setEmailIsShown] = useState<boolean>(true);
- const [imgIsShown, setImgIsShown] = useState<boolean>(false);
+ const [emailIsShown, setEmailIsShown] = useState<boolean>(false);
+ const [imgIsShown, setImgIsShown] = useState<boolean>(true);
  const [textIsShown, setTextIsShown] = useState<boolean>(false);
  const [urlIsShown, setUrlIsShown] = useState<boolean>(false);
 
@@ -198,7 +198,7 @@ export default function HomePage() {
  const [imgFile, setImgFile] = useState<any>(null);
  const [imgFileErr, setImgFileErr] = useState<string | null>(null);
  const types: string[] = ['image/png', 'image/jpeg'];
- const [imgPreview, setImgPreview] = useState<any>(null);
+ const [imgPreview, setImgPreview] = useState<any>("/default_pic.jpeg");
 
  const choosePic = (e: any): void => {
   const image = e.target.files[0];
@@ -207,6 +207,7 @@ export default function HomePage() {
    setImgFileErr(null);
   } else {
    setImgFile(null);
+   setImgPreview("/default_pic.jpeg");
    setImgFileErr("Please choose an image file (png or jpeg)");
   }
  }
@@ -416,7 +417,7 @@ export default function HomePage() {
 
  const sidebarProps = { showContactForm, showDateForm, showEmailForm, showImgForm, showTextForm, showUrlForm };
  const formProps = { values, handleChange, setQRValue };
- const imgProps = { choosePic, imgFile, imgFileErr, imgPreview };
+ const imgProps = { choosePic, imgFile, imgFileErr, imgPreview, setQRValue };
   
  return (
    <div className="home">
