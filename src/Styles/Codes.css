@@ -44,6 +44,12 @@
  word-break: break-all;
 }
 
+.no-codes-text {
+ text-align: center;
+ margin-top: 250px;
+ font-size: 40px;
+}
+
 .all-codes-container {
  display: flex;
  flex-direction: column;
@@ -107,6 +113,11 @@
 
  .codes-container > ul > li {
   text-align: center;
+ }
+
+ .no-codes-text {
+  margin-top: 200px;
+  font-size: 25px;
  }
 }
 

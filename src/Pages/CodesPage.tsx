@@ -16,7 +16,6 @@ export default function Codes() {
  const [searchCodes, setSearchCodes] = useState<any[]>([]);
  const [urlCodes, setUrlCodes] = useState<any[]>([]);
 
- const [noCodes, setNoCodes] = useState<boolean>(false);
  const [codesRetrieved, setCodesRetrieved] = useState<boolean>(false);
 
  const deleteCode = async (id: string): Promise<any> => {
@@ -51,8 +50,8 @@ export default function Codes() {
     setImgCodes(imgTemp);
     setSearchCodes(searchTemp);
     setUrlCodes(urlTemp);
-    setCodesRetrieved(true);
   });
+  setCodesRetrieved(true);
   return unsub;
  }, []);
 
@@ -68,7 +67,7 @@ export default function Codes() {
       urlCodes.length === 0 &&
       codesRetrieved
     ) && 
-      <h2 className="no-codes-text">
+      <h2 data-testid="noCodes" className="no-codes-text">
         You haven't added any QR codes, yet.
       </h2>
     }

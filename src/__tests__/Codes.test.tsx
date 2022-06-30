@@ -1,12 +1,12 @@
 import React from "react";
-import { render, screen, cleanup, waitFor, fireEvent, act } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, cleanup, act } from "@testing-library/react";
 import 'jest-canvas-mock';
 import "@testing-library/jest-dom/extend-expect";
 import { BrowserRouter as Router } from "react-router-dom";
 import CodesPage from "../Pages/CodesPage";
 import { Auth, getAuth } from "firebase/auth";
-import QR from "../Components/QR";
+import CodePage from "../Pages/CodePage";
+import { doc, getDoc } from "firebase/firestore";
 
 jest.mock("../firebaseConfig", () => {
   return {
@@ -30,167 +30,149 @@ afterEach(done => {
 
 describe("Codes Page", () => {
 
-  it("renders codes page", async () => {
+  it("renders the codes page", async () => {
    const mockAuth = ({
     currentUser: {
-        uid: jest.fn().mockReturnValue("abc"),
+        uid: "abc",
     }
    } as unknown) as Auth;
    (getAuth as jest.Mock).mockReturnValue(mockAuth);
 
-    const { container } = render(
-      <Router>
-        <CodesPage />
-      </Router>
-    );
+   const { container } = render(
+    <Router>
+      <CodesPage />
+    </Router>
+   );
 
-    expect(container).toMatchSnapshot();
-    expect(await screen.findByTestId("noCodes")).toBeInTheDocument();
-    expect(await screen.findByTestId("noCodes")).toHaveTextContent("Sorry, but you don't have any QR codes saved.");
+   expect(container).toMatchSnapshot();
+   expect(await screen.findByTestId("noCodes")).toBeInTheDocument();
+   expect(await screen.findByTestId("noCodes")).toHaveTextContent("You haven't added any QR codes, yet.");
   });
 });
 
-describe("QR Codes", () => {
+describe("Code Page", () => {
+  
+  const setup = async () => {
+    const mockAuth = ({
+      currentUser: {
+        uid: "abc",
+      },
+    } as unknown) as Auth;
+    (getAuth as jest.Mock).mockResolvedValue(mockAuth);
 
-  let codes: any[] = [];
-  let payload: any = {};
+    const { container } = render(
+      <Router>
+        <CodePage />
+      </Router>
+    );
 
-  const setup = () => {
+    const promise = Promise.resolve();
+    await act(async () => {
+      await promise;
+    });
 
-    const Codes = () => {
-      return (
-        <div>
-          {codes.map(code => {
-            return (
-              <div key={code.id}>
-                <QR 
-                  codeCollection={code.collection}
-                  codeType={code.type}
-                  color={code.color}
-                  id={code.id}
-                  showDeleteBtn={true}
-                  timestamp="06/07/08"
-                  value={code.value}
-                  event={code?.event}
-                  first={code?.first}
-                  last={code?.last}
-                  name={code?.name}
-                  subj={code?.subj}
-                  text={code?.text}
-                  to={code?.to}
-                  url={code?.url}
-                />
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
-
-    render(<Codes />);
+    return {
+      container
+    };
   }
 
-  it("renders a contact code", () => {
-    payload = {
-      collection: "contact codes",
-      type: "contact",
-      color: "rosybrown",
-      id: "contact",
-      value: "MECARD:N:exLast,exFirst;ADR:1 Example Ave.,New York,NY,10001,USA;TEL:1234567890;EMAIL:example@example.com;;",
-      first: "exFirst",
-      last: "exLast"
-    };
-    codes.push(payload);
-    setup();
-
-    expect(screen.getByTestId("contactCodeHeader")).toHaveTextContent("Contact card for exFirst exLast:");
-    expect(screen.getByTestId("deleteBtn")).toHaveTextContent("Delete QR Code");
+  it("renders the code page", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        type: "type",
+        value: "value"
+      })
+    });
+    const { container } = await setup();
+    expect(container).toMatchSnapshot();
   });
 
-  it("renders a date code", () => {
-    codes = [];
-    payload = {
-      collection: "date codes",
-      type: "date",
-      color: "red",
-      id: "date",
-      value: "https://calendar.google.com/calendar/u/0/r/eventedit?dates=20101006/20111006&text=Example&location=New+York&details=Nothing+important",
-      event: "Example"
-    };
-    codes.push(payload);
-    setup();
-
-    expect(screen.getByTestId("dateCodeHeader")).toHaveTextContent("Code for Example:");
-    expect(screen.getByTestId("deleteBtn")).toHaveTextContent("Delete QR Code");
+  it("renders a contact code", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        info: {
+          first: "exampleFirst",
+          last: "exampleLast"
+        },
+        type: "contact",
+        value: "contact_example"
+      })
+    });
+    await setup();
+    expect(screen.getByTestId("contactHeader")).toHaveTextContent("Contact card for exampleFirst exampleLast:");
   });
 
-  it("renders an email code", () => {
-    codes = [];
-    payload = {
-      collection: "email codes",
-      type: "email",
-      color: "goldenrod",
-      id: "email",
-      value: "mailto:example@example.com?subject=exampleSubj&body=This is an example msg.",
-      subj: "exampleSubj",
-      to: "example@example.com"
-    };
-    codes.push(payload);
-    setup();
+  it("renders a date code", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        info: {
+          event: "example"
+        },
+        type: "date",
+        value: "date_example"
+      })
+    });
+    await setup();
+    expect(screen.getByTestId("dateHeader")).toHaveTextContent("Code for example:");
+  });
 
+  it("renders an email code", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        info: {
+          subj: "exampleSubj",
+          to: "example@example.com"
+        },
+        type: "email",
+        value: "email_example"
+      })
+    });
+    await setup();
     expect(screen.getByTestId("emailCodeAddress")).toHaveTextContent("Email to example@example.com");
-    expect(screen.getByTestId("emailCodeSubj")).toHaveTextContent("exampleSubj");
-    expect(screen.getByTestId("deleteBtn")).toHaveTextContent("Delete QR Code");
+    expect(screen.getByTestId("emailCodeSubj")).toHaveTextContent("Subject:exampleSubj");
   });
 
-  it("renders an img code", () => {
-    codes = [];
-    payload = {
-      collection: "img codes",
-      type: "img",
-      color: "darkslategray",
-      id: "img",
-      value: "example.png",
-      name: "Example"
-    };
-    codes.push(payload);
-    setup();
-
-    expect(screen.getByTestId("imgCodeHeader")).toHaveTextContent("Example");
-    expect(screen.getByTestId("deleteBtn")).toHaveTextContent("Delete QR Code");
+  it("renders an img code", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        info: {
+          name: "example"
+        },
+        type: "img",
+        value: "img_example"
+      })
+    });
+    await setup();
+    expect(screen.getByTestId("imgHeader")).toHaveTextContent("Image of:");
+    expect(screen.getByTestId("imgName")).toHaveTextContent("example");
   });
 
-  it("renders a search code", () => {
-    codes = [];
-    payload = {
-      collection: "search codes",
-      type: "search",
-      color: "black",
-      id: "search",
-      value: "example.png",
-      text: "Example"
-    };
-    codes.push(payload);
-    setup();
+  it("renders a search code", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        type: "search",
+        value: "example"
+      })
+    });
+    await setup();
+    expect(screen.getByTestId("searchHeader")).toHaveTextContent("example");
+  });
 
-    expect(screen.getByTestId("searchCodeHeader")).toHaveTextContent("Example");
-    expect(screen.getByTestId("deleteBtn")).toHaveTextContent("Delete QR Code");
-  });  
-
-  it("renders a url code", () => {
-    codes = [];
-    payload = {
-      collection: "url codes",
-      type: "url",
-      color: "blue",
-      id: "url",
-      value: "https://www.google.com/",
-      url: "https://www.google.com/"
-    };
-    codes.push(payload);
-    setup();
-
-    expect(screen.getByTestId("urlCodeLink")).toHaveTextContent("https://www.google.com/");
-    expect(screen.getByTestId("deleteBtn")).toHaveTextContent("Delete QR Code");
-  }); 
+  it("renders a url code", async () => {
+    (doc as jest.Mock).mockReturnThis();
+    (getDoc as jest.Mock).mockResolvedValue({
+      data: () => ({
+        type: "url",
+        value: "www.example.com"
+      })
+    });
+    await setup();
+    expect(screen.getByTestId("urlCodeLink")).toHaveTextContent("www.example.com");
+  });
 });

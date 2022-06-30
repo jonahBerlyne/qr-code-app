@@ -19,7 +19,7 @@ export default function EmailForm({ values, handleChange, setQRValue }: FormInte
       </div>
       <div className="email-form-input">
         <p className="input-label">Subject:</p>
-        <input type="text" data-testid="emailSubj" className='form-control' name="emailSubj" value={values.emailSubj} onChange={handleChange} maxLength={20} placeholder='Enter e-mail subject'/>
+        <input type="text" data-testid="emailSubj" className='form-control' name="emailSubj" value={values.emailSubj} onChange={handleChange} maxLength={40} placeholder='Enter e-mail subject'/>
       </div>
      </div>
      <div className="email-form-input">

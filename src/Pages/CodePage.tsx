@@ -45,19 +45,19 @@ export default function CodePage() {
       {codeRetrieved &&
         <div className='saved-qr-code-container'>
           {codeType === "contact" && 
-            <h4 className='saved-qr-code-header'>
+            <h4 data-testid="contactHeader" className='saved-qr-code-header'>
               Contact card for {codeInfo.first} {codeInfo.last}:
             </h4>
           } 
           {codeType === "date" && 
-            <h4 className='saved-qr-code-header'>
+            <h4 data-testid="dateHeader" className='saved-qr-code-header'>
               Code for {codeInfo.event}:
             </h4>
           } 
           {codeType === "email" && 
             <>
               <h4 data-testid="emailCodeAddress" className='email-code-header'>Email to {codeInfo.to}</h4>
-              <p className='email-subj-text'>
+              <p data-testid="emailCodeSubj" className='email-subj-text'>
                 <span>Subject:</span>
                 <span>{codeInfo.subj}</span>
               </p>
@@ -65,16 +65,16 @@ export default function CodePage() {
           } 
           {codeType === "img" && 
             <>            
-              <h4 className='saved-qr-code-header'>
+              <h4 data-testid="imgHeader" className='saved-qr-code-header'>
                 Image of:
               </h4>
-              <h4 className='saved-qr-code-header'>
+              <h4 data-testid="imgName" className='saved-qr-code-header'>
                 {codeInfo.name}
               </h4>
             </>
           } 
           {codeType === "search" && 
-            <h4 className='saved-qr-code-header'>
+            <h4 data-testid="searchHeader" className='saved-qr-code-header'>
               {qrValue}
             </h4>
           } 

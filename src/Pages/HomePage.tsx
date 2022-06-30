@@ -15,7 +15,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { QRCodeCanvas } from 'qrcode.react';
 import Header from '../Components/Header';
 import { ContactPage, CalendarMonth, Email, CameraAlt, Search, Link } from "@mui/icons-material";
-import Icon from "../Components/Sidebar/Icon";
+import Icon from "../Components/Icon";
 
 interface Values {
  id: string | undefined;
@@ -388,7 +388,7 @@ export default function HomePage() {
       {(contactIsShown || dateIsShown || emailIsShown || imgIsShown || textIsShown || urlIsShown) &&       
         <div className="qr-code-container">
           <QRCodeCanvas size={200} value={qrValue} />
-          <button onClick={submitCode} className='btn btn-success save-code-btn'>Save QR Code</button>
+          <button data-testid="submitCodeBtn" onClick={submitCode} className='btn btn-success save-code-btn'>Save QR Code</button>
         </div>
       }
     </div>
