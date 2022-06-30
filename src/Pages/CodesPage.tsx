@@ -1,249 +1,194 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, doc, deleteDoc, onSnapshot } from "firebase/firestore";
 import fireDB from '../firebaseConfig';
-import QR from "../Components/QR";
 import "../Styles/Codes.css";
-import { ArrowBack } from "@mui/icons-material";
 import { getAuth } from 'firebase/auth';
+import { Link } from 'react-router-dom';
+import Header from '../Components/Header';
+import { Clear } from "@mui/icons-material";
 
 export default function Codes() {
 
- const [contactCodesData, setContactCodesData] = useState<any[]>([]);
- const [dateCodesData, setDateCodesData] = useState<any[]>([]);
- const [emailCodesData, setEmailCodesData] = useState<any[]>([]);
- const [imgCodesData, setImgCodesData] = useState<any[]>([]);
- const [searchCodesData, setSearchCodesData] = useState<any[]>([]);
- const [urlCodesData, setUrlCodesData] = useState<any[]>([]);
+ const [contactCodes, setContactCodes] = useState<any[]>([]);
+ const [dateCodes, setDateCodes] = useState<any[]>([]);
+ const [emailCodes, setEmailCodes] = useState<any[]>([]);
+ const [imgCodes, setImgCodes] = useState<any[]>([]);
+ const [searchCodes, setSearchCodes] = useState<any[]>([]);
+ const [urlCodes, setUrlCodes] = useState<any[]>([]);
 
- const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
  const [noCodes, setNoCodes] = useState<boolean>(false);
+ const [codesRetrieved, setCodesRetrieved] = useState<boolean>(false);
 
- const getCodes = (code_collection: string, setCodesData: React.Dispatch<React.SetStateAction<any[]>>) => {
+ const deleteCode = async (id: string): Promise<any> => {
   try {
-   const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, code_collection), orderBy("timestamp", "desc"));
-   if (q === undefined) {
-     if (code_collection === "url codes") setFinishedLoading(true);
-     return;
-   }
-   const unsub = onSnapshot(q, snapshot => {
-    let codesArr: any[] = [];
-    let value: any = null;
-    snapshot.docs.forEach(doc => {
-      if (code_collection === "contact codes" || code_collection === "date codes") value = doc.data().card;
-      if (code_collection === "email codes") value = doc.data().email;
-      if (code_collection === "img codes") value = doc.data().img;
-      if (code_collection === "search codes") value = doc.data().text;
-      if (code_collection === "url codes") value = doc.data().url;
-      const codeDoc = {
-        ...doc.data(),
-        codeCollection: code_collection,
-        value
-      };
-      codesArr.push(codeDoc);
-    });
-    setCodesData(codesArr);
-   });
-   if (code_collection === "url codes") setFinishedLoading(true);
-   return unsub;
+    const docRef = doc(fireDB, "users", `${getAuth().currentUser?.uid}`, "codes", id);
+    await deleteDoc(docRef);
   } catch (err) {
-    alert(`Codes retrieval error: ${err}`);
+    alert(`Code deletion error: ${err}`);
   }
  }
 
  useEffect(() => {
-   getCodes("contact codes", setContactCodesData);
-   getCodes("date codes", setDateCodesData);
-   getCodes("email codes", setEmailCodesData);
-   getCodes("img codes", setImgCodesData);
-   getCodes("search codes", setSearchCodesData);
-   getCodes("url codes", setUrlCodesData);
-  return () => {
-   setContactCodesData([]);
-   setDateCodesData([]);
-   setEmailCodesData([]);
-   setImgCodesData([]);
-   setSearchCodesData([]);
-   setUrlCodesData([]);
-   setFinishedLoading(false);
-  }
+  const q = query(collection(fireDB, "users", `${getAuth().currentUser?.uid}`, "codes"), orderBy("timestamp", "desc"));
+  const unsub = onSnapshot(q, snapshot => {
+    let contactTemp: any[] = [];
+    let dateTemp: any[] = [];
+    let emailTemp: any[] = [];
+    let imgTemp: any[] = [];
+    let searchTemp: any[] = [];
+    let urlTemp: any[] = [];
+    snapshot.docs.forEach(doc => {
+      if (doc.data()?.type === "contact") contactTemp.push(doc.data());
+      if (doc.data()?.type === "date") dateTemp.push(doc.data());
+      if (doc.data()?.type === "email") emailTemp.push(doc.data());
+      if (doc.data()?.type === "img") imgTemp.push(doc.data());
+      if (doc.data()?.type === "search") searchTemp.push(doc.data());
+      if (doc.data()?.type === "url") urlTemp.push(doc.data());
+    });
+    setContactCodes(contactTemp);
+    setDateCodes(dateTemp);
+    setEmailCodes(emailTemp);
+    setImgCodes(imgTemp);
+    setSearchCodes(searchTemp);
+    setUrlCodes(urlTemp);
+    setCodesRetrieved(true);
+  });
+  return unsub;
  }, []);
 
- useEffect(() => {
-   if (
-     contactCodesData.length === 0 
-     && dateCodesData.length === 0
-     && emailCodesData.length === 0
-     && imgCodesData.length === 0
-     && searchCodesData.length === 0
-     && urlCodesData.length === 0
-     && finishedLoading
-   ) setNoCodes(true);
-   return () => {
-     if (noCodes) setNoCodes(false);
-   }
- }, [contactCodesData.length, dateCodesData.length, emailCodesData.length, imgCodesData.length, searchCodesData.length, urlCodesData.length, finishedLoading]);
-
  return (
-  <div className='codes-page'>
-   <p className="home-link">
-    <Link to="/"><ArrowBack /></Link>
-    Go back
-   </p>
-   {contactCodesData.length > 0 && finishedLoading && 
-    <div className="contact-codes-container">
-      <h2 className={`codes-header ${contactCodesData.length === 1 && "contact-code-one-header"}`}>Contact codes:</h2>
-      <div className="codes-header-border"></div>
-      <div className={`contact-codes ${contactCodesData.length === 1 && "contact-code-one"}`}>
-        {contactCodesData.map(contact => {
-          return (
-          <div key={contact.id} className="contact-code">
-            <QR  
-              codeCollection={contact.codeCollection}
-              codeType={contact.type}
-              color={contact.color}
-              id={contact.id}
-              showDeleteBtn={true}
-              timestamp={contact.timestamp}
-              value={contact.value}
-              first={contact.first}
-              last={contact.last}
-            />
-          </div>
-          );
-        })}
+  <div className='codes-page-container'>
+    <Header />
+    {(
+      contactCodes.length === 0 &&
+      dateCodes.length === 0 &&
+      emailCodes.length === 0 &&
+      imgCodes.length === 0 &&
+      searchCodes.length === 0 &&
+      urlCodes.length === 0 &&
+      codesRetrieved
+    ) && 
+      <h2 className="no-codes-text">
+        You haven't added any QR codes, yet.
+      </h2>
+    }
+    {(
+      (contactCodes.length > 0 ||
+      dateCodes.length > 0 ||
+      emailCodes.length > 0 ||
+      imgCodes.length > 0 ||
+      searchCodes.length > 0 ||
+      urlCodes.length > 0) &&
+      codesRetrieved
+    ) && 
+      <div className="all-codes-container">
+        <h2 className="all-codes-header">Your QR Codes:</h2>
+        <div className="codes-lists-container">
+          {contactCodes.length > 0 && 
+            <div className="codes-container">
+              <h4 className="codes-header">Contact Codes:</h4>
+              <ul>
+                {contactCodes.map((contactCode, index) => {
+                  return (               
+                    <li key={index}>
+                      <Link to={`/codes/${contactCode.id}`} className="code-link">{contactCode.info.first} {contactCode.info.last}</Link>
+                      <div onClick={() => deleteCode(contactCode.id)}>
+                        <Clear color="error" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          }
+          {dateCodes.length > 0 && 
+            <div className="codes-container">
+              <h4 className="codes-header">Date Codes:</h4>
+              <ul>
+                {dateCodes.map((dateCode, index) => {
+                  return (               
+                    <li key={index}>
+                      <Link to={`/codes/${dateCode.id}`} className="code-link">{dateCode.info.event}</Link>
+                      <div onClick={() => deleteCode(dateCode.id)}>
+                        <Clear color="error" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>          
+          }
+          {emailCodes.length > 0 && 
+            <div className="codes-container">
+              <h4 className="codes-header">Email Codes:</h4>
+              <ul>
+                {emailCodes.map((emailCode, index) => {
+                  return (               
+                    <li key={index}>
+                      <Link to={`/codes/${emailCode.id}`} className="code-link">{emailCode.info.subj} --- {emailCode.info.to}</Link>
+                      <div onClick={() => deleteCode(emailCode.id)}>
+                        <Clear color="error" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>          
+          }
+          {imgCodes.length > 0 && 
+            <div className="codes-container">
+              <h4 className="codes-header">Image Codes:</h4>
+              <ul>
+                {imgCodes.map((imgCode, index) => {
+                  return (               
+                    <li key={index}>
+                      <Link to={`/codes/${imgCode.id}`} className="code-link">{imgCode.info.name}</Link>
+                      <div onClick={() => deleteCode(imgCode.id)}>
+                        <Clear color="error" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>          
+          }
+          {searchCodes.length > 0 && 
+            <div className="codes-container">
+              <h4 className="codes-header">Search Codes:</h4>
+              <ul>
+                {searchCodes.map((searchCode, index) => {
+                  return (               
+                    <li key={index}>
+                      <Link to={`/codes/${searchCode.id}`} className="code-link">{searchCode.value}</Link>
+                      <div onClick={() => deleteCode(searchCode.id)}>
+                        <Clear color="error" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>         
+          }
+          {urlCodes.length > 0 && 
+            <div className="codes-container">
+              <h4 className="codes-header">URL Codes:</h4>
+              <ul>
+                {urlCodes.map((urlCode, index) => {
+                  return (               
+                    <li key={index}>
+                      <Link to={`/codes/${urlCode.id}`} className="code-link">{urlCode.value}</Link>
+                      <div onClick={() => deleteCode(urlCode.id)}>
+                        <Clear color="error" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>        
+          }
+        </div>
       </div>
-    </div>
-   }
-   {dateCodesData.length > 0 && finishedLoading &&
-    <div className="date-codes-container">
-      <h2 className={`codes-header ${dateCodesData.length === 1 && "date-code-one-header"}`}>Date codes:</h2>
-      <div className="codes-header-border"></div>
-      <div className={`date-codes ${dateCodesData.length === 1 && "date-code-one"}`}>
-        {dateCodesData.map(date => {
-          return (
-          <div key={date.id} className="date-code">
-            <QR  
-              codeCollection={date.codeCollection}
-              codeType={date.type}
-              color={date.color}
-              id={date.id}
-              showDeleteBtn={true}
-              timestamp={date.timestamp}
-              value={date.value}
-              event={date.event}
-            />
-          </div>
-          );
-        })}
-      </div>
-    </div>
-   }
-   {emailCodesData.length > 0 && finishedLoading &&
-    <div className="email-codes-container">
-      <h2 className={`codes-header ${emailCodesData.length === 1 && "email-code-one-header"}`}>Email codes:</h2>
-      <div className="codes-header-border"></div>
-      <div className={`email-codes ${emailCodesData.length === 1 && "email-code-one"}`}>
-        {emailCodesData.map(email => {
-          return (
-          <div key={email.id} className="email-code">
-            <QR  
-              codeCollection={email.codeCollection}
-              codeType={email.type}
-              color={email.color}
-              id={email.id}
-              showDeleteBtn={true}
-              timestamp={email.timestamp}
-              value={email.value}
-              to={email.to}
-              subj={email.subj}
-            />
-          </div>
-          );
-        })}
-      </div>
-    </div>
-   }
-   {imgCodesData.length > 0 && finishedLoading &&
-    <div className="img-codes-container">
-      <h2 className={`codes-header ${imgCodesData.length === 1 && "img-code-one-header"}`}>Image codes:</h2>
-      <div className="codes-header-border"></div>
-      <div className={`img-codes ${imgCodesData.length === 1 && "img-code-one"}`}>
-        {imgCodesData.map(img => {
-          return (
-          <div key={img.id} className="img-code">
-            <QR  
-              codeCollection={img.codeCollection}
-              codeType={img.type}
-              color={img.color}
-              id={img.id}
-              showDeleteBtn={true}
-              timestamp={img.timestamp}
-              value={img.value}
-              name={img.name}
-            />
-          </div>
-          );
-        })}
-      </div>
-    </div>
-   }
-   {searchCodesData.length > 0 && finishedLoading && 
-    <div className="search-codes-container">
-      <h2 className={`codes-header ${searchCodesData.length === 1 && "search-code-one-header"}`}>Search codes:</h2>
-      <div className="codes-header-border"></div>
-      <div className={`search-codes ${searchCodesData.length === 1 && "search-code-one"}`}>
-        {searchCodesData.map(search => {
-          return (
-          <div key={search.id} className="search-code">
-            <QR  
-              codeCollection={search.codeCollection}
-              codeType={search.type}
-              color={search.color}
-              id={search.id}
-              showDeleteBtn={true}
-              timestamp={search.timestamp}
-              value={search.value}
-              text={search.text}
-            />
-          </div>
-          );
-        })}
-      </div>
-    </div>
-   }
-   {urlCodesData.length > 0 && finishedLoading &&
-    <div className="url-codes-container">
-      <h2 className={`codes-header ${urlCodesData.length === 1 && "url-code-one-header"}`}>URL codes:</h2>
-      <div className="codes-header-border"></div>
-      <div className={`url-codes ${urlCodesData.length === 1 && "url-code-one"}`}>
-        {urlCodesData.map(url => {
-          return (
-          <div key={url.id} className="url-code">
-            <QR  
-              codeCollection={url.codeCollection}
-              codeType={url.type}
-              color={url.color}
-              id={url.id}
-              showDeleteBtn={true}
-              timestamp={url.timestamp}
-              value={url.value}
-              url={url.url}
-            />
-          </div>
-          );
-        })}
-      </div>
-    </div>
-   }
-   {noCodes &&
-    <h2 data-testid="noCodes" className='no-codes'>Sorry, but you don't have any QR codes saved.</h2>
-   }
+    }
   </div>
  );
 }
-
-export interface CodeInterface {
- state: any;
- deleteItem: (code_collection: any, id: any) => Promise<any>;
-};
