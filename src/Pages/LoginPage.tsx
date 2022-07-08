@@ -27,6 +27,7 @@ export default function LoginPage () {
     placeholder='Email' 
     value={email} 
     onChange={(e) => {setEmail(e.target.value)}}
+    maxLength={30}
    />
    <input 
     type="password"
@@ -34,6 +35,7 @@ export default function LoginPage () {
     className="auth-input" placeholder='Password' 
     value={password} 
     onChange={(e) => {setPassword(e.target.value)}}
+    maxLength={25}
    />
    <button data-testid="loginBtn" className="auth-btn btn btn-outline-info" onClick={login}>Login</button>
    <br />

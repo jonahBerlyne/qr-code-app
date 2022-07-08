@@ -35,6 +35,7 @@ export default function SignUpPage() {
     placeholder='Email' 
     value={email} 
     onChange={(e) => {setEmail(e.target.value)}}
+    maxLength={30}
    />
    <input 
     type="password"
@@ -42,6 +43,7 @@ export default function SignUpPage() {
     className="auth-input" placeholder='Password' 
     value={password} 
     onChange={(e) => {setPassword(e.target.value)}}
+    maxLength={25}
    />
    <input 
     type="password" 
@@ -50,6 +52,7 @@ export default function SignUpPage() {
     placeholder='Confirm Password' 
     value={confirmPassword} 
     onChange={(e) => {setConfirmPassword(e.target.value)}}
+    maxLength={25}
    />
    <button data-testid="registerBtn" className="auth-btn btn btn-outline-info" onClick={register}>Register</button>
    <hr/>
